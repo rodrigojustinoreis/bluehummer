@@ -1,0 +1,9 @@
+{
+  "name": "blue-hammer-remodeling",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Multi-page Maryland remodeling business website with a local lead capture API",
+  "scripts": {"start":"node server.mjs"},
+  "engines": {"node": ">=20"}
+}

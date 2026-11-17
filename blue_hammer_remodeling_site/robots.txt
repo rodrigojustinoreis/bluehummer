@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+# Publish a sitemap.xml only after you configure a real verified domain.
