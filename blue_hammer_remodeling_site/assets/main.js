@@ -45,8 +45,16 @@
         const fd=new FormData(form), data=Object.fromEntries(fd.entries());data.source=window.location.pathname||'/';data.consent=data.consent==='on';
         const submit=form.querySelector('button[type=submit]');submit.disabled=true;submit.textContent='Sending request…';status.className='form-status';status.textContent='';
         try{
-          const res=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-          const result=await res.json().catch(()=>({}));
+          // Local Node server (npm start) uses /api/leads; the hosted site (Netlify) uses Netlify Forms.
+          const local=['localhost','127.0.0.1'].includes(location.hostname);
+          let res,result={};
+          if(local){
+            res=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+            result=await res.json().catch(()=>({}));
+          }else{
+            const body=new URLSearchParams({'form-name':'consultation',...data,consent:data.consent?'yes':'no'});
+            res=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()});
+          }
           if(!res.ok)throw new Error(result.message||'We could not submit your request. Please try again.');
           window.location.href='thank-you.html';
         }catch(err){status.className='form-status error';status.textContent=err.message||'Unable to send. Please try again.';submit.disabled=false;submit.textContent='Send Consultation Request →'}

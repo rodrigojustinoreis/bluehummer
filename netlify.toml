@@ -1,0 +1,29 @@
+[build]
+  publish = "blue_hammer_remodeling_site"
+
+# Internal files that should not be public on the hosted site
+[[redirects]]
+  from = "/README-START-HERE.md"
+  to = "/404"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/server.mjs"
+  to = "/404"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/package.json"
+  to = "/404"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/configure-domain.py"
+  to = "/404"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/sitemap.template.xml"
+  to = "/404"
+  status = 404
+  force = true
