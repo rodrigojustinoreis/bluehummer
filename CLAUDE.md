@@ -1,10 +1,16 @@
 # Blue Hammer Remodeling
 
 Website and online presence for Blue Hammer Remodeling (Maryland remodeling company).
-For any task about content, SEO, images, or online presence, delegate to the
-`bluehammer` subagent (`.claude/agents/bluehammer.md`). It works autonomously,
-commits and pushes to `main` (Netlify deploys), and logs its work in `AGENT-LOG.md`.
-Never invent reviews, credentials, or contact details.
+
+For any task about content, SEO, images, design, or online presence, and for every
+headless or autonomous run, start the **`bh-orchestrator`** agent
+(`.claude/agents/bh-orchestrator.md`). It reads the audit and `AGENT-LOG.md`,
+picks the next stage, delegates to specialist subagents (`bh-designer`,
+`bh-seo-content`, `bh-images`, `bh-qa`), runs the quality gate, and only then
+commits and pushes to `main` (Netlify deploys). Headless entry point:
+`scripts/run-orchestrator.sh`. The `bluehammer` agent is a compatibility alias
+that follows the orchestrator. Never invent reviews, credentials, or contact details.
+All agents follow `.claude/agents/HARD-RULES.md`.
 
 ## Design and images (owner rules, 2026-11-18)
 - Every design, image or copy task reads `docs/brand.md` and `docs/design-system/README.md`

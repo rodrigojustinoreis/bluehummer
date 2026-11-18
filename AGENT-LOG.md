@@ -68,3 +68,20 @@ what's next, and a "Needs Rodrigo" list containing only things the agent cannot 
 - **Next**: AUDIT item 15 page-by-page overhaul with `bh-design-loop`, `better-interface`
   and `web-interface-guidelines`.
 
+## 2026-11-18 — Orchestrator and specialist subagents
+
+- **What changed**
+  - Added `.claude/agents/bh-orchestrator.md` as the entry point for every
+    headless or autonomous run. It reads the audit and this log, picks the next
+    stage, delegates, runs a quality gate, and only then commits and pushes.
+  - Added specialists: `bh-designer`, `bh-seo-content`, `bh-images`, and
+    read-only `bh-qa`. Shared rules live in `.claude/agents/HARD-RULES.md` and
+    are repeated in each agent.
+  - `bluehammer` is now a compatibility alias that follows the orchestrator.
+  - `CLAUDE.md` and new `scripts/run-orchestrator.sh` start the orchestrator
+    (`claude -p --agent bh-orchestrator --permission-mode bypassPermissions`).
+- **Why**: Rodrigo asked for an agent that orchestrates each stage of the
+  project instead of one generalist doing all the work.
+- **Verification**: `python3 scripts/build.py --check` after this change.
+- **Next**: AUDIT item 15 page-by-page design overhaul, via the orchestrator
+  (not started in this commit).
