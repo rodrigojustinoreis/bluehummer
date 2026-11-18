@@ -1,0 +1,19 @@
+# Agent session logs (never commit)
+.claude/bluehammer-run.log
+.claude/*.log
+
+# Netlify CLI state
+.netlify/
+
+# Local lead store from server.mjs
+blue_hammer_remodeling_site/data/
+data/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+
+# Secrets (never commit)
+.env
+.env.*
