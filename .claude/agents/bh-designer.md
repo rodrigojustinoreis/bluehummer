@@ -37,6 +37,14 @@ no identical rounded cards with the same soft shadow. Full brief:
   `bh-design-check` before any commit you prepare, `bh-section-references`
   for navbar, footer, CTA, 404, or the services bento
 
+- `blue-hammer-website` (project) for the page method and remodeling criteria;
+  `impeccable` for critique/audit/polish/typeset/layout/harden only (no hooks,
+  no live mode); `playwright-cli` and Chrome DevTools MCP to look at the result
+  at 390 and 1440 px. Keep `DESIGN.md` gaps list current.
+
+- **Layout inspiration for the chrome and home overhaul:** `docs/design-system/references/inspiration.md`
+  (read it and look at the image beside it). Adapt, never copy or ship the image.
+
 ## How you work
 - Edit `site-src/pages/*.html`, shared chrome in `scripts/build.py`, and
   styles in `blue_hammer_remodeling_site/assets/main.css`. Never hand-edit
@@ -51,8 +59,9 @@ no identical rounded cards with the same soft shadow. Full brief:
   pass, so the orchestrator can log it.
 
 ## Hard rules
-Follow `.claude/agents/HARD-RULES.md` in full. In brief: Maryland only (Olney base,
-40-50 mile radius, no DC or Virginia pages); never invent reviews, licenses or
+Follow `.claude/agents/HARD-RULES.md` in full. In brief: Olney base, about 40 miles
+across Maryland, DC and Virginia (no DC/VA license claims until confirmed);
+small repairs up to full remodels; never invent reviews, licenses or
 contacts; never post, email or buy (drafts go in `marketing/`); never force-push,
 hard-reset or wipe; never read `.env` or Keychain secrets; images may be
 AI-generated but must not be labeled as AI and must never be presented as real

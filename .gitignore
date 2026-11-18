@@ -18,3 +18,20 @@ Thumbs.db
 .env
 .env.*
 .claude/bluehammer-run*.log
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
+
+# Dev tooling (Claude Code)
+node_modules/
+tools/node_modules/
+.impeccable/hook.cache.json
+.impeccable/hook.pending.json
+
+# Third-party design references (inspiration only, never ship or commit)
+docs/design-system/references/*.jpg
+docs/design-system/references/*.png
+docs/design-system/references/*.webp
+
+# Remotion render output and Python caches
+tools/remotion/out/
+__pycache__/

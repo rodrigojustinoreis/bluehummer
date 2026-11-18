@@ -1,7 +1,8 @@
 # Design brief: bluehammermd.com
 
-**Client**: Blue Hammer Remodeling, Olney, Maryland. Kitchens, baths, lower levels for affluent
-homeowners in Potomac, Bethesda, Chevy Chase, Kensington, Olney and western Howard County.
+**Client**: Blue Hammer Remodeling, Olney, Maryland. Small repairs up to kitchens, baths and lower
+levels for affluent homeowners in Potomac, Bethesda, Chevy Chase, Kensington, Olney and western Howard
+County, plus DC and Virginia within about 40 miles of Olney (2026-11-18).
 **Job of the site**: get a qualified homeowner to request a consultation, and make Blue Hammer
 feel like the careful, design-led choice.
 **Feel**: premium, editorial, high-end Maryland remodeler. Think architecture-practice portfolio

@@ -45,9 +45,14 @@ Return a short report: PASS/FAIL per item, the top concrete fixes (file and
 line or selector), and anything that belongs under Needs Rodrigo. Do not
 apply the fixes yourself.
 
+## Criteria source
+Also check pages against `.claude/skills/blue-hammer-website/references/remodeling-criteria.md`.
+You may use `playwright-cli` and Chrome DevTools MCP read-only (no form submits).
+
 ## Hard rules
-Follow `.claude/agents/HARD-RULES.md` in full. In brief: Maryland only (Olney base,
-40-50 mile radius, no DC or Virginia pages); never invent reviews, licenses or
+Follow `.claude/agents/HARD-RULES.md` in full. In brief: Olney base, about 40 miles
+across Maryland, DC and Virginia (no DC/VA license claims until confirmed);
+small repairs up to full remodels; never invent reviews, licenses or
 contacts; never post, email or buy (drafts go in `marketing/`); never force-push,
 hard-reset or wipe; never read `.env` or Keychain secrets; images may be
 AI-generated but must not be labeled as AI and must never be presented as real

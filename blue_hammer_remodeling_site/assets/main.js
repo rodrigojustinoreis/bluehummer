@@ -116,5 +116,31 @@
       co.observe(el);
     });
   }
-  setContact();nav();initForms();initGallery();initTracking();initMotion();
+  // Brand motion (Remotion renders in assets/video/). Muted, looping, inline; sources attach only when the
+  // video is near the viewport, motion is allowed, the element is displayed and Save-Data is off.
+  // Reduced motion: the video never loads (CSS hides it; the photo/poster stays).
+  function initMedia(){
+    const vids=[...document.querySelectorAll('video[data-motion]')];if(!vids.length)return;
+    const mq=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)');
+    const saveData=navigator.connection&&navigator.connection.saveData;
+    const start=v=>{if(v.dataset.loaded||(mq&&mq.matches)||saveData||!v.offsetParent)return;v.dataset.loaded='1';
+      v.querySelectorAll('source[data-src]').forEach(s=>{s.src=s.dataset.src});v.load();
+      v.addEventListener('playing',()=>v.classList.add('is-playing'),{once:true});
+      const p=v.play();if(p&&p.catch)p.catch(()=>{})};
+    if(!('IntersectionObserver' in window)){vids.forEach(start);return}
+    const io=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){start(v);if(v.dataset.loaded&&v.paused&&!(mq&&mq.matches))v.play().catch(()=>{})}else if(v.dataset.loaded){v.pause()}}),{rootMargin:'200px 0px'});
+    vids.forEach(v=>io.observe(v));
+    if(mq&&mq.addEventListener)mq.addEventListener('change',e=>{if(e.matches)vids.forEach(v=>v.pause())});
+  }
+  // Netlify's "Powered by Netlify" badge is injected by Netlify's edge (a dashboard setting, not our code).
+  // When it is present, give the mobile sticky CTA room so the two never overlap.
+  function initBadgeSafeArea(){
+    const root=document.documentElement;
+    const check=()=>{const f=document.getElementById('nl-badge-frame');if(!f)return false;const r=f.getBoundingClientRect();
+      if(r.height>0&&r.top>window.innerHeight/2){root.style.setProperty('--nl-badge-h',Math.ceil(window.innerHeight-r.top+6)+'px');root.classList.add('has-nl-badge')}else{root.classList.remove('has-nl-badge')}return true};
+    if(check())return;
+    const mo=new MutationObserver(()=>{if(check())mo.disconnect()});mo.observe(document.body,{childList:true});
+    setTimeout(()=>mo.disconnect(),15000);window.addEventListener('resize',check);
+  }
+  setContact();nav();initForms();initGallery();initTracking();initMotion();initMedia();initBadgeSafeArea();
 })();

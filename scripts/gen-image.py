@@ -7,6 +7,8 @@ Key: OPENAI_API_KEY env var, or macOS Keychain item 'OPENAI_API_KEY' (security a
 import os, sys, json, base64, subprocess, argparse, urllib.request, pathlib
 ap = argparse.ArgumentParser(); ap.add_argument("prompt"); ap.add_argument("name")
 ap.add_argument("--size", default="1536x1024"); ap.add_argument("--quality", default="high")
+ap.add_argument("--widths", default="1440,720", help="comma-separated WebP widths")
+ap.add_argument("--keep-png", action="store_true", help="keep the original PNG next to the WebP files")
 ap.add_argument("--model", default=os.environ.get("OPENAI_IMAGE_MODEL", "gpt-image-2.6-sunburst"))
 a = ap.parse_args()
 key = os.environ.get("OPENAI_API_KEY") or subprocess.run(["security","find-generic-password","-s","OPENAI_API_KEY","-w"],capture_output=True,text=True).stdout.strip()
@@ -21,8 +23,10 @@ png = out / f"{a.name}.png"; png.write_bytes(raw)
 try:
     from PIL import Image
     im = Image.open(png).convert("RGB")
-    for w in (1440, 720):
+    widths = [int(x) for x in a.widths.split(",") if x.strip()]
+    for w in widths:
         h = round(im.height * w / im.width); im.resize((w, h), Image.LANCZOS).save(out / f"{a.name}-{w}.webp", "WEBP", quality=80)
-    png.unlink(); print(f"Saved {a.name}-1440.webp and {a.name}-720.webp in {out}")
+    if not a.keep_png: png.unlink()
+    print(f"Saved {a.name}-" + ", -".join(str(w) for w in widths) + f" WebP in {out}" + (f" (kept {png.name})" if a.keep_png else ""))
 except ImportError:
     print(f"Saved {png} (install Pillow for WebP: pip3 install pillow)")

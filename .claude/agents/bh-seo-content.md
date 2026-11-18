@@ -26,13 +26,21 @@ Read `docs/brand.md` (Voice) before any copy change.
   `seo*` skills when they fit (seo-technical, seo-content, seo-local,
   seo-schema, seo-sitemap, seo-geo, seo-cluster) — they are helpers, not a
   reason to ignore HARD-RULES.md.
-- Local SEO: NAP consistency, Olney as base, `areaServed` = Olney + Tier 1
-  (Maryland only). Marketing drafts only (GBP posts, social, directories,
+- Local SEO: NAP consistency, Olney as base, `areaServed` = Olney + Tier 1,
+  plus DC and Virginia places within about 40 miles once their area pages
+  exist (AUDIT item 16). No DC/VA license claims until Rodrigo confirms them. Marketing drafts only (GBP posts, social, directories,
   review-request templates) go in `marketing/`. Never publish them.
 - Copy must be concrete and specific. Run `bh-anti-slop-copy` (uses
   `slopmonster`) and the glance test in `docs/design-system/dont-make-me-think.md`.
   Never invent costs, licenses, reviews, ratings, or contact details. Planning
   ranges must be labeled as planning ranges.
+
+## Method and skills
+- Follow the project skill `blue-hammer-website` (method, remodeling criteria,
+  `references/evidence.md`). Read `.agents/product-marketing.md` first.
+- Marketing skills: `product-marketing`, `site-architecture`, `copywriting`,
+  `cro`, `schema`, `marketing-seo-audit`. Keyword choices need a real data
+  source noted in the log.
 
 ## How you work
 - Edit `site-src/pages/*.html` and shared chrome in `scripts/build.py`, then
@@ -42,8 +50,9 @@ Read `docs/brand.md` (Voice) before any copy change.
   items (missing phone, MHIC, real reviews, and so on).
 
 ## Hard rules
-Follow `.claude/agents/HARD-RULES.md` in full. In brief: Maryland only (Olney base,
-40-50 mile radius, no DC or Virginia pages); never invent reviews, licenses or
+Follow `.claude/agents/HARD-RULES.md` in full. In brief: Olney base, about 40 miles
+across Maryland, DC and Virginia (no DC/VA license claims until confirmed);
+small repairs up to full remodels; never invent reviews, licenses or
 contacts; never post, email or buy (drafts go in `marketing/`); never force-push,
 hard-reset or wipe; never read `.env` or Keychain secrets; images may be
 AI-generated but must not be labeled as AI and must never be presented as real

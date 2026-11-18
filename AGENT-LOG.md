@@ -132,3 +132,67 @@ what's next, and a "Needs Rodrigo" list containing only things the agent cannot 
   - Optional: an `OPENAI_API_KEY` in the Keychain (or real photos) for a wide hero image of hands at work on
     cabinetry or stone (no faces, about 2400 px). The current close-up is soft at full width on large screens.
   - Still open from earlier: Netlify form detection, phone/email/MHIC in `site-config.js`, GBP/Search Console access.
+
+---
+
+## 2026-11-18 — Scope change (MD/DC/VA + small repairs), brand motion, hero, three layout fixes
+
+Run by the Grok Bot executor on Rodrigo's Mac. The orchestrator wasn't running.
+
+- **Scope (owner decision, 2026-11-18).** The service area is now about 40 miles of Olney across Maryland, Washington, DC
+  and Virginia, and small repairs are the entry service. Updated in:
+  - HARD-RULES and every `.claude/agents` file;
+  - CLAUDE.md, DESIGN.md, docs/brand.md and the design brief;
+  - the blue-hammer-website skill and its references;
+  - `.agents/product-marketing.md` (v1.1);
+  - AUDIT item 0.8 (now superseded) and the new item 16.
+
+  Site copy changes:
+  - home: the hero sub-line, the areas section, the FAQ, and a new "Starting smaller?" repairs note;
+  - faq, service-areas, about, contact and terms;
+  - the top bar.
+
+  In `build.py`: the business description, "Small home repairs" added to the schema `serviceType`, and the
+  Northern Virginia/DC phrases removed from FORBIDDEN. No DC/VA license is claimed anywhere.
+- **Hero.** A new generated image of a generic craftsperson with a drill at cream inset cabinets
+  (`assets/hero-craftsman-{720..2400}.webp`), made with `scripts/gen-image.py`. The real Blue Hammer mark was
+  composited as a one-colour shirt print with `tools/image/shirt_print.py`; it sits on the back because the
+  figure faces away. Alt text is neutral. No AI label, and it isn't presented as an employee or a project.
+
+  The photo now covers the full hero, so the plate and CTA sit inside it on desktop.
+- **Brand motion.** A Remotion 4 project in `tools/remotion/` (outside the build; licence notes below) renders:
+  - `hero-loop`: a slow 12 s push on the hero photo. MP4 1.58 MB, WebM 0.65 MB.
+  - `process-steps`: a brass line and four line icons above the 4-step list. About 30–50 KB; desktop only.
+
+  Both are muted, loop and playsinline, with posters. Sources attach only when the video is near the viewport,
+  motion is allowed and Save-Data is off. Under reduced motion only the photo or poster shows.
+
+  `render.sh` re-renders both. The official `remotion-*` skills were added under `.claude/skills/`.
+- **Fixes.**
+  - The DETAIL watermark has its own band, so it no longer overlaps the side note.
+  - The mobile sticky CTA detects Netlify's injected badge iframe (`#nl-badge-frame`) and pads itself, so the
+    badge sits under the button instead of on it.
+- **Verification.**
+  - `python3 scripts/build.py --check`: OK, 23 pages.
+  - Local Playwright at 1440 and 390: videos play, nothing loads under reduced motion, the watermark and side
+    note don't overlap, and the plate sits inside the hero photo. With a simulated badge, the badge sits
+    below the CTA button.
+  - The bh-qa gate ran read-only. It passed licences, honesty, AI labels, the video embeds and file sizes. It FAILED one item: the
+    branded shirt reads as a Blue Hammer employee. That was shipped as an explicit owner request (Needs Rodrigo 5).
+    Its non-blocking notes were fixed: the "Maryland service area" strings were removed and "Small repair" was added
+    to the form's project types. Page titles and meta still name Montgomery and Howard County; that waits for AUDIT 16.
+- **Needs Rodrigo**
+  1. Confirm DC and Virginia contractor licensing before any license is claimed for those jurisdictions (DC DLCP
+     home improvement licence; Virginia DPOR Class A/B/C). DC/VA area pages (AUDIT 16b) wait on this.
+  2. Confirm the small-repairs scope: which repairs, any minimum job size or trip fee, and how they're priced.
+     The site only says "small repairs and fixes"; a repairs page (16a) waits on this.
+  3. Remotion licence. It's free for individuals and for-profit companies with **3 or fewer people** (total
+     headcount). From 4 people up, a Company License is required: "Creators" is $25 per seat per month, or
+     "Automators" is $0.01 per render with a $100/month minimum. Confirm Blue Hammer's headcount.
+  4. Netlify's "Powered by Netlify" badge is injected by Netlify and can't be removed in code. To remove it, go
+     to Netlify > Project configuration > General > "Powered by Netlify" badge (it may be locked on the Free
+     plan). The code fix only keeps it off the CTA.
+  5. The hero craftsperson wears a Blue Hammer-branded shirt, as you asked. He's a generated, generic person:
+     the alt text is neutral and he isn't named or presented as staff. Swap in a real photo of your crew when
+     you have one.
+  6. Still open from before: the business phone, the MHIC number, and real reviews and project photos.

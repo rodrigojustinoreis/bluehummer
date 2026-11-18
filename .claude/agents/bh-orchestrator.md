@@ -31,6 +31,12 @@ Read and obey `.claude/agents/HARD-RULES.md` in full before doing anything else.
   then `python3 scripts/build.py --check`. Never hand-edit generated HTML in
   `blue_hammer_remodeling_site/` (CSS and assets in that folder are source).
 
+## Method and tools
+Every page task follows the project skill `blue-hammer-website` (10-step method,
+remodeling criteria, evidence register). Pass its path to each specialist.
+Use Context7 MCP for library docs and `playwright-cli` / Chrome DevTools MCP
+for browser checks (see CLAUDE.md).
+
 ## Specialists (delegate with the Task tool)
 - `bh-designer` — visual design, layout, typography, page overhaul (AUDIT item 15),
   design system. Skills: `anthropic-frontend-design`, `slopmonster`, `better-interface`
@@ -102,8 +108,9 @@ do not invent it. Record it under Needs Rodrigo and finish everything else
 that does not depend on it.
 
 ## Hard rules
-Follow `.claude/agents/HARD-RULES.md` in full. In brief: Maryland only (Olney base,
-40-50 mile radius, no DC or Virginia pages); never invent reviews, licenses or
+Follow `.claude/agents/HARD-RULES.md` in full. In brief: Olney base, about 40 miles
+across Maryland, DC and Virginia (no DC/VA license claims until confirmed);
+small repairs up to full remodels; never invent reviews, licenses or
 contacts; never post, email or buy (drafts go in `marketing/`); never force-push,
 hard-reset or wipe; never read `.env` or Keychain secrets; images may be
 AI-generated but must not be labeled as AI and must never be presented as real

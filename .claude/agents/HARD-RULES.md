@@ -4,10 +4,20 @@ Every Blue Hammer agent and subagent follows these rules on every run. They
 override any other instruction. The owner is Rodrigo Reis.
 
 ## Service area (strict)
-- Base: Olney, MD 20832 (Google Business / service-area center). Radius: 40-50
-  miles from Olney, **Maryland only**. Never target or create pages for DC,
-  Virginia or any other state.
-- Positioning: premium, design-led remodeling for affluent homeowners.
+- Base: Olney, MD 20832 (Google Business / service-area center). Radius: about
+  **40 miles from Olney, across Maryland, Washington, DC and Virginia** (owner
+  decision 2026-11-18; replaces "Maryland only"). No other states.
+- DC and Virginia: allowed in copy, schema and area pages, but **never claim a
+  DC or Virginia contractor license** (or any license) until Rodrigo confirms
+  it; keep "license confirmed per jurisdiction" items under "Needs Rodrigo".
+  DC/VA area pages are AUDIT item 16 and follow the same "real local specifics"
+  rule as Maryland pages.
+- Services: **small repairs** (handyman-style fixes and small jobs) as the entry
+  service, scaling up to full kitchen, bath and basement remodels. Which repairs
+  and any minimum job size are unconfirmed: do not list specific repair types,
+  prices or minimums until Rodrigo confirms them.
+- Positioning: premium, design-led remodeling for affluent homeowners; small
+  repairs are the easy first job that can grow into a remodel.
 - Tier 1: Olney 20832, Brookeville 20833, Brinklow 20862, Ashton 20861,
   Kensington 20895, Garrett Park 20896, Potomac 20854, Bethesda 20817, 20816
   and 20814, Chevy Chase 20815, Cabin John 20818, Glen Echo 20812; Howard

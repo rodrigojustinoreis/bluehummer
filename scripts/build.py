@@ -33,7 +33,8 @@ MARK = "assets/blue-hammer-mark-140.webp"       # 140x80 header/footer mark
 TODAY = "2026-11-18"
 
 # ---------------------------------------------------------------------------
-# Service area (strict): Olney base, Maryland only, Tier 1 places.
+# Service area: Olney base, about 40 miles across Maryland, DC and Virginia (owner, 2026-11-18).
+# AREAS lists the places that have pages / areaServed today (Maryland Tier 1); DC/VA come with AUDIT item 16.
 # ---------------------------------------------------------------------------
 MONTGOMERY = "Montgomery County, Maryland"
 HOWARD = "Howard County, Maryland"
@@ -47,14 +48,14 @@ AREAS = [
     ("Clarksville", HOWARD), ("Highland", HOWARD), ("Dayton", HOWARD), ("Glenelg", HOWARD), ("Glenwood", HOWARD),
     ("Fulton", HOWARD), ("West Friendship", HOWARD), ("Ellicott City", HOWARD),
 ]
-SERVICE_TYPES = ["Kitchen remodeling", "Bathroom remodeling", "Basement finishing", "Interior remodeling",
+SERVICE_TYPES = ["Small home repairs", "Kitchen remodeling", "Bathroom remodeling", "Basement finishing", "Interior remodeling",
                  "Custom cabinetry and millwork", "Design-build remodeling"]
-BUSINESS_DESCRIPTION = ("Design-led kitchen, bathroom, basement and interior remodeling for established homes "
-                        "in Montgomery and Howard County, Maryland. Based in Olney, MD.")
+BUSINESS_DESCRIPTION = ("Small repairs and design-led kitchen, bathroom, basement and interior remodeling for "
+                        "established homes within about 40 miles of Olney, MD, in Maryland, Washington, DC and Virginia.")
 
 # Text that must never appear in public pages (off-strategy places, other states, dev notes).
 FORBIDDEN = [
-    "Silver Spring", "Gaithersburg", "Germantown", "Aspen Hill", "Wheaton", "DMV", "Northern Virginia and", "serving DC", "Washington area",
+    "Silver Spring", "Gaithersburg", "Germantown", "Aspen Hill", "Wheaton", "DMV", "Washington area",  # vague regional phrasing; name real places
     "starter website", "Unsplash", "before public launch", "Available when contact details are added",
     "Replace with approved", "pre-launch", "PRE-LAUNCH", "lorem",
     # Image labeling: imagery stays neutral (never "AI" labels, never claimed as Blue Hammer projects).
@@ -129,14 +130,14 @@ def lead_form(form_id: str) -> str:
         f'<div class="field"><label for="{f}-type">What would you like to remodel? *</label>'
         f'<select id="{f}-type" name="projectType" required=""><option value="">Select a service</option>'
         f'<option value="Kitchen Remodeling">Kitchen Remodeling</option><option value="Bathroom Remodeling">Bathroom Remodeling</option>'
-        f'<option value="Basements &amp; Interiors">Basements &amp; Interiors</option><option value="Multiple Spaces">Multiple spaces / whole home</option>'
+        f'<option value="Basements &amp; Interiors">Basements &amp; Interiors</option><option value="Multiple Spaces">Multiple spaces / whole home</option><option value="Small Repair">Small repair</option>'
         f'<option value="Not Sure Yet">Not sure yet</option></select></div>'
         f'<div class="field"><label for="{f}-timing">When are you hoping to start? *</label>'
         f'<select id="{f}-timing" name="timeline" required=""><option value="">Select a timeframe</option>'
         f'<option>As soon as practical</option><option>Within 1–3 months</option><option>Within 3–6 months</option><option>Just planning ahead</option></select></div>'
         f'<div class="field"><label for="{f}-zip">Project ZIP code *</label>'
         f'<input autocomplete="postal-code" id="{f}-zip" inputmode="numeric" maxlength="5" minlength="5" name="zip" pattern="[0-9]{{5}}" placeholder="e.g. 20832" required=""/>'
-        f'<div class="field-hint">We use this to confirm your home is inside our Maryland service area.</div></div>'
+        f'<div class="field-hint">We use this to confirm your home is inside our service area.</div></div>'
         f'<div class="form-foot"><button class="btn btn--primary form-next" type="button">Continue</button></div></div>'
         f'<div class="form-step" data-step="2">'
         f'<div class="field-row"><div class="field"><label for="{f}-first">First name *</label>'
@@ -167,7 +168,7 @@ def consultation_section() -> str:
         '<p class="consult-lede">Bring drawings, a list of what isn’t working or a few saved photos. We read every request and follow up if the project is in our area.</p>'
         f'<div class="consult-benefits"><div>{CHECK} Start with your priorities, budget range and timing</div>'
         f'<div>{CHECK} Talk through scope, design direction and permits</div>'
-        f'<div>{CHECK} Confirm your home is inside our Maryland service area</div></div>'
+        f'<div>{CHECK} Confirm your home is inside our service area</div></div>'
         '<div class="consult-contact"><p>Prefer to speak with us?</p><div class="phone-slot"></div><p class="email-slot"></p></div></div>'
         f'<div class="consult-form">{lead_form("consult-form-consultation")}</div></div></section>')
 
@@ -204,7 +205,7 @@ def brand(aria: str = "Blue Hammer Remodeling homepage") -> str:
             f'<span class="brand-copy">BLUE HAMMER<small>REMODELING</small></span></a>')
 
 def topline() -> str:
-    return ('<div class="topline"><div class="container"><p>Based in Olney, Maryland.<span class="topline-more"> Remodeling homes across Montgomery and Howard County.</span></p>'
+    return ('<div class="topline"><div class="container"><p>Based in Olney, Maryland.<span class="topline-more"> Repairs and remodeling within about 40 miles, in Maryland, DC and Virginia.</span></p>'
             '<span class="phone-slot"></span></div></div>')
 
 def header(active: str) -> str:
@@ -229,7 +230,7 @@ def footer() -> str:
     def links(items):
         return '<ul class="footer-links">' + "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in items) + '</ul>'
     areas = [(h, t.replace(" (home base)", "").replace(" (Clarksville)", "")) for h, t in NAV_AREAS[1:] if existing(h)]
-    areas.append(("service-areas.html", "All Maryland service areas"))
+    areas.append(("service-areas.html", "All service areas"))
     remodeling = [("kitchen-remodeling.html", "Kitchen Remodeling"), ("bathroom-remodeling.html", "Bathroom Remodeling"),
                   ("basements-interiors.html", "Basements &amp; Interiors"), ("services.html", "All services"),
                   ("faq.html", "Frequently asked questions")]
@@ -458,6 +459,7 @@ def check(pages) -> int:
         for href in c.links:
             if href.startswith(("http", "mailto:", "tel:")): continue
             target, _, frag = href.partition("#")
+            target = target.partition("?")[0]  # query strings (e.g. ?service=) point at the same file
             if target and not (OUT / target).exists(): errors.append(f"{slug}: broken link {href}")
             if not target and frag and frag not in c.ids: errors.append(f"{slug}: missing anchor #{frag}")
         for tag, src, alt in c.imgs:

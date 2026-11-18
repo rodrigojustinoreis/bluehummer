@@ -4,8 +4,9 @@ Every design or copy task reads this file first. If a change conflicts with it, 
 file in the same commit and say why in AGENT-LOG.md.
 
 ## Position
-Design-led kitchen, bath and lower-level remodeling for established homes in Montgomery and
-Howard County, Maryland. Based in Olney. The site should feel like a high-end Maryland remodeler
+Design-led kitchen, bath and lower-level remodeling for established homes, with small repairs as the
+easy first job. Based in Olney, MD; serving Maryland, Washington, DC and Virginia within about 40 miles
+(updated 2026-11-18; core market remains Montgomery and Howard County). The site should feel like a high-end Maryland remodeler
 or small architecture practice: editorial, calm, specific. Not a contractor template.
 
 ## Logo
