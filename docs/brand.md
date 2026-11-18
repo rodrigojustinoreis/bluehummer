@@ -37,18 +37,29 @@ Rules: no gradient washes or blobs, no glassmorphism, no colored drop shadows. T
 least 4.5:1 (3:1 for 24 px+ headings).
 
 ## Typography
-- Display: **Gambetta** (Fontshare, ITF Free Font License, free for commercial web use). Weights 400 to 600.
+- Display: **Gambetta** (Fontshare, ITF Free Font License, free for commercial web use). Weights 400, 400 italic, 500, 600.
 - Text and UI: **Switzer** (Fontshare, ITF Free Font License). Weights 400 to 700.
-- Loaded from `api.fontshare.com` in `scripts/build.py` `head()`. Next step: self-host the woff2 files in `assets/fonts/` (allowed by the license) to drop the third-party request.
-- Scale (1.25 ratio, 18 px body on desktop): 14 / 16 / 18 / 22 / 28 / 36 / 46 / 58 / 72.
+- **Self-hosted** (2026-11-18): woff2 files in `assets/fonts/` (`gambetta-400`, `gambetta-400-italic`, `gambetta-500`,
+  `gambetta-600`, `switzer-400` to `switzer-700`), declared with `@font-face` + `font-display: swap` at the top of
+  `assets/main.css`. No request to `api.fontshare.com`. `scripts/build.py` `preload_fonts()` preloads only the two
+  above-the-fold faces per page (home: Switzer 700 + Gambetta 400 italic; other pages: Gambetta 500 + Switzer 400).
+  Long cache for `/assets/fonts/*` is set in `netlify.toml`. Do not add a face without adding its file.
+- Scale (1.25 ratio, 17-18 px body on desktop): 14 / 16 / 18 / 22 / 28 / 36 / 46 / 58 / 72; hero display word up to 92 px.
 - Line length 45 to 75 characters. Body line-height 1.6; serif display 1.05 to 1.15.
-- Sentence case everywhere. No all-caps labels, no accenting one word of a headline in a different color or italic.
+- Sentence case everywhere else. No all-caps labels or eyebrows; `.eyebrow` is now a sentence-case accent line, and the
+  home page uses none.
+- **Owner override (2026-11-18, from `docs/design-system/references/inspiration.md`)**: hero and section titles may use
+  the paired headline: a **Gambetta italic** phrase plus a **Switzer 700 uppercase** word (tracking about -0.02em,
+  line-height about 0.9), with a thin brass rule (`.title-pair`, `.section-head .rule`, `.hero-title`). Write the
+  words in natural case in HTML; uppercase comes from CSS. Use it **only** for the H1 and section H2 titles, never for
+  body, labels, buttons or navigation. Outside those titles, the old rule stands: no accenting one word in another
+  color or style.
 
 ## Spacing and layout
 - 8 px base scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128.
 - Section padding 96 to 128 px desktop, 64 px mobile. Max content width 1180 px; prose 68ch.
 - Asymmetric, editorial layouts (large image plus offset text, unequal columns) over rows of identical cards.
-- Corner radius: 2 to 6 px on images and buttons. Not one big radius on everything.
+- Corner radius by hierarchy: 2 px images (`--radius-sm`), 3 px buttons and chips, 4 px inputs and cards (`--radius`), 6 px the form panel (`--radius-lg`). Not one big radius on everything.
 
 ## Icons
 - One set only: Lucide-style 24 px outline SVG, 1.8 px stroke, `currentColor` (Lucide is ISC licensed, free). Inline SVG, `aria-hidden="true"`.

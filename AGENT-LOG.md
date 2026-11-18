@@ -85,3 +85,50 @@ what's next, and a "Needs Rodrigo" list containing only things the agent cannot 
 - **Verification**: `python3 scripts/build.py --check` after this change.
 - **Next**: AUDIT item 15 page-by-page design overhaul, via the orchestrator
   (not started in this commit).
+
+---
+
+## 2026-11-18 — AUDIT item 15, pass 1: site chrome + home page overhaul (orchestrator)
+
+- **Stage:** 2, design system and page overhaul (AUDIT 15 a-g). Specialists: `bh-designer` (build), `bh-qa` (gate).
+- **Picked up from the stopped run:** kept the one-rule-per-line `main.css`, the six downloaded woff2 files
+  (verified byte-identical to Fontshare's CDN) and the `/assets/fonts/*` immutable cache header in `netlify.toml`.
+- **What changed**
+  - **Fonts (15g):** self-hosted Gambetta 400/400 italic/500/600 and Switzer 400-700 (`assets/fonts/`,
+    `font-display:swap`, 2 preloads per page). Removed the `api.fontshare.com` link and the legacy Inter stack.
+  - **Base styles (15d, 15e):** radius by hierarchy (2-6 px). Removed the tinted button shadow and card shadows.
+    Eyebrows are sentence case and mostly removed. Limestone alternate sections with brass hairlines. Off-palette
+    blue tints replaced with palette A tokens. Dark areas get an on-dark focus ring for contrast.
+  - **Chrome (15c):** one-line topline. Solid ivory header with a short nav (Services, Service areas, Process,
+    Gallery, About, Contact) and a compact royal CTA. Accessible mobile menu (`aria-expanded`, Escape returns
+    focus). Editorial navy2 footer with all previous links; phone/email/license slots stay hidden while empty.
+  - **Home (15a, 15b, 15f):** follows the owner's layout reference (adapted, nothing copied). Full-bleed craft
+    photo with a solid ivory text panel and a mixed-type H1 ("REMODELING / *planned before the first wall comes
+    down.*"). Services bento with a large kitchen tile. Eight-tile "What goes into the work" icon grid with one
+    brass tile. Numbered process, Olney areas split, short FAQ, restyled consultation. Trust strip and gallery
+    band cut to reduce text. Netlify form `consultation` unchanged in function.
+  - **Copy honesty:** removed promises not in the evidence register ("weekly updates", "one team", "reply with
+    honest next steps" → "follow up if the project is in our area").
+  - **Docs:** `docs/brand.md` Typography now records the owner override (uppercase Switzer display word +
+    Gambetta italic, H1/section titles only) and self-hosted fonts. `DESIGN.md` (setup file, left uncommitted)
+    is updated to match.
+- **Why:** AUDIT item 15. The owner said the site looks generic/AI-made.
+- **Verification:** `python3 scripts/build.py --check` printed OK (23 pages, 0 problems). Screenshots of home,
+  services, kitchen, Olney, contact and 404 at 1440/390 were reviewed. `bh-qa` gate **PASS** on all 8 checks
+  (build, design, a11y, image/AI labels, facts, anti-slop, form, SEO): no console errors, no outside font
+  requests, no overflow, contrast at least 4.5:1 (brass tile 5.5:1). The desktop dropdown no longer opens on
+  `:focus-within`; Escape closing it was re-verified in the browser.
+- **Commit:** this entry ships in the same commit as the work. Setup files were left uncommitted on purpose.
+- **Next:** AUDIT 15, pass 2: interior page heroes and templates (service pages, then location pages). Remove
+  the uppercase "BLUE HAMMER APPROACH" / "STEP 01" strings and leftover button arrows. Change the mobile menu
+  label to "Close" when open. Move or soften the DETAIL watermark behind the side note. Neutral hero alt text
+  ("Painted inset cabinet door with a brass hinge and a spirit level on a stone counter"). Make footer link
+  casing consistent. Decide on `primaryImageOfPage` (now `cabinetry-detail`, was `kitchen-potomac-estate`).
+  Review the Olney page alt text that ties a generated image to "a wooded Olney, Maryland lot".
+- **Needs Rodrigo**
+  - Confirm or reject these service facts before they go back into copy: in-house design, permit handling,
+    weekly progress updates, replying to every request.
+  - Confirm the FAQ planning ranges ($85k-$175k, $175k-$300k+); they are not in the evidence register.
+  - Optional: an `OPENAI_API_KEY` in the Keychain (or real photos) for a wide hero image of hands at work on
+    cabinetry or stone (no faces, about 2400 px). The current close-up is soft at full width on large screens.
+  - Still open from earlier: Netlify form detection, phone/email/MHIC in `site-config.js`, GBP/Search Console access.

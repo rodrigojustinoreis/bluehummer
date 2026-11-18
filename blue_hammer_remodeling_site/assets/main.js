@@ -22,12 +22,33 @@
   function svgCheck(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5"/></svg>'}
   function nav(){
     const toggle=document.querySelector('.menu-toggle');
-    const menu=document.querySelector('.nav-links');
-    if(toggle&&menu){toggle.addEventListener('click',()=>{let open=menu.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Close menu':'Open menu')});}
-    document.querySelectorAll('.nav-dropdown>button').forEach(btn=>{btn.addEventListener('click',()=>{const open=btn.parentElement.classList.toggle('open');btn.setAttribute('aria-expanded',String(open))})});
-    document.addEventListener('keydown',ev=>{if(ev.key==='Escape'){menu?.classList.remove('open');if(toggle)toggle.setAttribute('aria-expanded','false');document.querySelectorAll('.nav-dropdown.open').forEach(el=>el.classList.remove('open'))}})
+    const menu=document.getElementById('main-navigation');
+    const drops=[...document.querySelectorAll('.nav-dropdown')];
+    function setDrop(d,open){d.classList.toggle('open',open);const b=d.querySelector('button');if(b)b.setAttribute('aria-expanded',String(open))}
+    function setMenu(open,returnFocus){
+      if(!toggle||!menu)return;
+      menu.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));
+      if(!open){drops.forEach(d=>setDrop(d,false));if(returnFocus)toggle.focus()}
+    }
+    if(toggle&&menu){
+      toggle.addEventListener('click',()=>setMenu(!menu.classList.contains('open'),false));
+      menu.addEventListener('click',ev=>{if(ev.target.closest('a'))setMenu(false,false)});
+    }
+    drops.forEach(d=>{const b=d.querySelector('button');if(!b)return;b.addEventListener('click',()=>{const open=!d.classList.contains('open');drops.forEach(o=>{if(o!==d)setDrop(o,false)});setDrop(d,open)})});
+    document.addEventListener('click',ev=>{
+      if(!ev.target.closest('.nav-dropdown'))drops.forEach(d=>setDrop(d,false));
+      if(menu&&menu.classList.contains('open')&&!ev.target.closest('.site-header'))setMenu(false,false);
+    });
+    document.addEventListener('keydown',ev=>{
+      if(ev.key!=='Escape')return;
+      const openDrop=drops.find(d=>d.classList.contains('open'));
+      if(openDrop&&!(menu&&menu.classList.contains('open'))){setDrop(openDrop,false);openDrop.querySelector('button')?.focus();return}
+      if(menu&&menu.classList.contains('open'))setMenu(false,true);
+    });
+    const desktop=window.matchMedia('(min-width: 1061px)');
+    desktop.addEventListener?.('change',e=>{if(e.matches)setMenu(false,false)});
     document.querySelectorAll('a[href*="#consultation"]').forEach(link=>link.addEventListener('click',(ev)=>{
-      const target=document.getElementById('consultation');if(target){ev.preventDefault();target.scrollIntoView({behavior:'smooth'});history.replaceState(null,'','#consultation')}
+      const target=document.getElementById('consultation');if(target){ev.preventDefault();target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});history.replaceState(null,'','#consultation')}
     }));
   }
   function initForms(){
@@ -57,7 +78,7 @@
           }
           if(!res.ok)throw new Error(result.message||'We couldn’t send your request just now. Please check your connection and try again in a moment. If it keeps failing, please reach out through the contact details on this site.');
           window.location.href='thank-you.html';
-        }catch(err){status.className='form-status error';status.textContent=err.message||'Unable to send right now. Please try again in a moment.';submit.disabled=false;submit.textContent='Send Consultation Request →'}
+        }catch(err){status.className='form-status error';status.textContent=err.message||'Unable to send right now. Please try again in a moment.';submit.disabled=false;submit.textContent='Send Consultation Request'}
       });
     });
   }
@@ -82,7 +103,8 @@
   function initMotion(){
     const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if(reduce||!('IntersectionObserver' in window))return;
-    const targets=document.querySelectorAll('.section-heading,.service-card,.visual-card,.gallery-card,.trust-item,.faq-item');
+    // Content is visible by default; only elements that opt in with data-reveal fade in (none on the site today).
+    const targets=document.querySelectorAll('[data-reveal]');
     if(!targets.length)return;
     document.documentElement.classList.add('js-reveal');
     const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.08});

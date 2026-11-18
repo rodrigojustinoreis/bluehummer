@@ -8,7 +8,7 @@ Source of truth for page content:  site-src/pages/<slug>.html
         {{BREADCRUMBS}}     semantic breadcrumb nav built from meta.breadcrumb
         {{SERVICE_CARDS}}   the three service cards (kitchen / bath / basements)
         {{FORM:some-id}}    a lead form with the given id (contact page)
-        {{ARROW}} {{CHECK}} inline SVG icons
+        {{ARROW}} {{CHECK}} {{ICON:name}} inline SVG icons (one Lucide-style set, see ICONS)
 Shared chrome (head, topline, header, consultation section, footer, mobile CTA, JSON-LD)
 lives in this file so every page stays consistent.
 
@@ -75,6 +75,19 @@ CHECK = svg('<path d="m5 12 4 4L19 6"></path>')
 PIN = svg('<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle>')
 MENU = svg('<path d="M4 6h16M4 12h16M4 18h16"></path>')
 PHONE = svg('<path d="M5 3h4l2 5-2.7 2a15 15 0 0 0 5.7 5.7l2-2.7 5 2v4a2 2 0 0 1-2.2 2A18 18 0 0 1 3 5.2 2 2 0 0 1 5 3Z"></path>')
+CHEVRON = svg('<path d="m6 9 6 6 6-6"></path>')
+
+# One Lucide-style set (24 px, 1.8 stroke, currentColor, aria-hidden). Used in fragments as {{ICON:name}}.
+ICONS = {
+    "pencil-ruler": '<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"></path><path d="m14.5 6.5 3 3"></path><path d="M13 20h7"></path>',
+    "cabinet": '<rect x="4" y="3" width="16" height="18" rx="1"></rect><path d="M12 3v18"></path><path d="M9.5 10v3M14.5 10v3"></path>',
+    "layers": '<path d="m12 3 9 5-9 5-9-5z"></path><path d="m3 13 9 5 9-5"></path>',
+    "grid": '<rect x="3" y="3" width="18" height="18" rx="1"></rect><path d="M3 9h18M3 15h18M9 3v18M15 3v18"></path>',
+    "lamp": '<path d="M12 3v4"></path><path d="M5 15a7 7 0 0 1 14 0z"></path><path d="M10 19a2 2 0 0 0 4 0"></path>',
+    "heat": '<path d="M3 21h18"></path><path d="M7 17c-1.5-2 1.5-4 0-6s1.5-4 0-6"></path><path d="M12 17c-1.5-2 1.5-4 0-6s1.5-4 0-6"></path><path d="M17 17c-1.5-2 1.5-4 0-6s1.5-4 0-6"></path>',
+    "shelves": '<path d="M4 4v16M9 4v16"></path><path d="m13.5 4.8 4.4 14.6"></path><path d="M3 20h18"></path>',
+    "clipboard": '<rect x="5" y="4" width="14" height="18" rx="2"></rect><rect x="9" y="2" width="6" height="4" rx="1"></rect><path d="m9 14 2 2 4-4"></path>',
+}
 
 def img(src_base: str, alt: str, *, w: int, h: int, cls: str = "", lazy: bool = True, sizes: str | None = None) -> str:
     sizes = sizes or "(max-width: 700px) 100vw, (max-width: 960px) 50vw, 48vw"
@@ -124,7 +137,7 @@ def lead_form(form_id: str) -> str:
         f'<div class="field"><label for="{f}-zip">Project ZIP code *</label>'
         f'<input autocomplete="postal-code" id="{f}-zip" inputmode="numeric" maxlength="5" minlength="5" name="zip" pattern="[0-9]{{5}}" placeholder="e.g. 20832" required=""/>'
         f'<div class="field-hint">We use this to confirm your home is inside our Maryland service area.</div></div>'
-        f'<div class="form-foot"><button class="btn btn--primary form-next" type="button">Continue {ARROW}</button></div></div>'
+        f'<div class="form-foot"><button class="btn btn--primary form-next" type="button">Continue</button></div></div>'
         f'<div class="form-step" data-step="2">'
         f'<div class="field-row"><div class="field"><label for="{f}-first">First name *</label>'
         f'<input autocomplete="given-name" id="{f}-first" maxlength="80" minlength="2" name="firstName" placeholder="First name" required=""/></div>'
@@ -141,17 +154,17 @@ def lead_form(form_id: str) -> str:
         f'<input name="utm_source" type="hidden"/><input name="utm_campaign" type="hidden"/>'
         f'<label class="form-consent"><input name="consent" required="" type="checkbox"/>'
         f'<span>I agree to be contacted about my project. My information will be used according to the <a href="privacy.html">Privacy Policy</a>. *</span></label>'
-        f'<div class="form-foot"><button class="form-back" type="button">← Back</button>'
-        f'<button class="btn btn--primary" type="submit">Send Consultation Request {ARROW}</button></div></div>'
+        f'<div class="form-foot"><button class="form-back" type="button">Back</button>'
+        f'<button class="btn btn--primary" type="submit">Send Consultation Request</button></div></div>'
         f'<div aria-live="polite" class="form-status" role="status"></div>'
-        f'<div class="field-hint" style="margin-top:17px">No obligation. We review every request and follow up if the project and location are a fit.</div>'
+        f'<div class="field-hint form-note">No obligation. We review every request and follow up if the project and location are a fit.</div>'
         f'</form>')
 
 def consultation_section() -> str:
     return (
         '<section aria-labelledby="consult-title" class="consultation" id="consultation"><div class="container consult-grid"><div>'
-        '<span class="eyebrow">Start with a conversation</span><h2 id="consult-title">Let’s talk about what your home could become.</h2>'
-        '<p>Whether you have drawings in hand or just a few ideas, tell us about your project. We review every request and reply with honest next steps.</p>'
+        '<h2 class="title-pair" id="consult-title"><em>Let’s talk about</em> <strong>your home.</strong></h2>'
+        '<p class="consult-lede">Bring drawings, a list of what isn’t working or a few saved photos. We read every request and follow up if the project is in our area.</p>'
         f'<div class="consult-benefits"><div>{CHECK} Start with your priorities, budget range and timing</div>'
         f'<div>{CHECK} Talk through scope, design direction and permits</div>'
         f'<div>{CHECK} Confirm your home is inside our Maryland service area</div></div>'
@@ -182,53 +195,62 @@ def existing(href: str) -> bool:
 def nav_dropdown(label: str, items, panel_id: str, active: bool) -> str:
     links = "".join(f'<a href="{h}">{t}</a>' for h, t in items if existing(h))
     cls = ' class="active"' if active else ""
-    return (f'<div class="nav-dropdown"><button aria-controls="{panel_id}" aria-expanded="false" type="button"{cls}>{label}</button>'
+    return (f'<div class="nav-dropdown"><button aria-controls="{panel_id}" aria-expanded="false" type="button"{cls}>{label}{CHEVRON}</button>'
             f'<div class="dropdown-panel" id="{panel_id}">{links}</div></div>')
 
 def brand(aria: str = "Blue Hammer Remodeling homepage") -> str:
     return (f'<a aria-label="{aria}" class="brand" href="index.html">'
-            f'<img alt="" height="57" src="{MARK}" width="70"/>'
+            f'<img alt="" height="46" src="{MARK}" width="56"/>'
             f'<span class="brand-copy">BLUE HAMMER<small>REMODELING</small></span></a>')
 
 def topline() -> str:
-    return (f'<div class="topline"><div class="container"><span>{PIN} Based in Olney, MD · Serving Montgomery &amp; Howard County, Maryland</span>'
-            '<div class="topline-right"><span class="phone-slot"></span><span>Design-led kitchen, bath &amp; basement remodeling</span></div></div></div>')
+    return ('<div class="topline"><div class="container"><p>Based in Olney, Maryland.<span class="topline-more"> Remodeling homes across Montgomery and Howard County.</span></p>'
+            '<span class="phone-slot"></span></div></div>')
 
 def header(active: str) -> str:
     def a(href, label, key):
-        return f'<a class="{"active" if active == key else ""}" href="{href}">{label}</a>'
+        cur = ' aria-current="page"' if active == key else ""
+        return f'<a class="{"active" if active == key else ""}" href="{href}"{cur}>{label}</a>'
     return (
         f'<header class="site-header"><div class="container nav-wrap">{brand()}'
-        '<nav aria-label="Primary navigation" class="nav-links" id="main-navigation">'
-        + a("index.html", "Home", "home")
+        f'<button aria-controls="main-navigation" aria-expanded="false" class="menu-toggle" type="button">{MENU}<span>Menu</span></button>'
+        '<nav aria-label="Primary" class="nav-links" id="main-navigation">'
         + nav_dropdown("Services", NAV_SERVICES, "services-dropdown", active == "services")
+        + nav_dropdown("Service areas", NAV_AREAS, "areas-dropdown", active == "areas")
+        + a("process.html", "Process", "process")
         + a("projects.html", "Gallery", "inspiration")
-        + a("about.html", "About Us", "about")
-        + nav_dropdown("Service Areas", NAV_AREAS, "areas-dropdown", active == "areas")
-        + a("faq.html", "FAQ", "faq")
+        + a("about.html", "About", "about")
         + a("contact.html", "Contact", "contact")
+        + '<a class="btn btn--primary nav-cta-mobile" href="index.html#consultation">Schedule a Consultation</a>'
         + '</nav>'
-        f'<button aria-controls="main-navigation" aria-expanded="false" aria-label="Open menu" class="menu-toggle" type="button">{MENU}</button>'
-        f'<a class="btn btn--primary header-cta" href="index.html#consultation">Schedule a Consultation {ARROW}</a></div></header>')
+        '<a class="btn btn--primary btn--sm header-cta" href="index.html#consultation">Schedule a Consultation</a></div></header>')
 
 def footer() -> str:
-    areas = "".join(f'<a href="{h}">{t.replace(" (home base)", "").replace(" (Clarksville)", "")}</a>' for h, t in NAV_AREAS[1:] if existing(h))
+    def links(items):
+        return '<ul class="footer-links">' + "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in items) + '</ul>'
+    areas = [(h, t.replace(" (home base)", "").replace(" (Clarksville)", "")) for h, t in NAV_AREAS[1:] if existing(h)]
+    areas.append(("service-areas.html", "All Maryland service areas"))
+    remodeling = [("kitchen-remodeling.html", "Kitchen Remodeling"), ("bathroom-remodeling.html", "Bathroom Remodeling"),
+                  ("basements-interiors.html", "Basements &amp; Interiors"), ("services.html", "All services"),
+                  ("faq.html", "Frequently asked questions")]
+    company = [("index.html", "Home"), ("projects.html", "Design gallery"), ("about.html", "About Blue Hammer"),
+               ("process.html", "Our process"), ("reviews.html", "Client feedback"), ("contact.html", "Contact us"),
+               ("index.html#consultation", "Schedule a Consultation")]
     return (
-        f'<footer class="footer"><div class="container"><div class="footer-grid"><div>{brand()}'
-        '<p>Design-led remodeling for established homes in Montgomery and Howard County, Maryland. Based in Olney and built on clear scopes, honest timelines and craftsmanship you can see up close.</p>'
-        '<p class="phone-slot"></p><p class="email-slot"></p><span class="license-slot"></span>'
-        '</div>'
-        '<div><h4>Explore</h4><div class="footer-links"><a href="index.html">Home</a><a href="projects.html">Design Gallery</a><a href="about.html">About Blue Hammer</a><a href="process.html">Our Process</a><a href="reviews.html">Client Feedback</a></div></div>'
-        '<div><h4>Remodeling</h4><div class="footer-links"><a href="kitchen-remodeling.html">Kitchen Remodeling</a><a href="bathroom-remodeling.html">Bathroom Remodeling</a><a href="basements-interiors.html">Basements &amp; Interiors</a><a href="services.html">All Services</a><a href="faq.html">Frequently Asked Questions</a></div></div>'
-        f'<div><h4>Service Areas</h4><div class="footer-links">{areas}<a href="service-areas.html">All Maryland Service Areas</a></div></div>'
-        '<div><h4>Let’s talk</h4><div class="footer-links"><a href="index.html#consultation">Schedule a Consultation</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Website Terms</a></div>'
-        '<p>Scope, schedule and any required permits or licenses are confirmed in writing before work is accepted.</p></div></div>'
-        '<div class="footer-bottom"><span>© 2026 Blue Hammer Remodeling. All rights reserved.</span>'
-        '<span>Olney, Maryland · Remodeling Montgomery &amp; Howard County · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span></div></div></footer>')
+        '<footer class="footer"><div class="container"><div class="footer-top">'
+        f'<div class="footer-about">{brand()}'
+        '<p>Design-led remodeling for established homes in Montgomery and Howard County, Maryland. Based in Olney.</p>'
+        '<p class="phone-slot"></p><p class="email-slot"></p><span class="license-slot"></span></div>'
+        f'<div><h2 class="footer-h">Remodeling</h2>{links(remodeling)}</div>'
+        f'<div><h2 class="footer-h">Service areas</h2>{links(areas)}</div>'
+        f'<div><h2 class="footer-h">Company</h2>{links(company)}</div></div>'
+        '<div class="footer-note"><p>Scope, schedule and any required permits or licenses are confirmed in writing before work is accepted.</p></div>'
+        '<div class="footer-bottom"><span>© 2026 Blue Hammer Remodeling. Olney, Maryland.</span>'
+        '<nav aria-label="Legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Website Terms</a></nav></div></div></footer>')
 
 def mobile_cta() -> str:
     return (f'<div class="mobile-cta"><a aria-label="Call Blue Hammer" class="btn btn--outline mobile-phone phone-link" hidden="" href="#">{PHONE}</a>'
-            f'<a class="btn btn--primary" href="index.html#consultation">Schedule a Consultation {ARROW}</a></div>')
+            f'<a class="btn btn--primary" href="index.html#consultation">Schedule a Consultation</a></div>')
 
 # ---------------------------------------------------------------------------
 # Breadcrumbs, FAQ extraction, schema
@@ -322,6 +344,12 @@ def schema_graph(meta: dict, slug: str, body: str, crumb_items) -> str:
 # ---------------------------------------------------------------------------
 # Page assembly
 # ---------------------------------------------------------------------------
+def preload_fonts(slug: str):
+    """Only the 1-2 faces visible above the fold (self-hosted Fontshare woff2, ITF Free Font License)."""
+    if slug == "index.html":
+        return ["switzer-700", "gambetta-400-italic"]
+    return ["gambetta-500", "switzer-400"]
+
 def head(meta: dict, slug: str, body: str, crumb_items) -> str:
     url = SITE + "/" + ("" if slug == "index.html" else slug)
     title = html.escape(meta["title"])
@@ -332,7 +360,9 @@ def head(meta: dict, slug: str, body: str, crumb_items) -> str:
         '<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>'
         f'<title>{title}</title><meta content="{desc}" name="description"/>'
         f'<link href="{url}" rel="canonical"/><meta content="#0b2347" name="theme-color"/><meta content="{robots}" name="robots"/>'
-        '<link href="assets/favicon.png" rel="icon" type="image/png"/><link href="https://api.fontshare.com" rel="preconnect" crossorigin=""/><link href="https://api.fontshare.com/v2/css?f[]=gambetta@400,500,600&amp;f[]=switzer@400,500,600,700&amp;display=swap" rel="stylesheet"/><link href="assets/main.css" rel="stylesheet"/>'
+        '<link href="assets/favicon.png" rel="icon" type="image/png"/>'
+        + "".join(f'<link as="font" crossorigin="" href="assets/fonts/{f}.woff2" rel="preload" type="font/woff2"/>' for f in preload_fonts(slug))
+        + '<link href="assets/main.css" rel="stylesheet"/>'
         '<meta content="website" property="og:type"/><meta content="en_US" property="og:locale"/>'
         f'<meta content="{BRAND}" property="og:site_name"/><meta content="{url}" property="og:url"/>'
         f'<meta content="{title}" property="og:title"/><meta content="{desc}" property="og:description"/>'
@@ -358,6 +388,7 @@ def render(slug: str, meta: dict, body: str) -> str:
     body = (body.replace("{{BREADCRUMBS}}", breadcrumb_html(crumb_items))
                 .replace("{{SERVICE_CARDS}}", service_cards())
                 .replace("{{ARROW}}", ARROW).replace("{{CHECK}}", CHECK))
+    body = re.sub(r"\{\{ICON:([a-z-]+)\}\}", lambda m: svg(ICONS[m.group(1)]), body)
     body = re.sub(r"\{\{FORM:([a-z0-9-]+)\}\}", lambda m: lead_form(m.group(1)), body)
     if meta.get("consult", True):
         body += consultation_section()
