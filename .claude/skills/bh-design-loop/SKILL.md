@@ -8,6 +8,10 @@ description: Blue Hammer design loop. Use before shipping any new or redesigned 
 1. Read `docs/brand.md`, `docs/design-system/design-brief.md` and `docs/design-system/dont-make-me-think.md`.
 2. Load the `anthropic-frontend-design` skill and follow its plan → review-the-plan → build process.
    Write the short plan (palette from brand.md, type roles, ASCII wireframe, the one memorable element) in your notes first.
+   Also load `better-interface` (and its domain skills `better-typography`, `better-layout`,
+   `better-accessibility`, `better-writing`, `better-colors`, `better-ui`) and the vendored
+   `web-interface-guidelines` skill. Read its local `command.md`; do not fetch the guidelines
+   and do not run install scripts. Use these for the AUDIT item 15 page-by-page overhaul.
 3. For each section type, look at references from `docs/design-system/section-references.md`.
 4. Edit `site-src/pages/*.html`, shared chrome in `scripts/build.py`, styles in `blue_hammer_remodeling_site/assets/main.css`. Run `python3 scripts/build.py --check`.
 5. **Critic pass**: launch a Task subagent as an independent art director. Give it the built page

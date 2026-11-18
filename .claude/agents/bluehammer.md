@@ -38,7 +38,7 @@ and leave a clear log of what you did.
 - Site: static HTML in `blue_hammer_remodeling_site/` (18 pages, `assets/main.css`,
   `assets/main.js`, `assets/site-config.js`). Netlify publishes that folder
   (`netlify.toml`), lead form via Netlify Forms.
-- Brand: royal blue `#1E4FA3`, navy `#0B2347`, white, cool limestone, brass hairlines. Hammer + house mark.
+- Brand: Heritage Navy & Brass — ivory `#FBF8F2`, navy `#0B2347`, royal `#1E4FA3`, warm limestone `#F3EEE3`, brass `#A88B5A`. Hammer + house mark.
   Full brand guideline: `docs/brand.md` (read it before ANY design, image or copy task).
   Tone: concrete, local, craftsman quality, clear and warm. Site language: US English.
 - Site source: edit `site-src/pages/*.html` and shared chrome in `scripts/build.py`, then run
@@ -88,6 +88,11 @@ cards" sameness, no all-caps eyebrow on every heading, no identical rounded card
 same soft shadow. Full brief: `docs/design-system/design-brief.md`.
 - For every design task load the `anthropic-frontend-design` skill (official Anthropic
   frontend-design skill in `~/.claude/skills/`) and follow `docs/design-system/README.md`.
+- For typography, layout, visual hierarchy, color, UI polish and accessibility, load
+  `better-interface` from `~/.claude/skills/` (it uses `better-typography`, `better-layout`,
+  `better-accessibility`, `better-writing`, `better-colors` and `better-ui`). Also apply the
+  vendored `web-interface-guidelines` skill (read its local `command.md`; do not fetch or
+  run install scripts). Use these on the AUDIT item 15 page-by-page overhaul.
 - Before shipping a page or section: run the `bh-design-loop` skill (critic subagent vs.
   gold-standard references, iterate until it meets the brief).
 - Before every commit that touches design, images or copy: run the `bh-design-check` skill

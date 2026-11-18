@@ -44,3 +44,27 @@ what's next, and a "Needs Rodrigo" list containing only things the agent cannot 
     scroll reveal, counters for `data-count` only; all disabled under `prefers-reduced-motion`. New 404 layout.
   - Copy: hero H1 no longer says "built to last"; generic triple lists on service pages rewritten concretely.
 - **Next**: AUDIT fix list item 15 (page-by-page design overhaul with the design loop and five-agent check).
+
+## 2026-11-18 — Palette A (Heritage Navy & Brass) and design-review skills
+
+- **What changed**
+  - Applied palette A, approved by Rodrigo: ivory page background `#FBF8F2`, navy `#0B2347`,
+    royal `#1E4FA3`, brass `#A88B5A`, warm limestone `#F3EEE3`, ink `#14243D`, muted `#525D6B`,
+    borders `#E4DCCB`. Tokens and the matching chrome (header, eyebrows, buttons, topline,
+    focus ring, dark-section accents) were ported into `blue_hammer_remodeling_site/assets/main.css`.
+    `docs/brand.md` and `docs/design-system/design-brief.md` now document this palette.
+  - Installed into `~/.claude/skills/` (skill files only, no install scripts, no npx):
+    `better-interface` plus domain skills `better-accessibility`, `better-layout`,
+    `better-writing`, `better-typography`, `better-colors`, `better-ui` (MIT, jakubkrehel/skills),
+    and a local `web-interface-guidelines` skill that vendors `command.md` from
+    vercel-labs/web-interface-guidelines (MIT) with no network step.
+  - `.claude/agents/bluehammer.md` and `bh-design-loop` now tell the agent to use those skills
+    on the AUDIT item 15 page-by-page overhaul.
+- **Why**: Rodrigo chose palette A so the site can feel traditional and modern at once;
+  the new skills add typography, layout, accessibility and interface-guideline review
+  beyond the already installed frontend-design and slopmonster skills.
+- **Verification**: `python3 scripts/build.py --check` — OK, 23 pages, 0 problems.
+  Live CSS on bluehammermd.com to be confirmed after the Netlify deploy.
+- **Next**: AUDIT item 15 page-by-page overhaul with `bh-design-loop`, `better-interface`
+  and `web-interface-guidelines`.
+

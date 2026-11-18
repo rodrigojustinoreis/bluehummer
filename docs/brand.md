@@ -11,17 +11,27 @@ or small architecture practice: editorial, calm, specific. Not a contractor temp
 ## Logo
 - Files: `assets/blue-hammer-logo-512.png` (full lockup), `assets/blue-hammer-mark-140.webp` (header/footer mark).
 - Clear space: at least the height of the hammer head on every side. Minimum mark height 32 px.
-- Only on white, limestone or navy backgrounds. Never stretch, recolor, outline, shadow or put it on a photo.
+- Only on ivory, white, limestone or navy backgrounds. Never stretch, recolor, outline, shadow or put it on a photo.
 
-## Color tokens (from the logo)
+## Color tokens (palette A: Heritage Navy & Brass)
+Approved 2026-11-18. Traditional and modern: logo navy and royal on warm ivory, with brass as a craft accent.
+
 | Token | Hex | Use |
 |---|---|---|
+| `--ivory` | `#FBF8F2` | Page background |
+| `--white` | `#FFFFFF` | Cards, raised surfaces |
+| `--ink` / `--graphite` | `#14243D` | Body text on light backgrounds |
+| `--muted` | `#525D6B` | Secondary text |
 | `--navy` | `#0B2347` | Headings, footer, dark sections |
-| `--royal` | `#1E4FA3` | Primary buttons, links, focus ring. One accent; do not add another bright color |
-| `--white` | `#FFFFFF` | Main background |
-| `--limestone` | `#EEF1F4` | Alternate section background (cool, not cream) |
-| `--graphite` | `#1C2430` | Body text on light backgrounds when navy is too strong |
-| `--brass` | `#A88B5A` | Hairline details only (rules, small marks). Never text on white (fails contrast) |
+| `--navy2` | `#071830` | Topline and consultation background |
+| `--royal` | `#1E4FA3` | Primary buttons and links. One bright accent; do not add another |
+| `--hover` | `#163C80` | Primary button hover |
+| `--limestone` / `--soft` | `#F3EEE3` | Alternate section background, pills, table headers |
+| `--line` | `#E4DCCB` | Borders and hairline rules |
+| `--brass` | `#A88B5A` | Hairline details, dots, focus ring, topline rule. Do not use as text on ivory (fails contrast) |
+| `--accent-text` | `#7A6232` | Eyebrows and table headers on light backgrounds (brass at text contrast) |
+| `--on-dark-accent` | `#D9C08F` | Eyebrows and small brand labels on navy |
+| `--on-dark-muted` | `#C9D2DE` | Secondary text on navy |
 
 Rules: no gradient washes or blobs, no glassmorphism, no colored drop shadows. Text contrast at
 least 4.5:1 (3:1 for 24 px+ headings).

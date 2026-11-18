@@ -10,7 +10,7 @@ whitespace, precise typography.
 
 ## Do
 - Distinctive type pairing (Gambetta + Switzer, see brand.md) used with a clear scale.
-- Restrained palette from the logo: navy, royal blue, white, cool limestone, brass hairlines.
+- Restrained palette (Heritage Navy & Brass): navy, royal blue, ivory, warm limestone, brass hairlines.
 - Large, photographic imagery that carries the page; asymmetric editorial layouts.
 - One memorable element per page (for example an oversized serif headline over a full-bleed kitchen photo). Everything around it stays quiet.
 - Concrete copy: process, permits, timelines, written scope.
