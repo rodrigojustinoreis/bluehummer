@@ -53,9 +53,14 @@ Fixed in this pass:
   limestone alternate sections carry a brass hairline; colored `border-left` callouts replaced.
 - Home: three identical service cards replaced with a bento; trust strip and gallery band cut (15f); gradient overlay
   cards and the decorative circle in the consultation section removed; the scroll reveal no longer hides content.
+Pass 3 (2026-11-18): location pages, service-areas and about use the paired H1, split + detail/topic lists,
+section-head + bento (via `{{SERVICE_CARDS}}`, which now renders the bento, not three identical cards) and the
+FAQ split; kicker labels and middot eyebrows removed; buttons and breadcrumbs in sentence case site-wide
+(including "Schedule a consultation" and "See the design gallery").
 Still open (later runs):
-- Interior pages inherit chrome and base styles only; their hero, eyebrows ("BLUE HAMMER APPROACH" labels,
-  "STEP 01" strings in page copy) and density still need the page-by-page overhaul.
+- Not yet overhauled: process, faq, projects, reviews, contact (eyebrows and old section headings remain).
+- `olney-colonial-exterior-1440.webp` is 223 KB (over the ~200 KB hero budget); re-encoding from the WebP visibly
+  softens detail, so it needs the original source or a re-export.
 - Hero photo is the best existing asset (cabinetry close-up); a dedicated craft-at-work photo would be stronger.
 
 ## Not confirmed yet

@@ -6,7 +6,7 @@ Source of truth for page content:  site-src/pages/<slug>.html
     The rest is the <main> content fragment (without the shared consultation section).
     Placeholders available inside fragments:
         {{BREADCRUMBS}}     semantic breadcrumb nav built from meta.breadcrumb
-        {{SERVICE_CARDS}}   the three service cards (kitchen / bath / basements)
+        {{SERVICE_CARDS}}   the services bento (kitchen / bath / basements) + small-repairs note
         {{FORM:some-id}}    a lead form with the given id (contact page)
         {{ARROW}} {{CHECK}} {{ICON:name}} inline SVG icons (one Lucide-style set, see ICONS)
 Shared chrome (head, topline, header, consultation section, footer, mobile CTA, JSON-LD)
@@ -98,26 +98,32 @@ def img(src_base: str, alt: str, *, w: int, h: int, cls: str = "", lazy: bool = 
             f'src="assets/{src_base}-720.webp" srcset="assets/{src_base}-720.webp 720w, assets/{src_base}-1440.webp 1440w" width="{w}"/>')
 
 SERVICE_CARDS_DATA = [
-    ("kitchen-remodeling.html", "Kitchen Remodeling", "kitchen-design", 1080,
+    # (href, name, image base, image height, alt, note, is_large)
+    ("kitchen-remodeling.html", "Kitchen remodeling", "kitchen-design", 1080,
      "Remodeled kitchen with navy cabinetry and a marble island",
-     "Custom cabinetry, natural stone and layouts planned around how your family actually cooks and gathers."),
-    ("bathroom-remodeling.html", "Bathroom Remodeling", "bathroom-design", 1080,
+     "Layout, cabinetry, stone and lighting, planned around how you cook and gather.", True),
+    ("bathroom-remodeling.html", "Bathroom remodeling", "bathroom-design", 1080,
      "Bathroom with a walk-in shower and navy double vanity",
-     "Primary suites, hall baths and powder rooms with curbless showers, heated floors and quiet, durable detailing."),
-    ("basements-interiors.html", "Basements &amp; Interiors", "basement-design", 1080,
+     "Primary suites, hall baths and powder rooms.", False),
+    ("basements-interiors.html", "Basements &amp; interiors", "basement-design", 1080,
      "Finished basement with built-in shelving and a living area",
-     "Lower levels, built-ins and whole-interior refreshes that make every square foot feel intentional."),
+     "Lower levels, built-ins and interior rooms.", False),
 ]
 
 def service_cards() -> str:
-    cards = []
-    for href, name, base, h, alt, blurb in SERVICE_CARDS_DATA:
-        cards.append(
-            f'<article class="service-card"><a aria-label="Learn about {name}" href="{href}">'
-            f'{img(base, alt, w=1440, h=h, cls="service-photo")}</a>'
-            f'<div class="service-body"><h3>{name}</h3><p>{blurb}</p>'
-            f'<a class="text-link" href="{href}">Explore Service {ARROW}</a></div></article>')
-    return '<div class="cards-3">' + "".join(cards) + '</div>'
+    """Services bento used on location pages (same markup as services.html), not three identical cards."""
+    rooms = []
+    for href, name, base, h, alt, note, large in SERVICE_CARDS_DATA:
+        sizes = "(max-width: 700px) 100vw, 58vw" if large else "(max-width: 700px) 100vw, 40vw"
+        rooms.append(
+            f'<a class="room{" room--lg" if large else ""}" href="{href}">'
+            f'<span class="room-media">{img(base, alt, w=1440, h=h, sizes=sizes)}</span>'
+            f'<span class="room-label"><span class="room-name">{name}</span>{ARROW}</span>'
+            f'<span class="room-note">{note}</span></a>')
+    return ('<div class="bento">' + "".join(rooms) + '</div>'
+            '<div class="repairs-note"><p><strong>Starting smaller?</strong> We also take on small repairs and fixes '
+            'around the house. It is often the easiest way to start working together, and the same standard applies.</p>'
+            f'<a class="text-link" href="contact.html?service=Small%20Repair">Ask about a repair {ARROW}</a></div>')
 
 def lead_form(form_id: str) -> str:
     f = form_id
@@ -157,7 +163,7 @@ def lead_form(form_id: str) -> str:
         f'<label class="form-consent"><input name="consent" required="" type="checkbox"/>'
         f'<span>I agree to be contacted about my project. My information will be used according to the <a href="privacy.html">Privacy Policy</a>. *</span></label>'
         f'<div class="form-foot"><button class="form-back" type="button">Back</button>'
-        f'<button class="btn btn--primary" type="submit">Send Consultation Request</button></div></div>'
+        f'<button class="btn btn--primary" type="submit">Send consultation request</button></div></div>'
         f'<div aria-live="polite" class="form-status" role="status"></div>'
         f'<div class="field-hint form-note">No obligation. We review every request and follow up if the project and location are a fit.</div>'
         f'</form>')
@@ -223,9 +229,9 @@ def header(active: str) -> str:
         + a("projects.html", "Gallery", "inspiration")
         + a("about.html", "About", "about")
         + a("contact.html", "Contact", "contact")
-        + '<a class="btn btn--primary nav-cta-mobile" href="index.html#consultation">Schedule a Consultation</a>'
+        + '<a class="btn btn--primary nav-cta-mobile" href="index.html#consultation">Schedule a consultation</a>'
         + '</nav>'
-        '<a class="btn btn--primary btn--sm header-cta" href="index.html#consultation">Schedule a Consultation</a></div></header>')
+        '<a class="btn btn--primary btn--sm header-cta" href="index.html#consultation">Schedule a consultation</a></div></header>')
 
 def footer() -> str:
     def links(items):
@@ -241,7 +247,7 @@ def footer() -> str:
     return (
         '<footer class="footer"><div class="container"><div class="footer-top">'
         f'<div class="footer-about">{brand()}'
-        '<p>Design-led remodeling for established homes in Montgomery and Howard County, Maryland. Based in Olney.</p>'
+        '<p>Repairs and design-led remodeling for established homes within about 40 miles of Olney, in Maryland, DC and Virginia.</p>'
         '<p class="phone-slot"></p><p class="email-slot"></p><span class="license-slot"></span></div>'
         f'<div><h2 class="footer-h">Remodeling</h2>{links(remodeling)}</div>'
         f'<div><h2 class="footer-h">Service areas</h2>{links(areas)}</div>'
@@ -252,7 +258,7 @@ def footer() -> str:
 
 def mobile_cta() -> str:
     return (f'<div class="mobile-cta"><a aria-label="Call Blue Hammer" class="btn btn--outline mobile-phone phone-link" hidden="" href="#">{PHONE}</a>'
-            f'<a class="btn btn--primary" href="index.html#consultation">Schedule a Consultation</a></div>')
+            f'<a class="btn btn--primary" href="index.html#consultation">Schedule a consultation</a></div>')
 
 # ---------------------------------------------------------------------------
 # Breadcrumbs, FAQ extraction, schema
@@ -369,7 +375,7 @@ def head(meta: dict, slug: str, body: str, crumb_items) -> str:
         f'<meta content="{BRAND}" property="og:site_name"/><meta content="{url}" property="og:url"/>'
         f'<meta content="{title}" property="og:title"/><meta content="{desc}" property="og:description"/>'
         f'<meta content="{SITE}/{og_img}" property="og:image"/><meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>'
-        f'<meta content="Blue Hammer Remodeling — design-led remodeling in Olney and Montgomery County, Maryland" property="og:image:alt"/>'
+        f'<meta content="Blue Hammer Remodeling — repairs and design-led remodeling based in Olney, Maryland" property="og:image:alt"/>'
         f'<meta content="summary_large_image" name="twitter:card"/><meta content="{title}" name="twitter:title"/>'
         f'<meta content="{desc}" name="twitter:description"/><meta content="{SITE}/{og_img}" name="twitter:image"/>'
         + schema_graph(meta, slug, body, crumb_items)

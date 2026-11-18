@@ -260,3 +260,88 @@ Run by the Grok Bot executor on Rodrigo's Mac. The orchestrator wasn't running.
      - Phone, email and MHIC number in `site-config.js`.
      - Real photos and reviews.
      - GBP and Search Console access.
+
+---
+
+## 2026-11-18 — AUDIT item 15, pass 3: location pages, about, service-areas + area-aligned titles/meta (orchestrator)
+
+- **Stage:** 2, page-by-page overhaul, plus a small content/SEO follow-up (AUDIT 2.5 / 16d). Specialists:
+  `bh-designer` (design), `bh-seo-content` (titles, meta, claims, permit facts), `bh-qa` (gate).
+- **Design (bh-designer)**
+  - Rebuilt olney, potomac, bethesda, chevy-chase, kensington-garrett-park, howard-county, rockville,
+    service-areas and about on the pass-2 patterns. Each now has:
+    - paired H1 and paired section titles;
+    - a housing section, a topic list of what homeowners ask for, the services bento, permits + planning
+      ranges, and the home-style FAQ.
+  - Removed the KITCHENS/BATHS/BASEMENTS kicker labels and middot eyebrows; ZIPs moved into the hero text.
+  - `{{SERVICE_CARDS}}` in `build.py` now emits the bento plus the "Starting smaller?" repairs note.
+  - Sentence-case buttons and breadcrumbs everywhere: "See the design gallery" and "Schedule a consultation"
+    (the header CTA included).
+  - The kitchen page's repeated "before anything is ordered" is cut to one.
+  - Copy tightened on every page (old → new quoted in the designer report). One unverifiable line was cut:
+    "The single most requested project in Olney."
+- **Content/SEO (bh-seo-content)**
+  - Titles (≤60) and metas (≤155) on kitchen, bath, basements, services, service-areas, process, faq,
+    about, index and contact now say Olney base + MD/DC/VA within about 40 miles + small repairs. No license
+    claim anywhere.
+  - The About hero, footer blurb and `og:image:alt` are aligned with the same area.
+  - Unconfirmed operational promises were made neutral:
+    - crew on site daily or the same crew every day;
+    - daily clean-up;
+    - the last "weekly update";
+    - showroom and slab-yard trips;
+    - "We do this regularly";
+    - the process FAQ's "lead carpenter … licensed trades";
+    - "Inspectors we see often".
+  - **Permit fact fix.** Five pages said Montgomery County DPS permits plumbing. Plumbing and gas permits
+    actually come from **WSSC Water**; DPS covers structural and electrical. Corrected on olney, potomac,
+    bethesda, chevy-chase, kensington and service-areas.
+  - Laytonsville was taken out of the "unincorporated" list (it is an incorporated town).
+  - Bethesda housing copy was corrected: "Tudors", "compact lots" and Glen Echo Heights as mid-century were
+    removed.
+- **Why:** AUDIT 15. The location pages and About still had the contractor-template look. Titles and meta
+  still said Montgomery County only, after the owner's MD/DC/VA + repairs scope decision.
+- **Verification**
+  - `python3 scripts/build.py --check` OK (23 pages, 0 problems).
+  - `bh-qa` **GATE: PASS** on all 8 checks: build, design (bh-design-check five checks + better-interface +
+    web-interface-guidelines), accessibility, images/AI labels, facts, anti-slop, SEO lengths/canonicals/
+    JSON-LD, and the browser at 390/1440 on six pages (no console errors, no overflow).
+  - QA's non-blocking notes applied afterwards (text only; build re-run OK): footer blurb, WSSC on the
+    service-areas DPS bullet, the process "lead carpenter" FAQ, the Bethesda section title, the FAQ hero
+    area wording, and the Bethesda and Rockville metas.
+  - Caveat: the design-check reviewers ran inline, not as five separate subagents (no subagent tool inside the
+    specialists).
+- **Commit:** ships in the same commit as this entry.
+- **Next**
+  1. AUDIT 15 pass 4: process, faq, projects, reviews and contact still have eyebrows and plain H1s. Also split
+     the FAQ's 8 semicolon sentences.
+  2. Real local depth for Bethesda and Rockville (AUDIT 4.3): replace their two generic FAQs.
+  3. Rename the town-tied image files (`kitchen-potomac-estate-*`, `kitchen-chevy-chase-1920s-*`,
+     `bath-bethesda-hall-*`, `kitchen-howard-county-*`) to neutral names, with redirects. They now sit as heroes
+     on same-town pages, so this is more urgent.
+  4. Re-export `olney-colonial-exterior-1440.webp` (223 KB) from the source image. Re-encoding the WebP to under
+     200 KB visibly softens it.
+  5. Projects and terms pages still use Montgomery and Howard County framing. The service-areas title could read
+     better. "Closer means better" heading is vague.
+- **Needs Rodrigo**
+  1. Approve or correct the local facts now on the Bethesda and Rockville pages:
+     - neighborhoods: West End, Fallsgrove, King Farm, Woodley Gardens;
+     - City of Rockville Inspection Services Division;
+     - Bethesda 1930s–60s colonials and Capes, Carderock Springs mid-century.
+
+     They are public facts but not yet in the evidence register.
+  2. Confirm or reject the claims still live:
+     - "trade partners";
+     - "decisions are logged in writing" (about, process);
+     - "we prepare and file residential permits … and schedule the inspections";
+     - the per-town planning ranges, the $55k–$95k Howard County FAQ range and the services ranges;
+     - the 20/25/30-minute drive times.
+  3. Whether Sandy Spring 20860 belongs on the service-areas list (it is not in Tier 1).
+  4. Still open from earlier runs:
+     - DC and Virginia licensing;
+     - the small-repairs scope and any minimum job;
+     - Remotion headcount licence;
+     - the Netlify badge and form-detection setting;
+     - phone, email and MHIC number in `site-config.js`;
+     - real photos and reviews;
+     - GBP and Search Console access.
