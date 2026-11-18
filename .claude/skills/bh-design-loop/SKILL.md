@@ -13,6 +13,8 @@ description: Blue Hammer design loop. Use before shipping any new or redesigned 
    `web-interface-guidelines` skill. Read its local `command.md`; do not fetch the guidelines
    and do not run install scripts. Use these for the AUDIT item 15 page-by-page overhaul.
 3. For each section type, look at references from `docs/design-system/section-references.md`.
+   For the chrome and home overhaul, `docs/design-system/references/inspiration.md` (and the image beside it) is the primary
+   layout inspiration from the owner; adapt it to palette A, never copy or ship the image.
 4. Edit `site-src/pages/*.html`, shared chrome in `scripts/build.py`, styles in `blue_hammer_remodeling_site/assets/main.css`. Run `python3 scripts/build.py --check`.
 5. **Critic pass**: launch a Task subagent as an independent art director. Give it the built page
    (screenshots if you can take them, for example with `npx playwright screenshot` at 390 and 1440 px,
