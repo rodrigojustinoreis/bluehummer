@@ -74,7 +74,8 @@ def svg(path: str, cls: str = "") -> str:
 ARROW = svg('<path d="M5 12h14m-6-6 6 6-6 6"></path>')
 CHECK = svg('<path d="m5 12 4 4L19 6"></path>')
 PIN = svg('<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle>')
-MENU = svg('<path d="M4 6h16M4 12h16M4 18h16"></path>')
+MENU = svg('<path d="M4 6h16M4 12h16M4 18h16"></path>', "icon-menu")
+CLOSE = svg('<path d="M6 6l12 12M18 6 6 18"></path>', "icon-close")
 PHONE = svg('<path d="M5 3h4l2 5-2.7 2a15 15 0 0 0 5.7 5.7l2-2.7 5 2v4a2 2 0 0 1-2.2 2A18 18 0 0 1 3 5.2 2 2 0 0 1 5 3Z"></path>')
 CHEVRON = svg('<path d="m6 9 6 6 6-6"></path>')
 
@@ -214,7 +215,7 @@ def header(active: str) -> str:
         return f'<a class="{"active" if active == key else ""}" href="{href}"{cur}>{label}</a>'
     return (
         f'<header class="site-header"><div class="container nav-wrap">{brand()}'
-        f'<button aria-controls="main-navigation" aria-expanded="false" class="menu-toggle" type="button">{MENU}<span>Menu</span></button>'
+        f'<button aria-controls="main-navigation" aria-expanded="false" class="menu-toggle" type="button">{MENU}{CLOSE}<span class="menu-label">Menu</span></button>'
         '<nav aria-label="Primary" class="nav-links" id="main-navigation">'
         + nav_dropdown("Services", NAV_SERVICES, "services-dropdown", active == "services")
         + nav_dropdown("Service areas", NAV_AREAS, "areas-dropdown", active == "areas")
@@ -231,12 +232,12 @@ def footer() -> str:
         return '<ul class="footer-links">' + "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in items) + '</ul>'
     areas = [(h, t.replace(" (home base)", "").replace(" (Clarksville)", "")) for h, t in NAV_AREAS[1:] if existing(h)]
     areas.append(("service-areas.html", "All service areas"))
-    remodeling = [("kitchen-remodeling.html", "Kitchen Remodeling"), ("bathroom-remodeling.html", "Bathroom Remodeling"),
-                  ("basements-interiors.html", "Basements &amp; Interiors"), ("services.html", "All services"),
+    remodeling = [("kitchen-remodeling.html", "Kitchen remodeling"), ("bathroom-remodeling.html", "Bathroom remodeling"),
+                  ("basements-interiors.html", "Basements &amp; interiors"), ("services.html", "All services"),
                   ("faq.html", "Frequently asked questions")]
     company = [("index.html", "Home"), ("projects.html", "Design gallery"), ("about.html", "About Blue Hammer"),
                ("process.html", "Our process"), ("reviews.html", "Client feedback"), ("contact.html", "Contact us"),
-               ("index.html#consultation", "Schedule a Consultation")]
+               ("index.html#consultation", "Schedule a consultation")]
     return (
         '<footer class="footer"><div class="container"><div class="footer-top">'
         f'<div class="footer-about">{brand()}'
@@ -247,7 +248,7 @@ def footer() -> str:
         f'<div><h2 class="footer-h">Company</h2>{links(company)}</div></div>'
         '<div class="footer-note"><p>Scope, schedule and any required permits or licenses are confirmed in writing before work is accepted.</p></div>'
         '<div class="footer-bottom"><span>© 2026 Blue Hammer Remodeling. Olney, Maryland.</span>'
-        '<nav aria-label="Legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Website Terms</a></nav></div></div></footer>')
+        '<nav aria-label="Legal"><a href="privacy.html">Privacy policy</a><a href="terms.html">Website terms</a></nav></div></div></footer>')
 
 def mobile_cta() -> str:
     return (f'<div class="mobile-cta"><a aria-label="Call Blue Hammer" class="btn btn--outline mobile-phone phone-link" hidden="" href="#">{PHONE}</a>'

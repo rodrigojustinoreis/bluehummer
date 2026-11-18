@@ -196,3 +196,67 @@ Run by the Grok Bot executor on Rodrigo's Mac. The orchestrator wasn't running.
      the alt text is neutral and he isn't named or presented as staff. Swap in a real photo of your crew when
      you have one.
   6. Still open from before: the business phone, the MHIC number, and real reviews and project photos.
+
+---
+
+## 2026-11-18 — AUDIT item 15, pass 2: interior hero template + service pages (orchestrator)
+
+- **Stage:** 2, page-by-page design overhaul. Specialists: `bh-designer` (build), `bh-qa` (gate).
+- **What changed**
+  - **Shared interior hero** (`assets/main.css`, used by about 17 pages): ivory background, text column low under a
+    brass rule, photo bleeding to the right edge; on mobile, text and CTA first, then a full-width photo. Pages with
+    no photo (contact, privacy, terms) keep a plain text hero.
+  - **Service pages** (kitchen, bathroom, basements, services): paired H1 (Gambetta italic + Switzer uppercase); the
+    four identical "BLUE HAMMER APPROACH" boxes became a two-column topic list with no kicker labels; the repeated
+    checklist block became one photo-and-text section; FAQ laid out like the home page; services.html gets the home
+    bento, the "Starting smaller?" repairs note and the numbered process (no more "STEP 01"). Images are no longer
+    repeated on one page (bath uses `bath-bethesda-hall`, basement uses `basement-lower-level`, neutral alt text).
+  - **Leftovers from pass 1:** 30 button arrows removed site-wide (text links keep theirs); footer links in sentence
+    case; the mobile menu button shows an X and "Close" when open (`aria-expanded` kept); Olney/service-areas hero alt
+    no longer ties a generated image to Olney.
+  - **Copy honesty:** removed "weekly updates" (unconfirmed) and the line saying each service page lists timelines and
+    permits (untrue). Process step 4 now reads "Floor protection during the work and a final punch-list
+    walk-through". The orchestrator cut the designer's "a shared schedule" because it is an unconfirmed promise.
+    Copy is more concrete (e.g. "Quartzite, marble or quartz, compared for how each one stains, etches and wears").
+  - **Orchestrator tweak after the gate:** interior hero photo height `clamp(420px,38vw,560px)` (was up to 640 px),
+    which closes the gap QA found above short headlines at 1440. A stale "sticky" CSS comment was removed.
+- **Why:** AUDIT 15. Interior pages still looked like a contractor template after pass 1.
+- **Verification:** `python3 scripts/build.py --check` OK (23 pages, 0 problems). `bh-qa` **GATE: PASS** on all 7
+  checks: build; design (bh-design-check + better-interface + web-interface-guidelines); accessibility (one H1,
+  landmarks, contrast, focus, menu label + Escape); images/AI labels; facts; anti-slop (deslop 5/5 on kitchen, bath
+  and basements, 4/5 on services for the literal service list in the H1, accepted); browser at 390/768/1024/1440
+  with no console errors and no horizontal overflow. The orchestrator re-checked the kitchen hero at 1440 after the
+  tweak: no console errors.
+- **Commit:** this entry ships in the same commit as the work. Setup files (`.claude/skills/*`, `.mcp.json`,
+  `tools/package*.json`) were left uncommitted on purpose.
+- **Next:** AUDIT 15, pass 3. Location pages (olney, potomac, bethesda, chevy-chase, kensington-garrett-park,
+  howard-county, rockville, service-areas) and about.html need the following:
+  - Remove the "KITCHENS / BATHS / BASEMENTS" kicker labels and the middot eyebrows.
+  - Use sentence-case buttons and breadcrumbs, to match the footer.
+  - Give location pages the paired H1 and the topic-list pattern.
+  - Make the button text "See the Design Gallery" consistent.
+  - Remove the repeated "before anything is ordered" on the kitchen page.
+
+  After that, SEO work (`bh-seo-content`):
+  - Service-page titles and meta still say "Serving Montgomery County, Maryland". Update them for the MD/DC/VA area
+    and repairs (AUDIT 2.5 / 16d).
+  - The about hero says only "Montgomery and Howard County".
+
+  Low priority:
+  - Re-encode `olney-colonial-exterior-1440.webp` (229 KB) to under 200 KB.
+  - Rename the `bath-bethesda-hall-*` and `kitchen-howard-county-*` image files to neutral names, with redirects.
+- **Needs Rodrigo**
+  1. These claims were already live before this run and are still there. Confirm or reject them:
+     - The services cost table says the ranges include "design, permits, labor and materials".
+     - Process step 3 says "the permit application for your jurisdiction".
+     - service-areas mentions "our team, our trade partners".
+  2. Confirm the services planning ranges ($35k–$300k+), as well as the FAQ ranges already listed. Neither is in the
+     evidence register.
+  3. Still open from earlier runs:
+     - DC and Virginia licensing.
+     - The small-repairs scope and any minimum job.
+     - Remotion headcount licence.
+     - The Netlify badge and the Netlify form detection setting.
+     - Phone, email and MHIC number in `site-config.js`.
+     - Real photos and reviews.
+     - GBP and Search Console access.

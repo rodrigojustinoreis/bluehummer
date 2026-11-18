@@ -28,6 +28,7 @@
     function setMenu(open,returnFocus){
       if(!toggle||!menu)return;
       menu.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));
+      const label=toggle.querySelector('.menu-label');if(label)label.textContent=open?'Close':'Menu';
       if(!open){drops.forEach(d=>setDrop(d,false));if(returnFocus)toggle.focus()}
     }
     if(toggle&&menu){

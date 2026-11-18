@@ -105,6 +105,8 @@ p{line-height:1.65;color:var(--muted);font-size:1.0625rem;text-wrap:pretty}
 .header-cta{flex:none}
 .menu-toggle{display:none;align-items:center;gap:8px;margin-left:auto;min-height:44px;padding:8px 14px;border:1px solid var(--field-line);background:transparent;border-radius:3px;color:var(--navy);font-weight:600;font-size:.9rem}
 .menu-toggle svg{width:20px;height:20px;display:block}
+.menu-toggle .icon-close,.menu-toggle[aria-expanded="true"] .icon-menu{display:none}
+.menu-toggle[aria-expanded="true"] .icon-close{display:block}
 /* ---------- Home: hero (full-bleed photo, solid ivory plate; no gradient wash) ---------- */
 .hero{position:relative;display:flex;align-items:flex-end;padding-top:clamp(170px,26vh,300px);overflow:hidden}
 .hero-media{position:absolute;inset:0 0 96px 0;background:var(--limestone)}
@@ -264,17 +266,43 @@ p{line-height:1.65;color:var(--muted);font-size:1.0625rem;text-wrap:pretty}
 .footer-bottom a{display:inline-block;padding:12px 0;text-decoration:underline;text-underline-offset:4px}
 .footer-bottom a:hover{color:#fff}
 .mobile-cta{display:none}
-/* ---------- Interior pages (full overhaul later; base styles only) ---------- */
-.interior-hero{background:var(--limestone);padding:72px 0 80px;border-bottom:1px solid var(--line)}
-.breadcrumbs{font-size:.85rem;color:var(--muted);margin-bottom:20px}
+/* ---------- Interior pages (AUDIT 15 pass 2): asymmetric editorial hero ----------
+   Text column bottom-aligned on a brass rule; photo bleeds to the right edge of the viewport.
+   Pages without .interior-grid (contact, legal) keep a plain text hero. */
+.interior-hero{background:var(--ivory);padding:28px 0 96px;border-bottom:1px solid var(--line);overflow-x:clip}
+.breadcrumbs{font-size:.85rem;color:var(--muted);margin-bottom:40px}
 .breadcrumbs ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 8px}
 .breadcrumbs li:not(:last-child):after{content:"/";margin-left:8px;color:var(--brass)}
 .breadcrumbs a{color:var(--royal);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(30,79,163,.35)}
 .breadcrumbs a:hover{text-decoration-color:currentColor}
-.interior-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:80px}
-.interior-hero h1{font-size:clamp(2.6rem,4.2vw,4.1rem);margin-bottom:20px}
-.interior-hero p{font-size:1.0625rem;max-width:560px}
-.interior-hero img{width:100%;height:400px;object-fit:cover;border-radius:var(--radius-sm)}
+.interior-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:end;gap:72px}
+.interior-hero:has(.interior-grid){padding-bottom:0}
+.interior-hero:not(:has(.interior-grid)){padding-bottom:72px}
+.interior-grid>div:first-child{position:relative;padding-top:36px;padding-bottom:88px}
+.interior-grid>div:first-child:before{content:"";position:absolute;top:0;left:0;width:96px;height:2px;background:var(--brass)}
+.interior-hero h1{font-size:clamp(2.4rem,4vw,3.75rem);line-height:1.06;margin-bottom:28px;max-width:18ch}
+.interior-hero h1.title-pair{max-width:none;line-height:1}
+.interior-hero h1.title-pair em{display:block;font-size:clamp(1.9rem,3.1vw,2.85rem);line-height:1.08;letter-spacing:-.01em;max-width:18ch;margin-bottom:12px}
+.interior-hero h1.title-pair strong{display:block;font-size:clamp(2.5rem,5.4vw,4.75rem);line-height:.9;letter-spacing:-.025em}
+.interior-hero p{font-size:1.125rem;max-width:46ch;color:var(--ink)}
+.interior-hero .hero-actions{margin-top:36px}
+.interior-hero .eyebrow{margin-bottom:16px}
+.illustration-frame{position:relative;min-width:0;margin-right:calc(-1 * max(24px, (100vw - var(--max)) / 2))}
+.illustration-frame>img,.interior-hero img{display:block;width:100%;height:clamp(420px,38vw,560px);object-fit:cover;border-radius:0;background:var(--limestone)}
+/* Split: intro left, index-style list right (topics on service pages) */
+.split{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:80px;align-items:start}
+.split-intro .title-pair{margin-bottom:24px}
+.split-intro p{max-width:34ch}
+.topic-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--brass)}
+.topic-list li{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:32px;padding:30px 0;border-bottom:1px solid var(--line)}
+.topic-list h3{margin:0;font-size:1.45rem;line-height:1.2}
+.topic-list p{margin:0;font-size:1rem;color:var(--ink);max-width:46ch}
+/* Media split: large photo left, short copy right */
+.media-split{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:80px;align-items:center}
+.media-split-img{width:100%;height:auto;aspect-ratio:4 / 3;object-fit:cover;border-radius:var(--radius-sm);background:var(--line)}
+.media-split-copy .title-pair{margin-bottom:24px}
+.media-split-copy p{max-width:40ch;margin-bottom:32px;color:var(--ink)}
+.table-wrap{overflow-x:auto}
 .mini-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px;padding:0;list-style:none;margin:24px 0}
 .mini-list li{display:flex;gap:11px;align-items:center;font-size:.95rem;font-weight:500;color:var(--ink)}
 .mini-list li:before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--brass)}
@@ -324,8 +352,6 @@ p{line-height:1.65;color:var(--muted);font-size:1.0625rem;text-wrap:pretty}
 .review-empty svg{width:64px;height:64px;color:var(--navy)}
 .review-empty p{margin-bottom:0}
 .cookie-note{font-size:.85rem}
-.illustration-frame{position:relative;min-width:0}
-.illustration-frame>img{display:block;width:100%}
 /* Content blocks: cost tables, local detail lists, guide cards */
 .range-table{width:100%;border-collapse:collapse;margin:22px 0 10px;font-size:.95rem}
 .range-table th,.range-table td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}
@@ -389,7 +415,8 @@ p{line-height:1.65;color:var(--muted);font-size:1.0625rem;text-wrap:pretty}
 .step:nth-child(n+3){border-top:1px solid var(--line);margin-top:8px}
 .footer-top{grid-template-columns:repeat(3,minmax(0,1fr))}
 .footer-about{grid-column:1 / -1}
-.interior-grid{gap:40px}
+.interior-grid{gap:48px}
+.split,.media-split{gap:48px}
 .section-head{grid-template-columns:minmax(0,1fr);gap:16px}
 .section-head .rule{width:96px;margin:4px 0 0}
 .section-head p{max-width:52ch}
@@ -401,7 +428,12 @@ p{line-height:1.65;color:var(--muted);font-size:1.0625rem;text-wrap:pretty}
 .bento{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px 24px}
 .room--lg{grid-column:1 / -1;grid-row:auto}
 .room--lg .room-media{aspect-ratio:16 / 10;min-height:0;flex:none}
-.areas-grid,.faq-split,.grid-2,.consult-grid,.interior-grid,.contact-grid,.review-empty{grid-template-columns:minmax(0,1fr)}
+.areas-grid,.faq-split,.grid-2,.consult-grid,.interior-grid,.contact-grid,.review-empty,.split,.media-split{grid-template-columns:minmax(0,1fr)}
+.illustration-frame{margin-inline:calc(50% - 50vw)}
+.illustration-frame>img,.interior-hero img{height:auto;aspect-ratio:4 / 3;max-height:520px}
+.interior-hero{padding-bottom:0;border-bottom:0}
+.interior-grid>div:first-child{padding-bottom:8px}
+.interior-hero:not(:has(.interior-grid)){padding-bottom:56px;border-bottom:1px solid var(--line)}
 .areas-photo{aspect-ratio:16 / 10}
 }
 @media(max-width:700px){.container{width:min(100% - 32px,var(--max))}
@@ -436,8 +468,12 @@ p{line-height:1.65;color:var(--muted);font-size:1.0625rem;text-wrap:pretty}
 .footer{padding-top:64px}
 .footer-top{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 24px;padding-bottom:48px}
 .footer-bottom{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
-.interior-hero{padding:44px 0 56px}
-.interior-hero img{height:280px}
+.interior-hero{padding-top:20px}
+.breadcrumbs{margin-bottom:28px}
+.interior-hero p{font-size:1.0625rem}
+.interior-hero .hero-actions{margin-top:28px}
+.topic-list li{grid-template-columns:minmax(0,1fr);gap:8px;padding:24px 0}
+.topic-list h3{font-size:1.3rem}
 .mobile-cta{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--ivory);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));gap:10px;z-index:50}
 .mobile-cta .btn{flex:1;min-height:46px;font-size:.92rem}
 .mobile-cta .mobile-phone{flex:0 0 auto;min-width:48px;padding:10px 13px}
