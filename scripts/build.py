@@ -54,9 +54,13 @@ BUSINESS_DESCRIPTION = ("Design-led kitchen, bathroom, basement and interior rem
 
 # Text that must never appear in public pages (off-strategy places, other states, dev notes).
 FORBIDDEN = [
-    "Silver Spring", "Gaithersburg", "Germantown", "Aspen Hill", "Wheaton", "Virginia", "DMV", "D.C.", "Washington area",
+    "Silver Spring", "Gaithersburg", "Germantown", "Aspen Hill", "Wheaton", "DMV", "Northern Virginia and", "serving DC", "Washington area",
     "starter website", "Unsplash", "before public launch", "Available when contact details are added",
     "Replace with approved", "pre-launch", "PRE-LAUNCH", "lorem",
+    # Image labeling: imagery stays neutral (never "AI" labels, never claimed as Blue Hammer projects).
+    "AI-generated", "AI generated", "AI-created", "design concept", "Design concept", "DESIGN INSPIRATION",
+    # Anti-slop copy (see docs/design-system/anti-slop-copy.md)
+    "built to last", "unparalleled", "leverage", "seamless", "world-class", "top-notch", "second to none", "elevate your",
 ]
 
 # ---------------------------------------------------------------------------
@@ -80,13 +84,13 @@ def img(src_base: str, alt: str, *, w: int, h: int, cls: str = "", lazy: bool = 
 
 SERVICE_CARDS_DATA = [
     ("kitchen-remodeling.html", "Kitchen Remodeling", "kitchen-design", 1080,
-     "Design concept of a remodeled kitchen with navy cabinetry and a marble island",
+     "Remodeled kitchen with navy cabinetry and a marble island",
      "Custom cabinetry, natural stone and layouts planned around how your family actually cooks and gathers."),
     ("bathroom-remodeling.html", "Bathroom Remodeling", "bathroom-design", 1080,
-     "Design concept of a bathroom with a walk-in shower and navy double vanity",
+     "Bathroom with a walk-in shower and navy double vanity",
      "Primary suites, hall baths and powder rooms with curbless showers, heated floors and quiet, durable detailing."),
     ("basements-interiors.html", "Basements &amp; Interiors", "basement-design", 1080,
-     "Design concept of a finished basement with built-in shelving and a living area",
+     "Finished basement with built-in shelving and a living area",
      "Lower levels, built-ins and whole-interior refreshes that make every square foot feel intentional."),
 ]
 
@@ -198,7 +202,7 @@ def header(active: str) -> str:
         '<nav aria-label="Primary navigation" class="nav-links" id="main-navigation">'
         + a("index.html", "Home", "home")
         + nav_dropdown("Services", NAV_SERVICES, "services-dropdown", active == "services")
-        + a("projects.html", "Inspiration", "inspiration")
+        + a("projects.html", "Gallery", "inspiration")
         + a("about.html", "About Us", "about")
         + nav_dropdown("Service Areas", NAV_AREAS, "areas-dropdown", active == "areas")
         + a("faq.html", "FAQ", "faq")
@@ -213,8 +217,8 @@ def footer() -> str:
         f'<footer class="footer"><div class="container"><div class="footer-grid"><div>{brand()}'
         '<p>Design-led remodeling for established homes in Montgomery and Howard County, Maryland. Based in Olney and built on clear scopes, honest timelines and craftsmanship you can see up close.</p>'
         '<p class="phone-slot"></p><p class="email-slot"></p><span class="license-slot"></span>'
-        '<p class="footer-visual-note">Imagery on this site is AI-generated design inspiration and does not show completed Blue Hammer projects or actual team members.</p></div>'
-        '<div><h4>Explore</h4><div class="footer-links"><a href="index.html">Home</a><a href="projects.html">Design Inspiration</a><a href="about.html">About Blue Hammer</a><a href="process.html">Our Process</a><a href="reviews.html">Client Feedback</a></div></div>'
+        '</div>'
+        '<div><h4>Explore</h4><div class="footer-links"><a href="index.html">Home</a><a href="projects.html">Design Gallery</a><a href="about.html">About Blue Hammer</a><a href="process.html">Our Process</a><a href="reviews.html">Client Feedback</a></div></div>'
         '<div><h4>Remodeling</h4><div class="footer-links"><a href="kitchen-remodeling.html">Kitchen Remodeling</a><a href="bathroom-remodeling.html">Bathroom Remodeling</a><a href="basements-interiors.html">Basements &amp; Interiors</a><a href="services.html">All Services</a><a href="faq.html">Frequently Asked Questions</a></div></div>'
         f'<div><h4>Service Areas</h4><div class="footer-links">{areas}<a href="service-areas.html">All Maryland Service Areas</a></div></div>'
         '<div><h4>Let’s talk</h4><div class="footer-links"><a href="index.html#consultation">Schedule a Consultation</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Website Terms</a></div>'
@@ -238,7 +242,8 @@ def crumbs(meta: dict, slug: str):
         items.append((bc, slug))
     else:
         for i, it in enumerate(bc):
-            label, href = (it if isinstance(it, list) else [it, None])
+            it = it if isinstance(it, list) else [it]
+            label, href = it[0], (it[1] if len(it) > 1 else None)
             items.append((label, href or (slug if i == len(bc) - 1 else None)))
     return items
 
@@ -327,7 +332,7 @@ def head(meta: dict, slug: str, body: str, crumb_items) -> str:
         '<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>'
         f'<title>{title}</title><meta content="{desc}" name="description"/>'
         f'<link href="{url}" rel="canonical"/><meta content="#0b2347" name="theme-color"/><meta content="{robots}" name="robots"/>'
-        '<link href="assets/favicon.png" rel="icon" type="image/png"/><link href="assets/main.css" rel="stylesheet"/>'
+        '<link href="assets/favicon.png" rel="icon" type="image/png"/><link href="https://api.fontshare.com" rel="preconnect" crossorigin=""/><link href="https://api.fontshare.com/v2/css?f[]=gambetta@400,500,600&amp;f[]=switzer@400,500,600,700&amp;display=swap" rel="stylesheet"/><link href="assets/main.css" rel="stylesheet"/>'
         '<meta content="website" property="og:type"/><meta content="en_US" property="og:locale"/>'
         f'<meta content="{BRAND}" property="og:site_name"/><meta content="{url}" property="og:url"/>'
         f'<meta content="{title}" property="og:title"/><meta content="{desc}" property="og:description"/>'
@@ -428,6 +433,7 @@ def check(pages) -> int:
             if src.startswith("http"): continue
             if not (OUT / src).exists(): errors.append(f"{slug}: missing asset {src}")
             if tag == "img" and alt is None: errors.append(f"{slug}: <img> without alt ({src})")
+            if alt and re.search(r"\bAI\b|AI-generated|concept|inspiration", alt, re.I): errors.append(f"{slug}: AI/concept label in alt text ({src})")
         if "{{" in out_html: errors.append(f"{slug}: unexpanded placeholder")
         if 'rel="canonical"' not in out_html: errors.append(f"{slug}: no canonical")
     for e in errors: print("  ✗", e)

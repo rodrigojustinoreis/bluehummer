@@ -63,6 +63,6 @@ Este é um site desenvolvido e navegável, pronto para avaliação técnica, nã
 - `bathroom-design-*`: Bathroom Remodeling e galeria
 - `basement-design-*`: Basements & Interiors e galeria
 - `consultation-scene-*`: About Us (cena ilustrativa, não equipe real)
-- `design-gallery-collage-*`: cabeçalho da página Projects & Inspiration
+- `design-gallery-collage-*`: cabeçalho da página Design Gallery (projects.html)
 
 As imagens são **conceitos visuais gerados por IA**, não fotos de serviços executados. Cada imagem possui `srcset` WebP em 720 e 1440 pixels para celular e desktop. CSS e JS continuam sem frameworks externos.

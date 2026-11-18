@@ -25,3 +25,22 @@ what's next, and a "Needs Rodrigo" list containing only things the agent cannot 
   with `sips`.
 - **Image generation**: `python3 scripts/gen-image.py` reports `No OPENAI_API_KEY found (env or
   Keychain)` — image generation skipped this run (see Needs Rodrigo).
+
+---
+
+## 2026-11-18 — Owner-requested design pass and image-label removal (done by Grok Bot for Rodrigo)
+
+- **What changed**
+  - Committed the agent's pending run-2 work (five new Tier 1 town pages, page rewrites, new images) after a clean build.
+  - Removed every AI label on images: 21 visible tags/badges ("AI-generated design concept", "DESIGN INSPIRATION"),
+    8 notices, 12 gallery eyebrows, the footer disclaimer, the projects info panel; 44 alt texts rewritten to neutral
+    descriptions (plus 3 in `scripts/build.py`). Gallery renamed "Design Gallery". Terms/FAQ keep an honest, neutral
+    statement that images are not finished Blue Hammer projects. `project-concept.svg` renamed `project-detail.svg` (unreferenced).
+  - `build.py --check` now fails on AI-label wording in text or alt, and on banned slop phrases.
+  - Design system: `docs/brand.md`, `docs/design-system/*`, project skills `bh-design-loop`, `bh-design-check`,
+    `bh-anti-slop-copy`, `bh-section-references`; personal skills `anthropic-frontend-design` (official Anthropic) and
+    `slopmonster` (MIT) installed in `~/.claude/skills/`.
+  - Type: Gambetta + Switzer (Fontshare, ITF Free Font License). Micro-interactions: button press, image zoom on hover,
+    scroll reveal, counters for `data-count` only; all disabled under `prefers-reduced-motion`. New 404 layout.
+  - Copy: hero H1 no longer says "built to last"; generic triple lists on service pages rewritten concretely.
+- **Next**: AUDIT fix list item 15 (page-by-page design overhaul with the design loop and five-agent check).

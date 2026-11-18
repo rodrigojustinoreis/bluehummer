@@ -1,0 +1,63 @@
+# Blue Hammer Remodeling: brand guideline
+
+Every design or copy task reads this file first. If a change conflicts with it, update this
+file in the same commit and say why in AGENT-LOG.md.
+
+## Position
+Design-led kitchen, bath and lower-level remodeling for established homes in Montgomery and
+Howard County, Maryland. Based in Olney. The site should feel like a high-end Maryland remodeler
+or small architecture practice: editorial, calm, specific. Not a contractor template.
+
+## Logo
+- Files: `assets/blue-hammer-logo-512.png` (full lockup), `assets/blue-hammer-mark-140.webp` (header/footer mark).
+- Clear space: at least the height of the hammer head on every side. Minimum mark height 32 px.
+- Only on white, limestone or navy backgrounds. Never stretch, recolor, outline, shadow or put it on a photo.
+
+## Color tokens (from the logo)
+| Token | Hex | Use |
+|---|---|---|
+| `--navy` | `#0B2347` | Headings, footer, dark sections |
+| `--royal` | `#1E4FA3` | Primary buttons, links, focus ring. One accent; do not add another bright color |
+| `--white` | `#FFFFFF` | Main background |
+| `--limestone` | `#EEF1F4` | Alternate section background (cool, not cream) |
+| `--graphite` | `#1C2430` | Body text on light backgrounds when navy is too strong |
+| `--brass` | `#A88B5A` | Hairline details only (rules, small marks). Never text on white (fails contrast) |
+
+Rules: no gradient washes or blobs, no glassmorphism, no colored drop shadows. Text contrast at
+least 4.5:1 (3:1 for 24 px+ headings).
+
+## Typography
+- Display: **Gambetta** (Fontshare, ITF Free Font License, free for commercial web use). Weights 400 to 600.
+- Text and UI: **Switzer** (Fontshare, ITF Free Font License). Weights 400 to 700.
+- Loaded from `api.fontshare.com` in `scripts/build.py` `head()`. Next step: self-host the woff2 files in `assets/fonts/` (allowed by the license) to drop the third-party request.
+- Scale (1.25 ratio, 18 px body on desktop): 14 / 16 / 18 / 22 / 28 / 36 / 46 / 58 / 72.
+- Line length 45 to 75 characters. Body line-height 1.6; serif display 1.05 to 1.15.
+- Sentence case everywhere. No all-caps labels, no accenting one word of a headline in a different color or italic.
+
+## Spacing and layout
+- 8 px base scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128.
+- Section padding 96 to 128 px desktop, 64 px mobile. Max content width 1180 px; prose 68ch.
+- Asymmetric, editorial layouts (large image plus offset text, unequal columns) over rows of identical cards.
+- Corner radius: 2 to 6 px on images and buttons. Not one big radius on everything.
+
+## Icons
+- One set only: Lucide-style 24 px outline SVG, 1.8 px stroke, `currentColor` (Lucide is ISC licensed, free). Inline SVG, `aria-hidden="true"`.
+- Never emoji as icons. Use an icon only where it helps someone scan; not as decoration on every card.
+
+## Photography
+- Photographic, natural daylight, real materials (inset painted cabinetry, quartzite, honed marble, white oak, unlacquered brass), true proportions, upscale Montgomery and Howard County homes.
+- No people faces, no text in images, no warped fixtures, no HDR look, no fake "before/after".
+- Images may be AI-generated and are not labeled as such. They are never presented as completed Blue Hammer projects, real clients, real employees or before/after work. Captions describe the room ("Estate kitchen with quartzite island"), never "our project in Potomac".
+- Alt text: plain description of what is visible. No "AI-generated", "concept", "inspiration" wording.
+- WebP 720 and 1440 wide, hero under ~200 KB, `width`/`height` set, lazy below the fold.
+
+## Motion
+- Small and purposeful: button press (scale .98), card hover lift 4 px with image zoom 1.03, one scroll reveal per element (14 px rise, 700 ms). Counters only on real, verified numbers (`data-count`).
+- Always respect `prefers-reduced-motion`. CSS and the small script in `assets/main.js` only; no animation libraries.
+- Optional: one subtle looping hero clip (muted, under 2 MB, poster image, paused for reduced motion) only if it looks like real footage and adds something.
+
+## Voice
+- Concrete and specific: what happens, when, and what the homeowner gets in writing.
+- Good: "Drawings, selections and a written scope before we price." Bad: "Trusted, reliable craftsmanship built to last."
+- Run the anti-slop pass (`docs/design-system/anti-slop-copy.md`) on every copy change.
+- Never invent facts, numbers, years, licenses, awards, reviews, ratings, prices or guarantees.

@@ -38,8 +38,11 @@ and leave a clear log of what you did.
 - Site: static HTML in `blue_hammer_remodeling_site/` (18 pages, `assets/main.css`,
   `assets/main.js`, `assets/site-config.js`). Netlify publishes that folder
   (`netlify.toml`), lead form via Netlify Forms.
-- Brand: royal blue `#1E4FA3`, navy `#0B2347`, white, warm neutrals. Hammer + house mark.
-  Tone: trustworthy, local, craftsman quality, clear and warm. Site language: US English.
+- Brand: royal blue `#1E4FA3`, navy `#0B2347`, white, cool limestone, brass hairlines. Hammer + house mark.
+  Full brand guideline: `docs/brand.md` (read it before ANY design, image or copy task).
+  Tone: concrete, local, craftsman quality, clear and warm. Site language: US English.
+- Site source: edit `site-src/pages/*.html` and shared chrome in `scripts/build.py`, then run
+  `python3 scripts/build.py --check` (never hand-edit generated HTML in `blue_hammer_remodeling_site/`).
 - Read `blue_hammer_remodeling_site/README-START-HERE.md` before major changes.
 
 ## What you own
@@ -64,7 +67,8 @@ and leave a clear log of what you did.
    upscale Maryland homes (Potomac/Bethesda-style colonials, custom estates, luxury finishes), no text artifacts, no warped hands or fixtures.
    Image tool: OpenAI image generation (gpt-image-1) via
    `python3 scripts/gen-image.py "<detailed photographic prompt>" <file-name>`, which saves
-   WebP at 1440 and 720 wide into assets/. Do NOT use nanobanana. If the script reports no
+   WebP at 1440 and 720 wide into assets/. Filenames describe the room (e.g.
+   `kitchen-potomac-estate`), never `ai`, `generated`, `concept` or `inspiration`. Do NOT use nanobanana. If the script reports no
    OPENAI_API_KEY, skip image generation and note it in AGENT-LOG.md. Export WebP at 720
    and 1440 wide, under ~200 KB for heroes, descriptive filenames and alt text, saved in
    `blue_hammer_remodeling_site/assets/`.
@@ -74,11 +78,33 @@ and leave a clear log of what you did.
    backlink and local partnership ideas. Save these as ready-to-use files in
    `marketing/` (create it) with dates.
 
+## Web design (you are also the site's senior web designer)
+The owner's verdict: the current design looks generic and AI-made. Fix that. Brief:
+premium, editorial, high-end Maryland remodeler feel; distinctive typography pairing
+(Gambetta + Switzer, see `docs/brand.md`); restrained palette from the logo; generous
+whitespace; large photographic imagery; asymmetric editorial layouts. No generic
+AI-template look: no gradient blobs, no emoji icons, no stock "hero + three identical
+cards" sameness, no all-caps eyebrow on every heading, no identical rounded cards with the
+same soft shadow. Full brief: `docs/design-system/design-brief.md`.
+- For every design task load the `anthropic-frontend-design` skill (official Anthropic
+  frontend-design skill in `~/.claude/skills/`) and follow `docs/design-system/README.md`.
+- Before shipping a page or section: run the `bh-design-loop` skill (critic subagent vs.
+  gold-standard references, iterate until it meets the brief).
+- Before every commit that touches design, images or copy: run the `bh-design-check` skill
+  (five checks: hierarchy/brand, accessibility/contrast, mobile, performance/CWV,
+  conversion/CTA). Do not commit while a check fails.
+- Every copy change: `bh-anti-slop-copy` skill (uses `slopmonster`), plus the glance test in
+  `docs/design-system/dont-make-me-think.md` (one message and one CTA per section).
+- Section redesigns (navbar, footer, CTA, 404, services bento): `bh-section-references`.
+- Icons: one Lucide-style inline SVG set, never emoji. Motion: light CSS/JS only, respect
+  `prefers-reduced-motion`, counters only for real numbers. Free tools only; never sign up
+  or pay for design tools.
+
 ## How you work (autonomous loop)
 1. Plan with TodoWrite. Audit the current state first (pages, SEO, images, gaps).
 2. Make the changes directly in the files. Keep HTML valid and the design consistent.
-3. Verify: run `node server.mjs` (or open files) and check pages, links, schema validity,
-   and that nothing broke. Fix what you find.
+3. Verify: `python3 scripts/build.py --check` must print OK; then run the `bh-design-check`
+   skill for design/copy changes. Fix what you find.
 4. Commit with clear messages on `main` and push to `origin` so Netlify deploys.
    Never force-push, never rewrite history.
 5. Append a dated summary to `AGENT-LOG.md` at the repo root: what changed, why,
@@ -89,9 +115,12 @@ and leave a clear log of what you did.
   insurance claims, awards, financing, discounts, phone numbers, or addresses. Only use
   real details from `assets/site-config.js` or ones Rodrigo provided. If missing, leave the
   placeholder hidden and list it in AGENT-LOG.md.
-- AI-generated images are design inspiration. Never caption or present them as completed
-  Blue Hammer projects or as real employees/customers. Label galleries "Design inspiration"
-  until real project photos exist.
+- Images may be AI-generated and are NOT labeled as AI (no "AI-generated", "concept" or
+  "inspiration" tags, badges, captions, alt text, filenames or disclaimers). But they must
+  never be presented as completed Blue Hammer projects, real clients, real employees or
+  before/after work. Captions and alt text stay neutral and descriptive ("Modern white
+  kitchen with quartz island"), never "our Potomac project". `scripts/build.py --check`
+  fails on AI-label wording.
 - Do not publish posts to external accounts, send emails/messages, buy anything, or sign
   up for services. Prepare them as drafts in `marketing/` instead.
 - Do not delete pages or assets without leaving a redirect and a log entry.

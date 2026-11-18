@@ -78,5 +78,21 @@
       const svc=q.get('service');if(svc){const el=f.querySelector('[name=projectType]');if(el&&[...el.options].some(o=>o.value===svc))el.value=svc}
     });
   }
-  setContact();nav();initForms();initGallery();initTracking();
+  // Micro-interactions (2026-11-18): scroll reveal + counters for REAL numbers only (data-count). Respects reduced motion.
+  function initMotion(){
+    const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce||!('IntersectionObserver' in window))return;
+    const targets=document.querySelectorAll('.section-heading,.service-card,.visual-card,.gallery-card,.trust-item,.faq-item');
+    if(!targets.length)return;
+    document.documentElement.classList.add('js-reveal');
+    const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.08});
+    targets.forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight){el.classList.add('reveal','is-visible')}else{el.classList.add('reveal');io.observe(el)}});
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const end=parseFloat(el.dataset.count);if(!isFinite(end))return;
+      const co=new IntersectionObserver(([e])=>{if(!e.isIntersecting)return;co.disconnect();const t0=performance.now(),d=1100;
+        (function step(t){const k=Math.min(1,(t-t0)/d),v=end*(1-Math.pow(1-k,3));el.textContent=Number.isInteger(end)?Math.round(v).toLocaleString('en-US'):v.toFixed(1);if(k<1)requestAnimationFrame(step)})(t0)});
+      co.observe(el);
+    });
+  }
+  setContact();nav();initForms();initGallery();initTracking();initMotion();
 })();
