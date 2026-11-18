@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a photorealistic image with OpenAI's Images API (gpt-image-1).
+"""Generate a photorealistic image with OpenAI's Images API (gpt-image-2.6-sunburst).
 Usage: python3 scripts/gen-image.py "prompt" out_name [--size 1536x1024] [--quality high]
 Writes blue_hammer_remodeling_site/assets/<out_name>-1440.webp and -720.webp (needs Pillow; falls back to PNG).
 Key: OPENAI_API_KEY env var, or macOS Keychain item 'OPENAI_API_KEY' (security add-generic-password -a "$USER" -s OPENAI_API_KEY -w 'sk-...').
@@ -7,7 +7,7 @@ Key: OPENAI_API_KEY env var, or macOS Keychain item 'OPENAI_API_KEY' (security a
 import os, sys, json, base64, subprocess, argparse, urllib.request, pathlib
 ap = argparse.ArgumentParser(); ap.add_argument("prompt"); ap.add_argument("name")
 ap.add_argument("--size", default="1536x1024"); ap.add_argument("--quality", default="high")
-ap.add_argument("--model", default=os.environ.get("OPENAI_IMAGE_MODEL", "gpt-image-1"))
+ap.add_argument("--model", default=os.environ.get("OPENAI_IMAGE_MODEL", "gpt-image-2.6-sunburst"))
 a = ap.parse_args()
 key = os.environ.get("OPENAI_API_KEY") or subprocess.run(["security","find-generic-password","-s","OPENAI_API_KEY","-w"],capture_output=True,text=True).stdout.strip()
 if not key: sys.exit("No OPENAI_API_KEY found (env or Keychain).")

@@ -1,5 +1,12 @@
 # Blue Hammer Remodeling — website completo (pré-lançamento)
 
+> **Produção (Netlify) — leia primeiro.** O site publicado em https://bluehammermd.com é servido pelo Netlify a partir
+> desta pasta (`netlify.toml` na raiz do repo). O formulário usa **Netlify Forms** (não o `server.mjs`).
+> **As páginas HTML desta pasta são geradas**: edite os fragmentos em `../site-src/pages/*.html` e rode
+> `python3 scripts/build.py --check` na raiz do repo. O script monta cabeçalho, navegação, rodapé, formulário,
+> canonical/Open Graph, JSON-LD e `sitemap.xml` para todas as páginas de forma consistente. Não edite os HTML gerados à mão.
+> Imagens: `python3 scripts/gen-image.py "<prompt>" <nome>` (chave OpenAI no Keychain). Registro de trabalho do agente: `AGENT-LOG.md`.
+
 Este pacote contém **18 páginas HTML** em inglês, CSS responsivo, identidade visual azul escolhida, navegação mobile, SEO local de base, imagens de conceito de cozinha/banheiro/porão em WebP, otimizadas e hospedadas junto ao site, formulário de consulta em duas etapas, privacidade e um servidor Node.js sem dependências que **registra leads em arquivo privado**.
 
 ## Abrir / visualizar
@@ -40,7 +47,7 @@ Sem isso, **os leads são salvos localmente, mas não são enviados automaticame
 - `kitchen-remodeling.html`, `bathroom-remodeling.html`, `basements-interiors.html` — páginas de serviço;
 - `projects.html` — inspiração/galeria filtrável (somente fotos ilustrativas);
 - `about.html`, `process.html`, `reviews.html` — confiança e processo;
-- `service-areas.html` + `rockville-md.html`, `bethesda-md.html`, `silver-spring-md.html` — localização/SEO regional;
+- `service-areas.html` + páginas de área (Olney, Potomac, Bethesda, Chevy Chase, Kensington & Garrett Park, Rockville, Howard County) — localização/SEO regional; a antiga `silver-spring-md.html` foi retirada com 301;
 - `faq.html`, `contact.html`, `thank-you.html`, `privacy.html`, `terms.html`.
 
 **Cores:** royal blue `#1E4FA3`, navy `#0B2347`, white `#FFFFFF` e tons neutros. A identidade do martelo + casa veio da direção visual escolhida anteriormente, como arte de pré-produção.

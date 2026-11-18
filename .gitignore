@@ -17,3 +17,4 @@ Thumbs.db
 # Secrets (never commit)
 .env
 .env.*
+.claude/bluehammer-run*.log

@@ -55,9 +55,9 @@
             const body=new URLSearchParams({'form-name':'consultation',...data,consent:data.consent?'yes':'no'});
             res=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()});
           }
-          if(!res.ok)throw new Error(result.message||'We could not submit your request. Please try again.');
+          if(!res.ok)throw new Error(result.message||'We couldn’t send your request just now. Please check your connection and try again in a moment. If it keeps failing, please reach out through the contact details on this site.');
           window.location.href='thank-you.html';
-        }catch(err){status.className='form-status error';status.textContent=err.message||'Unable to send. Please try again.';submit.disabled=false;submit.textContent='Send Consultation Request →'}
+        }catch(err){status.className='form-status error';status.textContent=err.message||'Unable to send right now. Please try again in a moment.';submit.disabled=false;submit.textContent='Send Consultation Request →'}
       });
     });
   }
