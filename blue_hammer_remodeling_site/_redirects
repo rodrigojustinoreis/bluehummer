@@ -1,0 +1,11 @@
+# Generated from netlify.toml for the approved static manual deployment.
+https://bluehummer.netlify.app/* https://bluehammermd.com/:splat 301!
+https://main--bluehummer.netlify.app/* https://bluehammermd.com/:splat 301!
+https://www.bluehammermd.com/* https://bluehammermd.com/:splat 301!
+/silver-spring-md.html /service-areas.html 301
+/silver-spring-md /service-areas.html 301
+/README-START-HERE.md /404.html 404!
+/server.mjs /404.html 404!
+/package.json /404.html 404!
+/configure-domain.py /404.html 404!
+/sitemap.template.xml /404.html 404!
