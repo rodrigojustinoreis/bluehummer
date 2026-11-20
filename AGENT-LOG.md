@@ -872,3 +872,11 @@ Technical only: no copy, no keyword work, no new pages, no contact details, no r
      and run `python3 scripts/build.py`.
   2. Anyone building on another machine runs `npm --prefix tools ci` once.
   3. Re-crawl in the site-audit tool when access is available; nothing was measured after this step.
+
+- **Published:** commit 03f00f6 pushed to main (fast-forward from 81bcea4, no force). Live check on https://bluehammermd.com
+  after the Netlify deploy (curl only, no form submitted): `/llms.txt` returns 200 `text/plain` and is byte-identical to
+  the repo file; `assets/main.css` (57,019 bytes), `main.js` (11,885) and `site-config.js` (192) are byte-identical to
+  the repo and served with new `?v=` hashes; no Gambetta `@font-face` in the live CSS; header, menu and footer CTAs are
+  `#consultation` on `/`, `/kitchen-remodeling`, `/faq`, `#contact-form` on `/contact`, `/#consultation` on `/privacy`
+  and `/thank-you`; `/thank-you` has no mobile bar; `robots.txt` unchanged; sitemap has 21 URLs. Site-audit result:
+  not measured.
