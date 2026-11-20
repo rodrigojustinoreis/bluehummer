@@ -1021,3 +1021,10 @@ page was recomposed from its own content; none keeps the old two-column hero, `.
   `olney-colonial-exterior`, ...); renaming needs redirects. (2) The footer links "Client feedback" to a page with
   no feedback yet. (3) `/contact` shows only the form until a phone / email is provided. (4) A lighter Barlow
   Condensed weight for the H1 would need a new font file. (5) The hero photo source is 1402px wide.
+
+- **Published:** commit 0b88a13 pushed to main (fast-forward from 00d51d0, no force). Live check on
+  https://bluehammermd.com after the Netlify deploy (curl only, no form submitted): `main.css` (34,605 bytes),
+  `main.js` (8,465) and `site-config.js` (192) byte-identical to the repo; `/`, `/services`, `/kitchen-remodeling`,
+  `/potomac-md`, `/process`, `/projects`, `/contact`, `/reviews`, `/thank-you` return 200 with the expected H1, one
+  canonical each and no `<video>`; `/reviews` and `/thank-you` still noindex; sitemap 21 URLs; `/llms.txt` 200;
+  `robots.txt` unchanged; video files still served. The live pages were not viewed in a browser after the deploy.
