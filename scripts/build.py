@@ -6,10 +6,9 @@ Source of truth for page content:  site-src/pages/<slug>.html
     The rest is the <main> content fragment (without the shared consultation section).
     Placeholders available inside fragments:
         {{BREADCRUMBS}}     semantic breadcrumb nav built from meta.breadcrumb
-        {{SERVICE_CARDS}}   the services bento (kitchen / bath / basements) + small-repairs note
         {{FORM:some-id}}    a lead form with the given id (contact page)
         {{ARROW}} {{CHECK}} {{ICON:name}} inline SVG icons (one Lucide-style set, see ICONS)
-Shared chrome (head, topline, header, consultation section, footer, mobile CTA, JSON-LD)
+Shared chrome (head, header, consultation section, footer, mobile CTA, JSON-LD)
 lives in this file so every page stays consistent.
 
 Source of truth for CSS / JS:  site-src/assets/main.css, main.js, site-config.js  (readable, commented)
@@ -220,34 +219,6 @@ def img(src_base: str, alt: str, *, w: int, h: int, cls: str = "", lazy: bool = 
     return (f'<img alt="{html.escape(alt)}" class="{cls}" decoding="async" {load} height="{h}" sizes="{sizes}" '
             f'src="assets/{src_base}-720.webp" srcset="assets/{src_base}-720.webp 720w, assets/{src_base}-1440.webp 1440w" width="{w}"/>')
 
-SERVICE_CARDS_DATA = [
-    # (href, name, image base, image height, alt, note, is_large)
-    ("kitchen-remodeling.html", "Kitchen remodeling", "kitchen-design", 1080,
-     "Kitchen with navy cabinetry and a marble island",
-     "Layout, cabinetry, stone and lighting, planned around how you cook and gather.", True),
-    ("bathroom-remodeling.html", "Bathroom remodeling", "bathroom-design", 1080,
-     "Bathroom with a walk-in shower and navy double vanity",
-     "Primary suites, hall baths and powder rooms.", False),
-    ("basements-interiors.html", "Basements &amp; interiors", "basement-design", 1080,
-     "Finished basement with built-in shelving and a living area",
-     "Lower levels, built-ins and interior rooms.", False),
-]
-
-def service_cards() -> str:
-    """Services bento used on location pages (same markup as services.html), not three identical cards."""
-    rooms = []
-    for href, name, base, h, alt, note, large in SERVICE_CARDS_DATA:
-        sizes = "(max-width: 700px) 100vw, 58vw" if large else "(max-width: 700px) 100vw, 40vw"
-        rooms.append(
-            f'<a class="room{" room--lg" if large else ""}" href="{href}">'
-            f'<span class="room-media">{img(base, alt, w=1440, h=h, sizes=sizes)}</span>'
-            f'<span class="room-label"><span class="room-name">{name}</span>{ARROW}</span>'
-            f'<span class="room-note">{note}</span></a>')
-    return ('<div class="bento">' + "".join(rooms) + '</div>'
-            '<div class="repairs-note"><p><strong>Starting smaller?</strong> We also take on small repairs and fixes '
-            'around the house. A repair can be a first project with us, planned and written up the same way.</p>'
-            f'<a class="text-link" href="contact.html?service=Small%20Repair">Ask about a repair {ARROW}</a></div>')
-
 def lead_form(form_id: str) -> str:
     f = form_id
     return (
@@ -292,14 +263,15 @@ def lead_form(form_id: str) -> str:
         f'</form>')
 
 def consultation_section() -> str:
+    """Shared consultation section (redesign phase 1, 2026-11-20): light background, one plain heading that
+    matches the button label, no eyebrow, no check icons. The form markup (lead_form) is unchanged."""
     return (
-        '<section aria-labelledby="consult-title" class="consultation" id="consultation"><div class="container consult-grid"><div>'
-        '<p class="bh-eyebrow">Let’s talk about your home</p>'
-        '<h2 class="bh-consult-title" id="consult-title">Ready to make your space work better?</h2>'
-        '<p class="consult-lede">Tell us what you have in mind. We’ll review your project and talk through the next step together.</p>'
-        f'<div class="consult-benefits"><div>{CHECK} Start with your priorities, budget range and timing</div>'
-        f'<div>{CHECK} Talk through scope, design direction and permits</div>'
-        f'<div>{CHECK} Confirm your home is inside our service area</div></div>'
+        '<section aria-labelledby="consult-title" class="consultation" id="consultation"><div class="container consult-grid"><div class="consult-intro">'
+        '<h2 id="consult-title">Schedule a consultation</h2>'
+        '<p class="consult-lede">Tell us the room, your timing and your ZIP code. We review each request and reply about the next step.</p>'
+        '<ul class="consult-benefits"><li>Start with your priorities, budget range and timing</li>'
+        '<li>Talk through scope, design direction and permits</li>'
+        '<li>Confirm your home is inside our service area</li></ul>'
         '<div class="consult-contact"><div class="phone-slot"></div><p class="email-slot"></p></div></div>'
         f'<div class="consult-form">{lead_form("consult-form-consultation")}</div></div></section>')
 
@@ -336,10 +308,6 @@ def brand(aria: str = "Blue Hammer Remodeling homepage") -> str:
             f'<img alt="" height="68" src="{MARK}" width="62"/>'
             f'<span class="brand-copy">BLUE HAMMER<small>REMODELING</small></span></a>')
 
-def topline() -> str:
-    return ('<div class="topline"><div class="container"><p>Based in Olney, Maryland.<span class="topline-more"> Repairs and remodeling within about 40 miles, in Maryland, DC and Virginia.</span></p>'
-            '<span class="phone-slot"></span></div></div>')
-
 def header(active: str, cta: str = "index.html#consultation") -> str:
     """`cta` is the page's own form when it has one (see cta_target), otherwise the home form."""
     def a(href, label, key):
@@ -356,6 +324,9 @@ def header(active: str, cta: str = "index.html#consultation") -> str:
         # Owner package 2026-11-18 22:30: Gallery and Contact left the header (still in the footer); title-case CTA.
         + f'<a class="btn btn--primary nav-cta-mobile" href="{cta}">Schedule a Consultation</a>'
         + '</nav>'
+        # Redesign phase 1 (2026-11-20): the topline strip is gone; the phone slot (empty and hidden until the
+        # owner confirms a number in site-config.js) sits beside the header button.
+        f'<span class="phone-slot header-phone"></span>'
         f'<a class="btn btn--primary btn--sm header-cta" href="{cta}">Schedule a Consultation</a></div></header>')
 
 def footer(cta: str = "index.html#consultation") -> str:
@@ -369,16 +340,20 @@ def footer(cta: str = "index.html#consultation") -> str:
     company = [("index.html", "Home"), ("projects.html", "Design gallery"), ("about.html", "About Blue Hammer"),
                ("process.html", "Our process"), ("reviews.html", "Client feedback"), ("contact.html", "Contact us"),
                (cta, "Schedule a consultation")]
+    def group(title, items):
+        return f'<div class="footer-group"><h2 class="footer-h">{title}</h2>{links(items)}</div>'
+    # Redesign phase 1 (2026-11-20): compact footer. Same links as before (services, areas, company, legal);
+    # the three groups are short wrapped rows instead of tall columns, and the written-scope sentence shares
+    # the bottom line with the copyright.
     return (
         '<footer class="footer"><div class="container"><div class="footer-top">'
         f'<div class="footer-about">{brand()}'
         f'<p>{FOOTER_BLURB}</p>'
         '<p class="phone-slot"></p><p class="email-slot"></p><span class="license-slot"></span></div>'
-        f'<div><h2 class="footer-h">Remodeling</h2>{links(remodeling)}</div>'
-        f'<div><h2 class="footer-h">Service areas</h2>{links(areas)}</div>'
-        f'<div><h2 class="footer-h">Company</h2>{links(company)}</div></div>'
-        '<div class="footer-note"><p>Scope, schedule and any required permits or licenses are confirmed in writing before work is accepted.</p></div>'
-        '<div class="footer-bottom"><span>© 2026 Blue Hammer Remodeling. Olney, Maryland.</span>'
+        '<div class="footer-nav">'
+        + group("Remodeling", remodeling) + group("Service areas", areas) + group("Company", company) + '</div></div>'
+        '<div class="footer-bottom"><p>© 2026 Blue Hammer Remodeling. Olney, Maryland. '
+        'Scope, schedule and any required permits or licenses are confirmed in writing before work is accepted.</p>'
         '<nav aria-label="Legal"><a href="privacy.html">Privacy policy</a><a href="terms.html">Website terms</a></nav></div></div></footer>')
 
 def mobile_cta(target: str = "index.html#consultation") -> str:
@@ -492,7 +467,7 @@ def schema_graph(meta: dict, slug: str, body: str, crumb_items) -> str:
 # ---------------------------------------------------------------------------
 def preload_fonts(slug: str):
     """Only the 1-2 faces visible above the fold (self-hosted Fontshare woff2, ITF Free Font License)."""
-    return ["barlow-condensed-800", "switzer-400"]  # owner package 2026-11-18 22:30
+    return ["barlow-condensed-800", "switzer-400"]  # the H1 display face and the text face
 
 def head(meta: dict, slug: str, body: str, crumb_items) -> str:
     url = page_url(slug)
@@ -530,7 +505,6 @@ def parse_fragment(path: pathlib.Path):
 def render(slug: str, meta: dict, body: str) -> str:
     crumb_items = crumbs(meta, slug)
     body = (body.replace("{{BREADCRUMBS}}", breadcrumb_html(crumb_items))
-                .replace("{{SERVICE_CARDS}}", service_cards())
                 .replace("{{ARROW}}", ARROW).replace("{{CHECK}}", CHECK))
     body = re.sub(r"\{\{ICON:([a-z-]+)\}\}", lambda m: svg(ICONS[m.group(1)]), body)
     body = re.sub(r"\{\{FORM:([a-z0-9-]+)\}\}", lambda m: lead_form(m.group(1)), body)
@@ -543,7 +517,7 @@ def render(slug: str, meta: dict, body: str) -> str:
     return pretty_links(
         '<!DOCTYPE html>\n<html lang="en">' + head(meta, slug, body, crumb_items)
         + ('<body>' if bar else '<body class="no-mobile-cta">') + '<a class="skip-link" href="#main">Skip to main content</a>\n'
-        + topline() + header(meta.get("nav", ""), cta) + f'<main id="main">{body}</main>' + footer(cta)
+        + header(meta.get("nav", ""), cta) + f'<main id="main" tabindex="-1">{body}</main>' + footer(cta)
         + (mobile_cta(cta) if bar else "")
         + f'<script src="{asset_v("assets/site-config.js")}"></script><script defer="" src="{asset_v("assets/main.js")}"></script></body></html>\n')
 

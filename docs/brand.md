@@ -1,11 +1,12 @@
 # Blue Hammer Remodeling: brand guideline
 
-> **Documentation note (2026-11-19): the live identity is the owner v2 package.** Navy `#142131`, orange `#FF7A24`
-> (primary buttons), royal `#0864D8`, Barlow Condensed 800 uppercase display type + Switzer text. Where this file
-> says palette A, "Heritage Navy & Brass", ivory, brass, Gambetta or Gambetta italics, it describes the superseded
-> identity and is kept for history only. Do not restyle pages toward it. The live rules are the owner block at the
-> end of `site-src/assets/main.css` (the source; `python3 scripts/build.py` minifies it into
-> `blue_hammer_remodeling_site/assets/main.css`, which is generated and never edited); summary in `DESIGN.md` > "Owner v2 identity".
+> **Current rules (2026-11-20, redesign phase 1).** Identity v2: navy `#142131`, royal `#0864D8`, orange `#FF7A24`
+> (primary button only), white and cool grey `#F4F6F8`, the hammer logo, Barlow Condensed + Switzer. Type and
+> layout follow `docs/design-system/design-brief.md` > "2026-11-20 direction" and the "Typography (current)"
+> block below. Sections of this file that mention palette A, "Heritage Navy & Brass", ivory, brass, Gambetta,
+> italic paired titles, uppercase display words or brass rules describe superseded identities and are kept for
+> history only. Do not restyle pages toward them. Source of the live rules: `site-src/assets/main.css` (one layer
+> since 2026-11-20; `python3 scripts/build.py` minifies it into the published copy, which is never edited).
 
 Every design or copy task reads this file first. If a change conflicts with it, update this
 file in the same commit and say why in AGENT-LOG.md.
@@ -44,7 +45,19 @@ Approved 2026-11-18. Traditional and modern: logo navy and royal on warm ivory, 
 Rules: no gradient washes or blobs, no glassmorphism, no colored drop shadows. Text contrast at
 least 4.5:1 (3:1 for 24 px+ headings).
 
-## Typography
+## Typography (current, 2026-11-20)
+- **Switzer** (400, 500, 600, 700) carries the hierarchy: H2, H3, body, labels, buttons, navigation. Sentence case.
+- **Barlow Condensed 800** is used in two places only: the logo wordmark (uppercase, as drawn) and the page H1
+  (sentence case). Never for H2/H3, labels, numerals or buttons. Never italic (one upright face is shipped).
+- No all-caps headings. No eyebrow label above headings. No word in a heading set in another color or style.
+- Scale: H1 `clamp(2.75rem, 1.6rem + 3.6vw, 4.5rem)` (home H1 up to 6.25rem); H2 `clamp(1.75rem, 1.2rem + 1.6vw,
+  2.5rem)` weight 600; H3 1.1875rem weight 600; body 1.0625rem / 1.62; lede 1.1875rem; captions and small text
+  0.875rem. Line length 45 to 75 characters.
+- Spacing: 12 columns, 1240 px, 32 px gap; section padding `--sec` (72 to 120 px) for image-led sections and
+  `--sec-tight` (48 to 72 px) for dense text bands; radius 2 px on images, 3 px on buttons and inputs.
+- Orange is for the primary button. Rules and dividers are grey or navy.
+
+## Typography (history: palette A and the first v2 pass, superseded)
 - Display: **Gambetta** (Fontshare, ITF Free Font License, free for commercial web use). Weights 400, 400 italic, 500, 600.
 - Text and UI: **Switzer** (Fontshare, ITF Free Font License). Weights 400 to 700.
 - **Self-hosted** (2026-11-18): woff2 files in `assets/fonts/` (`gambetta-400`, `gambetta-400-italic`, `gambetta-500`,

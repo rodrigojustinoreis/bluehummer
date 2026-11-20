@@ -1,12 +1,25 @@
 # DESIGN.md - Blue Hammer Remodeling
 
-> **Documentation note (2026-11-19): the live identity is the owner v2 package.** Navy `#142131`, orange `#FF7A24`
-> (primary buttons), royal `#0864D8`, Barlow Condensed 800 uppercase display type + Switzer text. Where this file (sections "Color", "Typography", "Components", "Live site vs spec")
-> says palette A, "Heritage Navy & Brass", ivory, brass, Gambetta or Gambetta italics, it describes the superseded
-> identity and is kept for history only. Do not restyle pages toward it. The live rules are the owner block at the
-> end of `site-src/assets/main.css` (the source; `python3 scripts/build.py` minifies it into
-> `blue_hammer_remodeling_site/assets/main.css`, which is generated and never edited); summary in `DESIGN.md` > "Owner v2 identity".
+> **Current state (2026-11-20, redesign phase 1).** Identity v2 (navy `#142131`, royal `#0864D8`, orange `#FF7A24`
+> on the primary button only, hammer logo, Barlow Condensed + Switzer). Headings are **Switzer, sentence case**;
+> Barlow Condensed 800 is only the logo wordmark and the page H1 (sentence case). No eyebrows, no all-caps
+> headings, no orange rules. `site-src/assets/main.css` is one layer (the v1 layer and the v2 override layer were
+> merged and the unused rules deleted). Rules: `docs/design-system/design-brief.md` > "2026-11-20 direction" and
+> `docs/brand.md` > "Typography (current)". Everything below this note that mentions palette A, brass, Gambetta,
+> paired italic titles, uppercase display type, the topline, watermark words, icon tiles or the hero video is
+> history.
 
+## Redesign phase 1 (2026-11-20): what is live in the source
+- **Shared chrome (`scripts/build.py`).** Header 76 px, navy, logo + Services / Our Process / Service Areas / About +
+  one orange "Schedule a Consultation"; the topline strip was removed and the phone slot moved into the header
+  (hidden while empty). Consultation section: grey, H2 "Schedule a consultation", one sentence, three plain lines,
+  the unchanged two-step Netlify form. Footer: navy, three wrapped link rows (same links as before), one bottom line.
+  Mobile bar: white, one button, hidden by `main.js` while a primary button or the form is on screen.
+- **Home (`site-src/pages/index.html`).** H1 and one button above one wide static photograph with a caption; a
+  three-photograph services mosaic; a text-only process band; areas with a town index and one photograph; four
+  questions; the shared consultation. Classes are `home-*`.
+- **Other 23 pages.** Same markup as before; they take the new type, color, header, consultation and footer.
+  Their layouts are redesigned one page at a time in later phases.
 
 Summary of the approved visual identity as observed on 2026-11-18 (repo `main`, CSS source
 `site-src/assets/main.css`, published minified as `blue_hammer_remodeling_site/assets/main.css` by `scripts/build.py`). **`docs/brand.md` is the authoritative spec**

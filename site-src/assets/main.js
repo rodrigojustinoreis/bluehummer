@@ -21,11 +21,11 @@
     });
     document.querySelectorAll('.license-slot').forEach(el=>{el.textContent=c.mhicLicense?'MHIC License #'+c.mhicLicense:''});
   }
-  function svgCheck(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5"/></svg>'}
   function nav(){
     const toggle=document.querySelector('.menu-toggle');
     const menu=document.getElementById('main-navigation');
     const drops=[...document.querySelectorAll('.nav-dropdown')];
+    const desktop=window.matchMedia('(min-width: 1061px)');
     function setDrop(d,open){d.classList.toggle('open',open);const b=d.querySelector('button');if(b)b.setAttribute('aria-expanded',String(open))}
     function setMenu(open,returnFocus){
       if(!toggle||!menu)return;
@@ -47,14 +47,22 @@
         (ev.key==='ArrowUp'?links[links.length-1]:links[0])?.focus();
       });
       d.addEventListener('keydown',ev=>{
+        // The button's own handler above has just moved focus to the first or last link; do not step again.
+        if(ev.target===b)return;
         const at=links.indexOf(document.activeElement);if(at<0)return;
         let next;if(ev.key==='ArrowDown')next=(at+1)%links.length;else if(ev.key==='ArrowUp')next=(at-1+links.length)%links.length;else if(ev.key==='Home')next=0;else if(ev.key==='End')next=links.length-1;
         if(next!==undefined){ev.preventDefault();links[next]?.focus()}
       });
-      d.addEventListener('focusout',ev=>{if(ev.relatedTarget&&!d.contains(ev.relatedTarget))setDrop(d,false)});
+      // Desktop only: the panel floats, so closing it when focus leaves moves nothing. In the mobile menu the
+      // panel is in the page flow: collapsing it on focus-out (which fires on pointer down) shifted the rows
+      // under the finger before the tap finished, so the tap on the next item landed elsewhere and the
+      // document click handler closed everything. There the panel closes on its own button, when another
+      // dropdown opens, on Escape, or with the menu.
+      d.addEventListener('focusout',ev=>{if(desktop.matches&&ev.relatedTarget&&!d.contains(ev.relatedTarget))setDrop(d,false)});
     });
     document.addEventListener('click',ev=>{
-      if(!ev.target.closest('.nav-dropdown'))drops.forEach(d=>setDrop(d,false));
+      // Inside the open mobile menu a tap on a plain row leaves the open dropdown alone (a link tap closes the menu anyway).
+      if(!ev.target.closest('.nav-dropdown')&&!(!desktop.matches&&menu&&menu.contains(ev.target)))drops.forEach(d=>setDrop(d,false));
       if(menu&&menu.classList.contains('open')&&!ev.target.closest('.site-header'))setMenu(false,false);
     });
     document.addEventListener('keydown',ev=>{
@@ -63,7 +71,6 @@
       if(openDrop){ev.preventDefault();setDrop(openDrop,false);openDrop.querySelector('button')?.focus();return}
       if(menu&&menu.classList.contains('open'))setMenu(false,true);
     });
-    const desktop=window.matchMedia('(min-width: 1061px)');
     desktop.addEventListener?.('change',e=>{if(e.matches)setMenu(false,false)});
     document.querySelectorAll('a[href*="#consultation"]').forEach(link=>link.addEventListener('click',(ev)=>{
       const target=document.getElementById('consultation');if(target){ev.preventDefault();target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});history.replaceState(null,'','#consultation')}
@@ -145,90 +152,6 @@
       const svc=q.get('service');if(svc){const el=f.querySelector('[name=projectType]');if(el&&[...el.options].some(o=>o.value===svc))el.value=svc}
     });
   }
-  // Micro-interactions (2026-11-18): scroll reveal + counters for REAL numbers only (data-count). Respects reduced motion.
-  function initMotion(){
-    const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(reduce||!('IntersectionObserver' in window))return;
-    // Content is visible by default; only elements that opt in with data-reveal fade in (none on the site today).
-    const targets=document.querySelectorAll('[data-reveal]');
-    if(!targets.length)return;
-    document.documentElement.classList.add('js-reveal');
-    const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px',threshold:.08});
-    targets.forEach(el=>{if(el.getBoundingClientRect().top<window.innerHeight){el.classList.add('reveal','is-visible')}else{el.classList.add('reveal');io.observe(el)}});
-    document.querySelectorAll('[data-count]').forEach(el=>{
-      const end=parseFloat(el.dataset.count);if(!isFinite(end))return;
-      const co=new IntersectionObserver(([e])=>{if(!e.isIntersecting)return;co.disconnect();const t0=performance.now(),d=1100;
-        (function step(t){const k=Math.min(1,(t-t0)/d),v=end*(1-Math.pow(1-k,3));el.textContent=Number.isInteger(end)?Math.round(v).toLocaleString('en-US'):v.toFixed(1);if(k<1)requestAnimationFrame(step)})(t0)});
-      co.observe(el);
-    });
-  }
-  // Brand motion (Remotion renders in assets/video/). Muted, looping, inline; sources attach only when the
-  // video is near the viewport, motion is allowed, the element is displayed and Save-Data is off.
-  // Reduced motion: the video never loads (CSS hides it; the photo/poster stays).
-  function initMedia(){
-    const vids=[...document.querySelectorAll('video[data-motion]')];if(!vids.length)return;
-    const mq=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)');
-    const connection=navigator.connection;
-    const toggles=[...document.querySelectorAll('button[data-motion-toggle]')];
-    const allowed=()=>!(mq&&mq.matches)&&!(connection&&connection.saveData);
-    const displayed=v=>v.getClientRects().length>0&&getComputedStyle(v).visibility!=='hidden';
-    const states=vids.map(v=>({v,toggle:toggles.find(b=>b.dataset.motionToggle===v.id),near:!('IntersectionObserver' in window),loaded:!!v.dataset.loaded,everReady:v.readyState>=3,manualPaused:false,playPending:false,resumeAt:0}));
-    function updateControl(s){
-      if(!s.toggle)return;
-      const playing=!s.v.paused&&!s.v.ended;
-      s.toggle.hidden=!s.everReady||!allowed()||!displayed(s.v);
-      s.toggle.removeAttribute('aria-pressed');
-      s.toggle.dataset.motionPlaying=String(playing);
-      s.toggle.setAttribute('aria-label',playing?'Pause motion':'Play motion');
-      const label=s.toggle.querySelector('[data-motion-label]');if(label)label.textContent=playing?'Pause motion':'Play motion';
-    }
-    const shouldPlay=s=>allowed()&&s.near&&document.visibilityState!=='hidden'&&!s.manualPaused&&displayed(s.v);
-    function reconcile(s){
-      const v=s.v;
-      if(!allowed()){
-        v.pause();
-        if(s.loaded){
-          s.resumeAt=Number.isFinite(v.currentTime)?v.currentTime:0;
-          v.removeAttribute('src');v.querySelectorAll('source[data-src]').forEach(source=>source.removeAttribute('src'));
-          s.loaded=false;delete v.dataset.loaded;v.classList.remove('is-playing');v.load();
-        }
-        updateControl(s);return;
-      }
-      if(!shouldPlay(s)){v.pause();updateControl(s);return}
-      if(!s.loaded){
-        s.loaded=true;v.dataset.loaded='1';v.muted=true;
-        v.querySelectorAll('source[data-src]').forEach(source=>{source.src=source.dataset.src});v.load();
-      }
-      if(v.paused&&!s.playPending){
-        s.playPending=true;
-        try{
-          const pending=v.play();
-          if(pending&&pending.then)pending.then(()=>{s.playPending=false;if(!shouldPlay(s))v.pause();updateControl(s)},()=>{s.playPending=false;updateControl(s)});
-          else{s.playPending=false;updateControl(s)}
-        }catch{s.playPending=false;updateControl(s)}
-      }
-      updateControl(s);
-    }
-    states.forEach(s=>{
-      if(s.toggle){s.toggle.hidden=true;s.toggle.addEventListener('click',()=>{s.manualPaused=!s.v.paused;reconcile(s)})}
-      s.v.addEventListener('canplay',()=>{
-        s.everReady=true;
-        if(s.resumeAt>0&&Number.isFinite(s.v.duration)){s.v.currentTime=Math.min(s.resumeAt,Math.max(0,s.v.duration-.1));s.resumeAt=0}
-        updateControl(s);
-      });
-      s.v.addEventListener('playing',()=>{if(!shouldPlay(s)){s.v.pause();return}s.v.classList.add('is-playing');updateControl(s)});
-      s.v.addEventListener('pause',()=>updateControl(s));
-      s.v.addEventListener('ended',()=>updateControl(s));
-      s.v.addEventListener('error',()=>{s.v.classList.remove('is-playing');s.everReady=false;updateControl(s)});
-    });
-    if('IntersectionObserver' in window){
-      const io=new IntersectionObserver(entries=>entries.forEach(entry=>{const s=states.find(state=>state.v===entry.target);if(s){s.near=entry.isIntersecting;reconcile(s)}}),{threshold:.08});
-      states.forEach(s=>io.observe(s.v));
-    }else states.forEach(reconcile);
-    const sync=()=>states.forEach(reconcile);
-    mq?.addEventListener?.('change',sync);connection?.addEventListener?.('change',sync);
-    document.addEventListener('visibilitychange',sync);window.addEventListener('resize',sync,{passive:true});
-  }
   // Netlify's "Powered by Netlify" badge is injected by Netlify's edge (a dashboard setting, not our code).
   // When it is present, give the mobile sticky CTA room so the two never overlap.
   function initBadgeSafeArea(){
@@ -239,5 +162,19 @@
     const mo=new MutationObserver(()=>{if(check())mo.disconnect()});mo.observe(document.body,{childList:true});
     setTimeout(()=>mo.disconnect(),15000);window.addEventListener('resize',check);
   }
-  setContact();nav();initForms();initGallery();initTracking();initMotion();initMedia();initBadgeSafeArea();
+  // Fixed mobile bar: it repeats the page's own "Schedule a Consultation" button, so it steps aside while one
+  // of those buttons, or the form itself, is already on screen. Without IntersectionObserver it simply stays.
+  function initMobileBar(){
+    const bar=document.querySelector('.mobile-cta');
+    if(!bar||!('IntersectionObserver' in window))return;
+    const targets=[...document.querySelectorAll('main a.btn--primary, main form.lead-form')];
+    if(!targets.length)return;
+    const seen=new Set();
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting)seen.add(e.target);else seen.delete(e.target)});
+      bar.classList.toggle('is-idle',seen.size>0);
+    },{rootMargin:'-68px 0px 0px 0px'});
+    targets.forEach(t=>io.observe(t));
+  }
+  setContact();nav();initForms();initGallery();initTracking();initBadgeSafeArea();initMobileBar();
 })();

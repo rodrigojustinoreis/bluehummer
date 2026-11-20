@@ -880,3 +880,144 @@ Technical only: no copy, no keyword work, no new pages, no contact details, no r
   `#consultation` on `/`, `/kitchen-remodeling`, `/faq`, `#contact-form` on `/contact`, `/#consultation` on `/privacy`
   and `/thank-you`; `/thank-you` has no mobile bar; `robots.txt` unchanged; sitemap has 21 URLs. Site-audit result:
   not measured.
+
+## 2026-11-20 — Redesign phase 1: homepage + shared components (not committed, not pushed)
+Owner brief: "focus on design, remove everything that looks made by AI. I need a designer", then "trust, modern and
+traditional at the same time" (traditional in the identity, modern in the presentation). Direction, references and
+the rules for the next phases: `docs/design-system/design-brief.md` > "2026-11-20 direction".
+- **References studied (layout only, nothing copied):** casedesign.com, anthonywilder.com, bowa.com (as the pattern
+  to avoid); gibsonbuilders.com did not respond.
+- **CSS.** `site-src/assets/main.css` rewritten as ONE layer (the v1 layer, the v2 override layer and the "pass 4"
+  block are gone; 47 unused classes deleted: `.hero*`, `.tiles`, `.watermark`, `.cards-3`, `.pill`, `.areas-*`,
+  `.feature-*`, `.steps-motion`, `.bh-*` and others). Published size 57,019 -> 34,426 bytes. Tokens: one `:root`
+  (navy / royal / orange / ink / muted / line / soft, type sizes, `--sec`, `--sec-tight`, `--gap`, `--gutter`,
+  `--max` 1240). Headings: Switzer 600 sentence case; Barlow Condensed 800 only in the logo wordmark and the H1
+  (sentence case). No uppercase heading, no eyebrow, no orange rules or dots. `--field-line` darkened to `#74859A`
+  (input borders now 3:1 on white).
+- **Chrome (`scripts/build.py`).** Topline strip removed (phone slot moved into the header, hidden while empty).
+  Header 76 px. Consultation section: grey, H2 "Schedule a consultation", one sentence, three plain lines, the
+  same two-step form (`lead_form` untouched: name `consultation`, honeypot `companyWebsite`, all field names).
+  Footer: three wrapped link rows with the same links, one bottom line; 397 px tall at 1440 (was about 840).
+- **Home (`site-src/pages/index.html`).** H1 "Home remodeling. / In Maryland." (same words, sentence-case Barlow,
+  no blue second line) and one button on white above one wide static photograph with a caption; the hero video,
+  its pause button and the eyebrow are gone (video files kept). Services: mosaic of three photographs of different
+  sizes with captions below, each article one link. Process: three numbered text rows on grey. Areas: town index
+  and one house photograph. Four questions (same `<details>`, FAQ JSON-LD unchanged). No image is used twice.
+  Images: hero `bh-kitchen-v2`, kitchen `kitchen-kensington-victorian`, bath `bh-bathroom-v2`, basement
+  `bh-basement-v2`, areas `olney-colonial-exterior`. Captions name only what the picture shows.
+- **Copy replaced on the home page (old -> new).** Eyebrows "Blue Hammer Remodeling · Olney, Maryland", "What we
+  do", "How it works", "Close to home", "Before we begin", "Let's talk about your home" -> removed. "Make room for
+  what's next." -> "What we remodel". "A clear path from idea to home." -> "How a project is planned". "Based in
+  Olney. Built around your home." -> "Where we work". "A few things you may be wondering." -> "Questions before a
+  remodel". "Ready to make your space work better?" -> "Schedule a consultation". "Your priorities. A written
+  scope. A clear next step." and "Thoughtful spaces for everyday living." -> removed (photo caption instead).
+  Step titles "Tell us your vision / Plan the details / Bring it to life" -> "First conversation / Layout,
+  materials and a written scope / Construction and walk-through". Service summaries now say one specific thing
+  per room, taken from the service pages. No fact, permit statement, price, duration or credential was added.
+- **`main.js`.** (1) Mobile menu bug fixed: `focusout` no longer collapses a dropdown below 1061 px (the panel is
+  in the page flow there, so collapsing it on pointer-down moved the rows under the finger and the tap missed);
+  a tap on a plain row inside the open menu no longer closes the open dropdown. Desktop behaviour unchanged.
+  (2) ArrowDown / ArrowUp on a dropdown button skipped one item (the key event was handled twice): fixed.
+  (3) The fixed mobile bar hides while a primary button or the form is on screen (`.is-idle`).
+- **Checks.** `python3 scripts/build.py --check`: OK, 24 pages, 0 problems (21 indexable; sitemap, llms.txt,
+  robots.txt and `__forms.html` unchanged). Chrome via Playwright on the 8770 preview, reduced motion: all 24
+  pages at 320, 390, 768 and 1440 (96 loads): `scrollWidth` equals the viewport everywhere, no element outside
+  the viewport, no heading with `text-transform: uppercase`, 0 console errors, failed requests or 4xx. 31 scripted
+  checks pass: 390 touch menu (Services <-> Service Areas switching, own-button close, Escape + focus return,
+  link under an open dropdown navigates, tap outside closes), mobile bar idle / shown / target, form step 1 -> 2
+  with the field names, honeypot and empty contact slots, desktop click / outside click / ArrowDown / ArrowUp /
+  Home / End / Escape / Tab-out, one CTA in the header, every caption below its photo at 768 / 1024 / 1440. No
+  POST was sent (blocked in the test contexts). Contrast: muted text 6.5:1 on white and 6.0:1 on grey, royal
+  links 5.5:1 / 5.1:1, button text 6.5:1, footer text 11:1. Anti-slop checker on the home page: 4/5, the one
+  flag is the list of the four real services ("Kitchens, bathrooms, basements and interior rooms"), accepted.
+- **Screenshots.** `scratchpad/redesign/phase1/<page>-<width>.png` for home, kitchen-remodeling, bethesda-md,
+  contact, faq at 390 / 768 / 1440, plus `home-320.png`.
+- **Not done / not verified.** Chrome only (no Safari or Firefox run). No Lighthouse run. The project's five-agent
+  design check and critic loop were not launched from this run; the coordinator's independent reviewers looked at
+  the homepage instead and their findings were applied (useful service copy, unverifiable material names removed
+  from captions, captions below photos, 320 px overflow, mobile H1 size). Nothing is deployed.
+- **What the other 23 pages still need (later phases, one page at a time).** They share the new type, color,
+  header, consultation and footer, but keep the previous layouts: the same two-column hero with a photo bleeding
+  right on 18 pages, the same split / table / photo-split / FAQ sequence on the three service pages and the nine
+  town pages, the `.bento` services block on nine pages, slogan-style H2s ("Planned first. Built to the plan.",
+  "Your next space starts with a direction.", "From first idea to finished room."), no captions on any
+  photograph, one repeated image on `/projects`, bordered boxes on `/reviews`, inline styles on `/thank-you`.
+  Old agent files (`bh-designer.md`, `bh-orchestrator.md`, `bh-design-loop`) still name Gambetta / palette A.
+- **Needs Rodrigo.** Phone, public email and MHIC number stay empty (unchanged). The hero photograph is 1402 px
+  wide; a larger original would hold up better on very large screens.
+
+## 2026-11-20 — Redesign phase 2: the 23 interior pages (not committed, not pushed)
+Same owner brief and direction as phase 1 (`docs/design-system/design-brief.md` > "2026-11-20 direction"). Every interior
+page was recomposed from its own content; none keeps the old two-column hero, `.split`, `.media-split` or `.bento`.
+- **Shared components (neutral names, `site-src/assets/main.css` section 5).** The home patterns were generalised and the
+  homepage re-rendered identically at 1440 (pixel-equal) before any other change: `.home-head` -> `.sec-head`,
+  `.home-steps` -> `.steps`, `.home-area-list` -> `.link-index`, `.home-areas-grid` / `.home-faq-grid` -> `.cols-5-7`.
+  New: `.page-head` (H1 + introduction on white, `--stack`, `--plain`), `figure.photo` (frames `--wide`, `--band`, `--43`,
+  `--tall`, `--fill`; focal point `.at-low`, `.at-right`), `.photo-pair`, `.cols-7-5`, `.rows` / `ol.rows--num`, `.trio`,
+  `.notes`, `.feature` (`--flip`, `--index`), `.callout`, `.aside-note`, `.town-links`, a 12-column `.gallery-grid`.
+- **Templates.** Service page, town page, hub (services, service-areas), editorial (about, process), FAQ, gallery,
+  utility (contact, reviews, thank-you, legal, 404). Pages of one type share components but not the order or the
+  composition. Section order by page (T topics, B budget table, P permits, C how to start, F questions):
+  kitchen T(numbered) / photo pair / B / C+photo / P / F; bathroom photo-pair lead / C / T / photo+B / P / F; basement
+  photo+T(notes) / B / C+photo / P / F; Olney T / photo pair / P / B / C / F; Bethesda B / T / C+photo / P / F; Potomac
+  T as three photo rows / C / P / B / F; Chevy Chase P / T / B+photo / C / F; Rockville P / B / T+photo / C / F; Silver
+  Spring T / B / C+photo / P / F; Kensington and Garrett Park T / P / B / C / F; Howard County T / C+photo / B / P / F.
+- **Images.** Every content photograph is a `<figure>` with a caption below that names only what the picture shows. No
+  image twice on a page; the eight town pages no longer share one trio (the `.bento` block and `{{SERVICE_CARDS}}` are
+  gone; the three service links stay in each page's topic headings or table, the small-repair link as one sentence).
+  `consultation-scene`, `hero-craftsman` and `design-gallery-collage` are not used. No image was generated or added.
+- **Headings.** Sentence case, no trailing period on H2/H3, no slogans. H1 wording of service and town pages
+  unchanged. Only H1 changed: `/faq` "Remodeling questions, answered directly." -> "Remodeling questions and answers."
+  Titles, meta descriptions, canonicals, routes: unchanged (the 24 meta lines are byte-identical). FAQ questions and
+  answers: byte-identical. No internal link was lost (checked per page against the phase 1 sources).
+- **Home.** One fix requested during the run: the "We also take on small repairs" line now sits directly under the
+  "Basements and interiors" summary (it was pinned to the bottom of the column, leaving a gap). Mosaic unchanged.
+- **Removed.** CSS: `.interior-hero`, `.interior-grid`, `.illustration-frame`, `.grid-2`, `.split`, `.faq-split`,
+  `.media-split*`, `.topic-list`, `.bento`, `.room*`, `.repairs-note`, old `.steps` / `.step*`, `.timeline*`,
+  `.info-panel`, `.area-group`, `.city-pills`, `.gallery-card-body`, `.contact-grid`, `.review-empty` box,
+  `.section-head`, `.section-heading`, `.title-pair`, `.form-status.success`. JS (`main.js`): `initMotion`,
+  `initMedia` (hero video and scroll reveal, referenced by nothing) and `svgCheck`; video files stay on disk.
+  `scripts/build.py`: the unused `service_cards()` helper and its placeholder. No inline `style` is left in any page
+  source. Published sizes: `main.css` 34,426 -> 34,574 bytes, `main.js` 12,395 -> 8,465 bytes.
+- **Checks (run once at the end).** `python3 scripts/build.py --check`: OK, 24 pages, 0 problems; sitemap 21 URLs,
+  llms.txt 21 URLs. Chrome (cached Playwright Chromium build, 8770 preview, reduced motion), all 24 pages at 320, 390,
+  768 and 1440 (96 loads): `scrollWidth` equals the viewport, nothing outside the viewport, no uppercase heading, no
+  H2/H3 ending in a period, every content image inside a figure with a caption below it, no repeated image on a page,
+  no inline style, 0 console errors, failed requests or 4xx. 35 interaction checks pass: desktop dropdowns, 390 touch
+  switching Services <-> Service Areas, FAQ details, gallery filter 12 / 6 / 3 / 3 / 12 with full rows under every
+  filter, form step 1 -> 2 -> Back with field names, form name and honeypot on `/kitchen-remodeling`, `/olney-md` and
+  `/contact`, CTA targets, empty phone / email / license slots. 0 POST requests. No new color pair was introduced
+  (text uses the phase 1 tokens measured then: muted 6.5:1 on white / 6.0:1 on grey, royal 5.5:1 / 5.1:1).
+- **Screenshots.** `scratchpad/redesign/phase2/<page>-390.png` and `-1440.png` for all 24 pages.
+- **Not done / not verified.** Chrome only; no Safari or Firefox run (the gallery pattern uses `:nth-child(n of S)`;
+  browsers without it fall back to two equal columns). No Lighthouse run. The anti-slop checker and the five-agent
+  design check were not run. The page generators used for the conversion are one-off scripts in the scratchpad; the
+  page sources in `site-src/pages/` are plain HTML as before. Nothing is committed or deployed.
+- **Weak spots left.** `/service-areas`: the Silver Spring and Howard County rows repeat the group name as the link.
+  `/faq`: the second and third groups have no note under their heading, so the left column is short. `cabinetry-detail`
+  is half out of focus and is used at a large size on `/chevy-chase-md`. Photographs repeat across pages (17 usable
+  files for 24 pages). The old agent files still describe Gambetta / palette A.
+- **Needs Rodrigo.** Phone, public email and MHIC number stay empty (unchanged). Real project photographs would
+  replace the repeated ones.
+
+## 2026-11-20 — Redesign: final independent gate and fixes
+- One independent read-only critic/QA pass over the 24 pages (design by eye, copy against HARD-RULES, keyboard,
+  contrast, tap targets, images, CTA targets, internal links). Verdict: one blocking item, fixed: `/projects` lede
+  named a wood species and a cabinet construction about the gallery images ("painted inset cabinetry to flat-panel
+  oak" -> "painted cabinets to flat-panel wood").
+- Also fixed from its list and from the owner's reviewer: `/services` intro and three summaries no longer describe
+  how the site is organized ("Each service has its own page...", "The page covers..."); `/process` head is
+  top-aligned; the "404" label above the 404 H1 is gone; `/service-areas` Silver Spring and Howard County rows no
+  longer repeat the group name as a link (the paragraph link stays); `/about` list lead-ins are concrete;
+  breadcrumb and table links have a taller tap area; `#main` takes focus from the skip link.
+- Passed in that gate: keyboard navigation and focus rings, contrast AA on all visible text, image dimensions and
+  alt, reduced motion, CTA targets, 65 internal hrefs (all 200), tables stacking on phones.
+- Left as they are (not blocking): the three "If ..." sentences in area-page room paragraphs (conditionals are the
+  owner's rule for house situations); counted table headings on the three service pages; three same-size rows on
+  `/services`; photographs repeat across pages (17 usable files for 24 pages); `/privacy` and `/terms` narrow column.
+- After the fixes: `python3 scripts/build.py --check` OK, 24 pages, 0 problems; the six touched pages have no
+  overflow at 320 / 390 / 1440 and no console errors. Chrome only; no Safari / Firefox / Lighthouse run.
+- **Needs Rodrigo:** (1) image filenames still carry town / style names (`kitchen-kensington-victorian`,
+  `olney-colonial-exterior`, ...); renaming needs redirects. (2) The footer links "Client feedback" to a page with
+  no feedback yet. (3) `/contact` shows only the form until a phone / email is provided. (4) A lighter Barlow
+  Condensed weight for the H1 would need a new font file. (5) The hero photo source is 1402px wide.
