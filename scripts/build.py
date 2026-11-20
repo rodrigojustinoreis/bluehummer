@@ -18,7 +18,7 @@ Usage:  python3 scripts/build.py            # build everything
         python3 scripts/build.py --check    # build, then validate links, alt text, schema, copy rules
 """
 from __future__ import annotations
-import html, json, pathlib, re, sys
+import hashlib, html, json, pathlib, re, sys
 from html.parser import HTMLParser
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -28,9 +28,11 @@ OUT = ROOT / "blue_hammer_remodeling_site"
 SITE = "https://bluehammermd.com"
 BRAND = "Blue Hammer Remodeling"
 OG_IMAGE = "assets/og-blue-hammer.jpg"          # 1200x630
-LOGO = "assets/blue-hammer-logo-512.png"        # 512x292
-MARK = "assets/blue-hammer-mark-140.webp"       # 140x80 header/footer mark
-TODAY = "2026-11-18"
+LOGO = "assets/bh-logo-v2.png"                  # schema logo (owner package 2026-11-18 22:30)
+MARK = "assets/bh-hammer-v2.png"                # 62x68 header/footer hammer mark (owner package)
+FAVICON = "assets/bh-hammer-v2.png"             # owner package; served with a content-hash ?v= query
+THEME_COLOR = "#142131"                         # owner package
+TODAY = "2026-11-19"
 
 # ---------------------------------------------------------------------------
 # Service area: Olney base, about 40 miles across Maryland, DC and Virginia (owner, 2026-11-18).
@@ -44,25 +46,59 @@ AREAS = [
     ("Potomac", MONTGOMERY), ("North Potomac", MONTGOMERY), ("Darnestown", MONTGOMERY),
     ("Bethesda", MONTGOMERY), ("North Bethesda", MONTGOMERY), ("Chevy Chase", MONTGOMERY),
     ("Kensington", MONTGOMERY), ("Garrett Park", MONTGOMERY), ("Cabin John", MONTGOMERY), ("Glen Echo", MONTGOMERY),
-    ("Rockville", MONTGOMERY), ("Boyds", MONTGOMERY), ("Clarksburg", MONTGOMERY), ("Poolesville", MONTGOMERY),
+    ("Rockville", MONTGOMERY), ("Silver Spring", MONTGOMERY), ("Boyds", MONTGOMERY), ("Clarksburg", MONTGOMERY), ("Poolesville", MONTGOMERY),
     ("Clarksville", HOWARD), ("Highland", HOWARD), ("Dayton", HOWARD), ("Glenelg", HOWARD), ("Glenwood", HOWARD),
     ("Fulton", HOWARD), ("West Friendship", HOWARD), ("Ellicott City", HOWARD),
 ]
-SERVICE_TYPES = ["Small home repairs", "Kitchen remodeling", "Bathroom remodeling", "Basement finishing", "Interior remodeling",
-                 "Custom cabinetry and millwork", "Design-build remodeling"]
-BUSINESS_DESCRIPTION = ("Small repairs and design-led kitchen, bathroom, basement and interior remodeling for "
-                        "established homes within about 40 miles of Olney, MD, in Maryland, Washington, DC and Virginia.")
+# Sitewide footer sentence. Also used verbatim as the business description in JSON-LD, so the
+# structured data says exactly what every page shows.
+FOOTER_BLURB = ("Repairs and design-led remodeling for established homes within about 40 miles of Olney, "
+                "in Maryland, DC and Virginia.")
+# Schema type of the business node. It is a service-area business: the address carries only the real
+# locality / region / ZIP (no street address, no phone until the owner confirms them in site-config.js).
+# Never add empty properties. `serviceType` is NOT valid on this type (it belongs to Service) and was the
+# property the validators rejected on every page (2026-11-19).
+BUSINESS_TYPE = "HomeAndConstructionBusiness"
+
+# ---------------------------------------------------------------------------
+# URL form (2026-11-19): ONE public form per page, extensionless, no trailing slash:
+#   index.html -> /        kitchen-remodeling.html -> /kitchen-remodeling
+# Netlify serves /name from name.html natively. Canonical, og:url, JSON-LD, sitemap and every internal
+# link use this form. Fragments in site-src/ keep writing links as "name.html"; render() converts them.
+# ---------------------------------------------------------------------------
+def page_path(slug: str) -> str:
+    return "/" if slug == "index.html" else "/" + slug[:-len(".html")]
+
+def page_url(slug: str) -> str:
+    return SITE + page_path(slug)
+
+_LINK_RE = re.compile(r'\b(href|action)="/?([a-z0-9-]+\.html)([?#][^"]*)?"')
+
+def pretty_links(out_html: str) -> str:
+    """Rewrite internal page links (href/action) from name.html to the canonical extensionless form."""
+    def sub(m):
+        if not (SRC / m.group(2)).exists():
+            return m.group(0)
+        return f'{m.group(1)}="{page_path(m.group(2))}{m.group(3) or ""}"'
+    return _LINK_RE.sub(sub, out_html)
 
 # Text that must never appear in public pages (off-strategy places, other states, dev notes).
 FORBIDDEN = [
-    "Silver Spring", "Gaithersburg", "Germantown", "Aspen Hill", "Wheaton", "DMV", "Washington area",  # vague regional phrasing; name real places
+    "Gaithersburg", "Germantown", "Aspen Hill", "Wheaton", "DMV", "Washington area",  # vague regional phrasing; name real places
     "starter website", "Unsplash", "before public launch", "Available when contact details are added",
     "Replace with approved", "pre-launch", "PRE-LAUNCH", "lorem",
+    # Unproven price wording removed in the 2026-11-19 content pass (budget factors only, no ranges).
+    "planning range", "Planning range", "cost ranges",
     # Image labeling: imagery stays neutral (never "AI" labels, never claimed as Blue Hammer projects).
     "AI-generated", "AI generated", "AI-created", "design concept", "Design concept", "DESIGN INSPIRATION",
     # Anti-slop copy (see docs/design-system/anti-slop-copy.md)
     "built to last", "unparalleled", "leverage", "seamless", "world-class", "top-notch", "second to none", "elevate your",
 ]
+
+def asset_v(path: str) -> str:
+    """Content-hash cache buster (sha256, first 12 hex), as in the owner's 2026-11-18 22:30 package."""
+    digest = hashlib.sha256((OUT / path).read_bytes()).hexdigest()[:12]
+    return f"{path}?v={digest}"
 
 # ---------------------------------------------------------------------------
 # Icons / partials
@@ -100,7 +136,7 @@ def img(src_base: str, alt: str, *, w: int, h: int, cls: str = "", lazy: bool = 
 SERVICE_CARDS_DATA = [
     # (href, name, image base, image height, alt, note, is_large)
     ("kitchen-remodeling.html", "Kitchen remodeling", "kitchen-design", 1080,
-     "Remodeled kitchen with navy cabinetry and a marble island",
+     "Kitchen with navy cabinetry and a marble island",
      "Layout, cabinetry, stone and lighting, planned around how you cook and gather.", True),
     ("bathroom-remodeling.html", "Bathroom remodeling", "bathroom-design", 1080,
      "Bathroom with a walk-in shower and navy double vanity",
@@ -122,7 +158,7 @@ def service_cards() -> str:
             f'<span class="room-note">{note}</span></a>')
     return ('<div class="bento">' + "".join(rooms) + '</div>'
             '<div class="repairs-note"><p><strong>Starting smaller?</strong> We also take on small repairs and fixes '
-            'around the house. It is often the easiest way to start working together, and the same standard applies.</p>'
+            'around the house. A repair can be a first project with us, planned and written up the same way.</p>'
             f'<a class="text-link" href="contact.html?service=Small%20Repair">Ask about a repair {ARROW}</a></div>')
 
 def lead_form(form_id: str) -> str:
@@ -171,12 +207,13 @@ def lead_form(form_id: str) -> str:
 def consultation_section() -> str:
     return (
         '<section aria-labelledby="consult-title" class="consultation" id="consultation"><div class="container consult-grid"><div>'
-        '<h2 class="title-pair" id="consult-title"><em>Let’s talk about</em> <strong>your home.</strong></h2>'
-        '<p class="consult-lede">Bring drawings, a list of what isn’t working or a few saved photos. We read every request and follow up if the project is in our area.</p>'
+        '<p class="bh-eyebrow">Let’s talk about your home</p>'
+        '<h2 class="bh-consult-title" id="consult-title">Ready to make your space work better?</h2>'
+        '<p class="consult-lede">Tell us what you have in mind. We’ll review your project and talk through the next step together.</p>'
         f'<div class="consult-benefits"><div>{CHECK} Start with your priorities, budget range and timing</div>'
         f'<div>{CHECK} Talk through scope, design direction and permits</div>'
         f'<div>{CHECK} Confirm your home is inside our service area</div></div>'
-        '<div class="consult-contact"><p>Prefer to speak with us?</p><div class="phone-slot"></div><p class="email-slot"></p></div></div>'
+        '<div class="consult-contact"><div class="phone-slot"></div><p class="email-slot"></p></div></div>'
         f'<div class="consult-form">{lead_form("consult-form-consultation")}</div></div></section>')
 
 # Navigation ---------------------------------------------------------------
@@ -188,6 +225,7 @@ NAV_AREAS = [
     ("chevy-chase-md.html", "Chevy Chase"),
     ("kensington-garrett-park-md.html", "Kensington &amp; Garrett Park"),
     ("rockville-md.html", "Rockville"),
+    ("silver-spring-md.html", "Silver Spring"),
     ("howard-county-md.html", "Howard County (Clarksville)"),
 ]
 NAV_SERVICES = [
@@ -208,7 +246,7 @@ def nav_dropdown(label: str, items, panel_id: str, active: bool) -> str:
 
 def brand(aria: str = "Blue Hammer Remodeling homepage") -> str:
     return (f'<a aria-label="{aria}" class="brand" href="index.html">'
-            f'<img alt="" height="46" src="{MARK}" width="56"/>'
+            f'<img alt="" height="68" src="{MARK}" width="62"/>'
             f'<span class="brand-copy">BLUE HAMMER<small>REMODELING</small></span></a>')
 
 def topline() -> str:
@@ -224,14 +262,13 @@ def header(active: str) -> str:
         f'<button aria-controls="main-navigation" aria-expanded="false" class="menu-toggle" type="button">{MENU}{CLOSE}<span class="menu-label">Menu</span></button>'
         '<nav aria-label="Primary" class="nav-links" id="main-navigation">'
         + nav_dropdown("Services", NAV_SERVICES, "services-dropdown", active == "services")
-        + nav_dropdown("Service areas", NAV_AREAS, "areas-dropdown", active == "areas")
-        + a("process.html", "Process", "process")
-        + a("projects.html", "Gallery", "inspiration")
+        + a("process.html", "Our Process", "process")
+        + nav_dropdown("Service Areas", NAV_AREAS, "areas-dropdown", active == "areas")
         + a("about.html", "About", "about")
-        + a("contact.html", "Contact", "contact")
-        + '<a class="btn btn--primary nav-cta-mobile" href="index.html#consultation">Schedule a consultation</a>'
+        # Owner package 2026-11-18 22:30: Gallery and Contact left the header (still in the footer); title-case CTA.
+        + '<a class="btn btn--primary nav-cta-mobile" href="index.html#consultation">Schedule a Consultation</a>'
         + '</nav>'
-        '<a class="btn btn--primary btn--sm header-cta" href="index.html#consultation">Schedule a consultation</a></div></header>')
+        '<a class="btn btn--primary btn--sm header-cta" href="index.html#consultation">Schedule a Consultation</a></div></header>')
 
 def footer() -> str:
     def links(items):
@@ -247,7 +284,7 @@ def footer() -> str:
     return (
         '<footer class="footer"><div class="container"><div class="footer-top">'
         f'<div class="footer-about">{brand()}'
-        '<p>Repairs and design-led remodeling for established homes within about 40 miles of Olney, in Maryland, DC and Virginia.</p>'
+        f'<p>{FOOTER_BLURB}</p>'
         '<p class="phone-slot"></p><p class="email-slot"></p><span class="license-slot"></span></div>'
         f'<div><h2 class="footer-h">Remodeling</h2>{links(remodeling)}</div>'
         f'<div><h2 class="footer-h">Service areas</h2>{links(areas)}</div>'
@@ -256,9 +293,16 @@ def footer() -> str:
         '<div class="footer-bottom"><span>© 2026 Blue Hammer Remodeling. Olney, Maryland.</span>'
         '<nav aria-label="Legal"><a href="privacy.html">Privacy policy</a><a href="terms.html">Website terms</a></nav></div></div></footer>')
 
-def mobile_cta() -> str:
+def mobile_cta(target: str = "index.html#consultation") -> str:
+    """Fixed mobile bar. Points at the form on the same page when there is one, so it never sends people away."""
     return (f'<div class="mobile-cta"><a aria-label="Call Blue Hammer" class="btn btn--outline mobile-phone phone-link" hidden="" href="#">{PHONE}</a>'
-            f'<a class="btn btn--primary" href="index.html#consultation">Schedule a consultation</a></div>')
+            f'<a class="btn btn--primary" href="{target}">Schedule a Consultation</a></div>')
+
+def cta_target(meta: dict, body: str) -> str:
+    form = re.search(r'<form class="lead-form" id="([a-z0-9-]+)"', body)
+    if meta.get("consult", True):
+        return "#consultation"
+    return f"#{form.group(1)}" if form else "index.html#consultation"
 
 # ---------------------------------------------------------------------------
 # Breadcrumbs, FAQ extraction, schema
@@ -302,24 +346,21 @@ def area_served():
     return [{"@type": "City", "name": n, "containedInPlace": {"@type": "AdministrativeArea", "name": c}} for n, c in AREAS]
 
 def schema_graph(meta: dict, slug: str, body: str, crumb_items) -> str:
-    url = SITE + "/" + ("" if slug == "index.html" else slug)
+    url = page_url(slug)
     page_type = meta.get("type", "WebPage")
     hero = meta.get("image")
     business = {
-        "@type": "HomeAndConstructionBusiness", "@id": SITE + "/#business", "name": BRAND, "url": SITE + "/",
-        "description": BUSINESS_DESCRIPTION,
-        "logo": {"@type": "ImageObject", "url": f"{SITE}/{LOGO}", "width": 512, "height": 292},
+        "@type": BUSINESS_TYPE, "@id": SITE + "/#business", "name": BRAND, "url": SITE + "/",
+        "description": FOOTER_BLURB,
+        "logo": {"@type": "ImageObject", "url": f"{SITE}/{LOGO}"},
         "image": f"{SITE}/{OG_IMAGE}",
         "address": {"@type": "PostalAddress", "addressLocality": "Olney", "addressRegion": "MD", "postalCode": "20832", "addressCountry": "US"},
         "areaServed": area_served(),
-        "serviceType": SERVICE_TYPES,
-        "knowsAbout": ["Kitchen remodeling", "Bathroom remodeling", "Basement finishing", "Custom cabinetry",
-                       "Montgomery County residential permits", "Howard County residential permits"],
+        "knowsAbout": ["Kitchen remodeling", "Bathroom remodeling", "Basement finishing"],
     }
-    graph = [business]
-    if slug == "index.html":
-        graph.append({"@type": "WebSite", "@id": SITE + "/#website", "url": SITE + "/", "name": BRAND,
-                      "publisher": {"@id": SITE + "/#business"}, "inLanguage": "en-US"})
+    # WebSite is on every page so the page node's isPartOf reference always resolves inside the graph.
+    graph = [business, {"@type": "WebSite", "@id": SITE + "/#website", "url": SITE + "/", "name": BRAND,
+                        "publisher": {"@id": SITE + "/#business"}, "inLanguage": "en-US"}]
     page = {"@type": page_type, "@id": url + "#webpage", "url": url, "name": meta["title"],
             "description": meta["description"], "isPartOf": {"@id": SITE + "/#website"},
             "about": {"@id": SITE + "/#business"}, "inLanguage": "en-US", "dateModified": TODAY}
@@ -329,7 +370,7 @@ def schema_graph(meta: dict, slug: str, body: str, crumb_items) -> str:
         page["breadcrumb"] = {"@id": url + "#breadcrumb"}
         graph.append({"@type": "BreadcrumbList", "@id": url + "#breadcrumb", "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "name": label,
-             **({"item": SITE + "/" + ("" if href == "index.html" else href)} if href else {})}
+             **({"item": page_url(href)} if href else {})}
             for i, (label, href) in enumerate(crumb_items)]})
     graph.append(page)
     svc = meta.get("service")
@@ -342,10 +383,16 @@ def schema_graph(meta: dict, slug: str, body: str, crumb_items) -> str:
             service["areaServed"] = [{"@type": "City", "name": n, "containedInPlace": {"@type": "AdministrativeArea", "name": area["county"]}}
                                      for n in area["places"]]
         graph.append(service)
+    # FAQ markup is built from the visible <details class="faq-item"> blocks, so it always matches the page.
+    # Exactly one FAQPage node per page: on the FAQ page itself the page node IS the FAQPage (a second,
+    # empty FAQPage node there was the "missing mainEntity" error); elsewhere it is a separate #faq node.
     faqs = extract_faqs(body)
     if faqs:
-        graph.append({"@type": "FAQPage", "@id": url + "#faq", "mainEntity": [
-            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]})
+        main_entity = [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs]
+        if page_type == "FAQPage":
+            page["mainEntity"] = main_entity
+        else:
+            graph.append({"@type": "FAQPage", "@id": url + "#faq", "mainEntity": main_entity})
     data = {"@context": "https://schema.org", "@graph": graph}
     return '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False, separators=(",", ":")) + '</script>'
 
@@ -354,12 +401,10 @@ def schema_graph(meta: dict, slug: str, body: str, crumb_items) -> str:
 # ---------------------------------------------------------------------------
 def preload_fonts(slug: str):
     """Only the 1-2 faces visible above the fold (self-hosted Fontshare woff2, ITF Free Font License)."""
-    if slug == "index.html":
-        return ["switzer-700", "gambetta-400-italic"]
-    return ["gambetta-500", "switzer-400"]
+    return ["barlow-condensed-800", "switzer-400"]  # owner package 2026-11-18 22:30
 
 def head(meta: dict, slug: str, body: str, crumb_items) -> str:
-    url = SITE + "/" + ("" if slug == "index.html" else slug)
+    url = page_url(slug)
     title = html.escape(meta["title"])
     desc = html.escape(meta["description"])
     robots = meta.get("robots", "index,follow")
@@ -367,10 +412,10 @@ def head(meta: dict, slug: str, body: str, crumb_items) -> str:
     return (
         '<head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>'
         f'<title>{title}</title><meta content="{desc}" name="description"/>'
-        f'<link href="{url}" rel="canonical"/><meta content="#0b2347" name="theme-color"/><meta content="{robots}" name="robots"/>'
-        '<link href="assets/favicon.png" rel="icon" type="image/png"/>'
+        f'<link href="{url}" rel="canonical"/><meta content="{THEME_COLOR}" name="theme-color"/><meta content="{robots}" name="robots"/>'
+         f'<link href="{asset_v(FAVICON)}" rel="icon" type="image/png"/>'
         + "".join(f'<link as="font" crossorigin="" href="assets/fonts/{f}.woff2" rel="preload" type="font/woff2"/>' for f in preload_fonts(slug))
-        + '<link href="assets/main.css" rel="stylesheet"/>'
+        + f'<link href="{asset_v("assets/main.css")}" rel="stylesheet"/>'
         '<meta content="website" property="og:type"/><meta content="en_US" property="og:locale"/>'
         f'<meta content="{BRAND}" property="og:site_name"/><meta content="{url}" property="og:url"/>'
         f'<meta content="{title}" property="og:title"/><meta content="{desc}" property="og:description"/>'
@@ -400,11 +445,11 @@ def render(slug: str, meta: dict, body: str) -> str:
     body = re.sub(r"\{\{FORM:([a-z0-9-]+)\}\}", lambda m: lead_form(m.group(1)), body)
     if meta.get("consult", True):
         body += consultation_section()
-    return (
+    return pretty_links(
         '<!DOCTYPE html>\n<html lang="en">' + head(meta, slug, body, crumb_items)
         + '<body><a class="skip-link" href="#main">Skip to main content</a>\n'
-        + topline() + header(meta.get("nav", "")) + f'<main id="main">{body}</main>' + footer() + mobile_cta()
-        + '<script src="assets/site-config.js"></script><script defer="" src="assets/main.js"></script></body></html>\n')
+        + topline() + header(meta.get("nav", "")) + f'<main id="main">{body}</main>' + footer() + mobile_cta(cta_target(meta, body))
+        + f'<script src="{asset_v("assets/site-config.js")}"></script><script defer="" src="{asset_v("assets/main.js")}"></script></body></html>\n')
 
 def build():
     pages = {}
@@ -421,7 +466,7 @@ def write_sitemap(pages):
     for slug, (meta, _) in pages.items():
         if "noindex" in meta.get("robots", "") or meta.get("sitemap") is False:
             continue
-        loc = SITE + "/" + ("" if slug == "index.html" else slug)
+        loc = page_url(slug)
         pr = meta.get("priority", 0.7)
         urls.append(f"  <url><loc>{loc}</loc><lastmod>{meta.get('lastmod', TODAY)}</lastmod><changefreq>{meta.get('changefreq', 'monthly')}</changefreq><priority>{pr:.1f}</priority></url>")
     (OUT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -450,6 +495,44 @@ class Collector(HTMLParser):
     def handle_endtag(self, tag):
         if tag == "title": self._in_title = False
 
+def schema_problems(slug: str, out_html: str):
+    """JSON-LD rules: valid JSON, no empty values, internal @id references resolve, URLs in canonical form,
+    one FAQPage at most and its questions/answers equal to the visible FAQ, no invalid business properties."""
+    probs = []
+    blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', out_html, re.S)
+    if len(blocks) != 1: return [f"{len(blocks)} JSON-LD blocks (expected 1)"]
+    try: data = json.loads(blocks[0])
+    except Exception as e: return [f"invalid JSON-LD ({e})"]
+    graph = data.get("@graph", [])
+    ids = {n.get("@id") for n in graph}
+    def walk(node, path):
+        if isinstance(node, dict):
+            if set(node) == {"@id"} and node["@id"] not in ids: probs.append(f"JSON-LD reference {node['@id']} not in graph")
+            for k, v in node.items(): walk(v, f"{path}.{k}")
+        elif isinstance(node, list):
+            if not node: probs.append(f"JSON-LD empty list at {path}")
+            for v in node: walk(v, path)
+        elif node is None or (isinstance(node, str) and not node.strip()):
+            probs.append(f"JSON-LD empty value at {path}")
+        elif isinstance(node, str) and node.startswith(SITE) and re.search(r"\.html(#|$)", node):
+            probs.append(f"JSON-LD URL not in canonical form: {node}")
+    walk(graph, "@graph")
+    biz = [n for n in graph if n.get("@id") == SITE + "/#business"]
+    if len(biz) != 1: probs.append("JSON-LD needs exactly one business node")
+    else:
+        b = biz[0]
+        for bad in ("serviceType", "streetAddress", "telephone", "email", "aggregateRating", "review", "priceRange"):
+            if bad in b or bad in b.get("address", {}): probs.append(f"business node must not carry '{bad}' (invalid or unconfirmed)")
+        if not b.get("name") or not b.get("address", {}).get("addressLocality"): probs.append("business node missing name/address")
+    faq_nodes = [n for n in graph if n.get("@type") == "FAQPage"]
+    visible = extract_faqs(out_html)
+    if len(faq_nodes) > 1: probs.append(f"{len(faq_nodes)} FAQPage nodes (max 1)")
+    if bool(faq_nodes) != bool(visible): probs.append("FAQPage node and visible FAQ do not both exist")
+    for n in faq_nodes:
+        marked = [(q.get("name"), q.get("acceptedAnswer", {}).get("text")) for q in n.get("mainEntity", [])]
+        if marked != visible: probs.append("FAQPage mainEntity differs from the visible questions/answers")
+    return probs
+
 def check(pages) -> int:
     errors = []
     for slug, (meta, out_html) in pages.items():
@@ -457,9 +540,6 @@ def check(pages) -> int:
         if c.h1 != 1: errors.append(f"{slug}: {c.h1} <h1> tags")
         if len(meta["title"]) > 65: errors.append(f"{slug}: title {len(meta['title'])} chars")
         if not (70 <= len(meta["description"]) <= 160): errors.append(f"{slug}: description {len(meta['description'])} chars")
-        for ld in re.findall(r'<script type="application/ld\+json">(.*?)</script>', out_html, re.S):
-            try: json.loads(ld)
-            except Exception as e: errors.append(f"{slug}: invalid JSON-LD ({e})")
         text = TAG_RE.sub(" ", out_html)
         for bad in FORBIDDEN:
             if bad in text: errors.append(f"{slug}: forbidden text '{bad}'")
@@ -467,15 +547,34 @@ def check(pages) -> int:
             if href.startswith(("http", "mailto:", "tel:")): continue
             target, _, frag = href.partition("#")
             target = target.partition("?")[0]  # query strings (e.g. ?service=) point at the same file
+            if target.endswith(".html"): errors.append(f"{slug}: internal link not in canonical form {href}")
+            if target.startswith("/"):  # canonical extensionless form: / -> index.html, /name -> name.html
+                target = "index.html" if target == "/" else target[1:] + ".html"
             if target and not (OUT / target).exists(): errors.append(f"{slug}: broken link {href}")
             if not target and frag and frag not in c.ids: errors.append(f"{slug}: missing anchor #{frag}")
         for tag, src, alt in c.imgs:
             if src.startswith("http"): continue
+            src = src.partition("?")[0]  # cache-busting ?v= queries
             if not (OUT / src).exists(): errors.append(f"{slug}: missing asset {src}")
             if tag == "img" and alt is None: errors.append(f"{slug}: <img> without alt ({src})")
             if alt and re.search(r"\bAI\b|AI-generated|concept|inspiration", alt, re.I): errors.append(f"{slug}: AI/concept label in alt text ({src})")
         if "{{" in out_html: errors.append(f"{slug}: unexpanded placeholder")
-        if 'rel="canonical"' not in out_html: errors.append(f"{slug}: no canonical")
+        # A reviews page with no real reviews (the empty-state block) stays out of the index and the sitemap.
+        if 'class="review-empty"' in out_html and "noindex" not in meta.get("robots", ""):
+            errors.append(f"{slug}: empty reviews page must be noindex (owner rule 2026-11-19)")
+        canon = re.findall(r'<link href="([^"]+)" rel="canonical"/>', out_html)
+        if canon != [page_url(slug)]: errors.append(f"{slug}: canonical {canon} != {page_url(slug)}")
+        if f'<meta content="{page_url(slug)}" property="og:url"/>' not in out_html: errors.append(f"{slug}: og:url != canonical")
+        errors += [f"{slug}: {e}" for e in schema_problems(slug, out_html)]
+    # Sitemap: exactly the canonical URLs of the indexable pages, nothing else.
+    expected = sorted(page_url(s) for s, (m, _) in pages.items() if "noindex" not in m.get("robots", "") and m.get("sitemap") is not False)
+    locs = sorted(re.findall(r"<loc>(.*?)</loc>", (OUT / "sitemap.xml").read_text(encoding="utf-8")))
+    if locs != expected: errors.append(f"sitemap.xml: URLs differ from canonical indexable pages ({set(locs) ^ set(expected)})")
+    titles, descs = {}, {}
+    for slug, (meta, _) in pages.items():
+        if meta["title"] in titles: errors.append(f"{slug}: duplicate title with {titles[meta['title']]}")
+        if meta["description"] in descs: errors.append(f"{slug}: duplicate description with {descs[meta['description']]}")
+        titles[meta["title"]] = slug; descs[meta["description"]] = slug
     for e in errors: print("  ✗", e)
     print(f"{'OK' if not errors else 'FAILED'}: {len(pages)} pages, {len(errors)} problems")
     return 1 if errors else 0

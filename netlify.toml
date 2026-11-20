@@ -18,15 +18,10 @@
   status = 301
   force = true
 
-# --- Retired pages (logged in AGENT-LOG.md) ---
-[[redirects]]
-  from = "/silver-spring-md.html"
-  to = "/service-areas.html"
-  status = 301
-[[redirects]]
-  from = "/silver-spring-md"
-  to = "/service-areas.html"
-  status = 301
+# --- Retired pages (logged in AGENT-LOG.md). Targets use the canonical extensionless URL form. ---
+# Do NOT add name.html -> /name (or /index.html -> /) rules here without testing on a deploy preview first:
+# Netlify resolves /name from name.html internally and such a forced rule can loop.
+# (none at present: /silver-spring-md is a live page again since 2026-11-19, see AGENT-LOG.md)
 
 # --- Internal files that must not be public on the hosted site ---
 [[redirects]]

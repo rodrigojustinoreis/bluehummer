@@ -47,7 +47,7 @@ Sem isso, **os leads são salvos localmente, mas não são enviados automaticame
 - `kitchen-remodeling.html`, `bathroom-remodeling.html`, `basements-interiors.html` — páginas de serviço;
 - `projects.html` — inspiração/galeria filtrável (somente fotos ilustrativas);
 - `about.html`, `process.html`, `reviews.html` — confiança e processo;
-- `service-areas.html` + páginas de área (Olney, Potomac, Bethesda, Chevy Chase, Kensington & Garrett Park, Rockville, Howard County) — localização/SEO regional; a antiga `silver-spring-md.html` foi retirada com 301;
+- `service-areas.html` + páginas de área (Olney, Potomac, Bethesda, Chevy Chase, Kensington & Garrett Park, Rockville, Silver Spring, Howard County) — localização/SEO regional; `silver-spring-md.html` voltou a ser página ativa em 2026-11-19 (pedido do dono; sem redirect);
 - `faq.html`, `contact.html`, `thank-you.html`, `privacy.html`, `terms.html`.
 
 **Cores:** royal blue `#1E4FA3`, navy `#0B2347`, white `#FFFFFF` e tons neutros. A identidade do martelo + casa veio da direção visual escolhida anteriormente, como arte de pré-produção.

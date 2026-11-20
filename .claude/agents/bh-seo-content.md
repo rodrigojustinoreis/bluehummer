@@ -18,8 +18,8 @@ Read `docs/brand.md` (Voice) before any copy change.
 
 ## Scope
 - Service, location, FAQ, about, process and guide pages. Every area page
-  must be genuinely distinct (no city-swap pages). Silver Spring is not a
-  priority market. Keep nav, footer and internal links consistent.
+  must be genuinely distinct (no city-swap pages). Silver Spring has its own page
+  (silver-spring-md, owner request 2026-11-19); keep it. Keep nav, footer and internal links consistent.
 - Technical SEO: titles (≤60), meta descriptions (≤155), canonicals, Open Graph,
   sitemap.xml, robots.txt, headings, image alt text, structured data
   (HomeAndConstructionBusiness, Service, FAQPage, breadcrumbs). Use installed

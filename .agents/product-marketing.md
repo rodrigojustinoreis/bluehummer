@@ -1,6 +1,6 @@
 # Product Marketing Context
 
-*Document version: 1.1 - Last updated: 2026-11-18*
+*Document version: 1.2 - Last updated: 2026-11-19*
 
 Only confirmed facts. Anything marked **Unconfirmed** must not be published until Rodrigo
 confirms it. Detailed rules live in `.claude/agents/HARD-RULES.md`, brand voice in
@@ -15,7 +15,8 @@ confirms it. Detailed rules live in `.claude/agents/HARD-RULES.md`, brand voice 
 - Type: local residential remodeling service (service-area business, Olney MD 20832).
 - Services (confirmed): Small repairs (entry service; which repairs and minimum job **Unconfirmed**);
   Kitchen Remodeling; Bathroom Remodeling; Basements & Interiors.
-- Pricing: **Unconfirmed.** The site shows planning ranges only, labeled as planning ranges.
+- Pricing: **Unconfirmed.** The site carries no dollar figures, durations or travel times (2026-11-19).
+  Pages explain the factors that make up a budget; no "we do not publish prices" wording.
 
 ## Target Audience
 - Homeowners of established, higher-value homes within about 40 miles of Olney in Maryland,
@@ -66,10 +67,15 @@ phone and email are **Unconfirmed** and stay hidden (`site-config.js` fields emp
 - Current metrics: **Unconfirmed** (no analytics recorded here).
 
 ## Learnings
+- 2026-11-19: the live identity is the owner v2 package (navy `#142131`, orange `#FF7A24`, royal `#0864D8`,
+  Barlow Condensed + Switzer). Palette A / Gambetta below is superseded; see DESIGN.md.
+- 2026-11-19: Silver Spring has a town page again (owner request). Town pages are commercial pages with one
+  local permit block sourced from official pages; no neighborhood or ZIP lists, no service-by-city pages.
 - 2026-11-18: palette A and Gambetta/Switzer approved; no AI labels on images; images never
   presented as Blue Hammer projects.
 
 ## Changelog
+- 1.2 (2026-11-19): Pricing line corrected (no planning ranges on the site); v2 identity and Silver Spring noted.
 - 1.1 (2026-11-18): Small repairs added as entry service; service area now MD, DC and VA within
   ~40 miles. DC/VA licensing and repair specifics unconfirmed.
 - 1.0 (2026-11-18): Created with confirmed facts only during Claude Code environment setup.

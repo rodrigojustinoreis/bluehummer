@@ -1,5 +1,12 @@
 # DESIGN.md - Blue Hammer Remodeling
 
+> **Documentation note (2026-11-19): the live identity is the owner v2 package.** Navy `#142131`, orange `#FF7A24`
+> (primary buttons), royal `#0864D8`, Barlow Condensed 800 uppercase display type + Switzer text. Where this file (sections "Color", "Typography", "Components", "Live site vs spec")
+> says palette A, "Heritage Navy & Brass", ivory, brass, Gambetta or Gambetta italics, it describes the superseded
+> identity and is kept for history only. Do not restyle pages toward it. The live rules are the owner block at the
+> end of `blue_hammer_remodeling_site/assets/main.css`; summary in `DESIGN.md` > "Owner v2 identity".
+
+
 Summary of the approved visual identity as observed on 2026-11-18 (repo `main`, live CSS
 `blue_hammer_remodeling_site/assets/main.css`). **`docs/brand.md` is the authoritative spec**
 (tokens, scale, spacing, photography, motion, voice). This file records what is live, where it
@@ -43,6 +50,19 @@ Asymmetric editorial layouts, large photographic imagery, generous whitespace, o
 `.claude/skills/blue-hammer-website/references/evidence.md`; never labeled as AI and never
 presented as Blue Hammer projects (owner rule 2026-11-18).
 
+## Owner v2 identity (live since commit e455100, 2026-11-19)
+The owner's package replaced palette A on the live site: navy `#142131` header/footer, orange `#FF7A24` primary
+buttons with navy text, royal `#0864D8` links and second lines of H1s, Barlow Condensed 800 uppercase display type +
+Switzer text, `bh-hammer-v2.png` mark, nav Services / Our Process / Service Areas / About, primary CTA
+"Schedule a Consultation" (title case). Rules: owner block at the end of `assets/main.css`, plus the appended
+"Pass 4 alignment" block (no Barlow italics; h3/FAQ questions in Switzer). `docs/brand.md` still describes palette A
+and is pending the owner's approval to be rewritten. AUDIT 15 pass 4 (process, faq, projects, reviews, contact,
+legal, 404, thank-you) is done: paired titles, no eyebrows.
+Content pass 2026-11-19 (batches A-C and final): copy only, no restyle. Pages carry no dollar figures, durations or
+travel times; price tables became scope / cost-factor tables (`.range-table--scope`, the one CSS addition). Image alt
+text and gallery captions describe the room and materials only (no towns, decades or house types). `/reviews` is
+`noindex,follow` and out of the sitemap while it has no reviews (`build.py --check` enforces it).
+
 ## Live site vs spec (updated 2026-11-18, AUDIT 15 first page-by-page pass: chrome + home)
 Fixed in this pass:
 - Corner radius now follows hierarchy (2 / 3 / 4 / 6 px tokens); the 18 px radius is gone.
@@ -58,7 +78,6 @@ section-head + bento (via `{{SERVICE_CARDS}}`, which now renders the bento, not 
 FAQ split; kicker labels and middot eyebrows removed; buttons and breadcrumbs in sentence case site-wide
 (including "Schedule a consultation" and "See the design gallery").
 Still open (later runs):
-- Not yet overhauled: process, faq, projects, reviews, contact (eyebrows and old section headings remain).
 - `olney-colonial-exterior-1440.webp` is 223 KB (over the ~200 KB hero budget); re-encoding from the WebP visibly
   softens detail, so it needs the original source or a re-export.
 - Hero photo is the best existing asset (cabinetry close-up); a dedicated craft-at-work photo would be stronger.

@@ -655,3 +655,28 @@ h1,h2,h3{font-weight:800}
 @media(prefers-reduced-motion:reduce){.bh-spaces-video,.bh-motion-control{display:none!important}.bh-service-card:hover .bh-card-media img{transform:none}}
 .contact-grid .consult-form{align-self:start;background:var(--navy2);border:1px solid #455367;border-top:3px solid var(--orange);border-radius:5px;padding:36px}
 @media(max-width:700px){.contact-grid .consult-form{padding:26px 22px}}
+
+/* Pass 4 alignment (2026-11-19): carry the legacy page components onto the v2 identity above.
+   Barlow Condensed ships one upright 800 face, so nothing set in it may be italic (no synthetic slant). */
+.step-num,.timeline-count,.repairs-note strong{font-style:normal;font-weight:800}
+h3{font-family:var(--font-text);font-size:1.12rem;line-height:1.35;font-weight:700;letter-spacing:-.015em}
+.faq-item summary{font-family:var(--font-text);font-size:1.02rem;font-weight:600;line-height:1.5}
+.content-prose h2{font-family:var(--font-text);font-size:1.4rem;font-weight:700;line-height:1.3;letter-spacing:-.015em}
+.interior-hero h1.title-pair em,.interior-hero h1.title-pair strong{display:block;font-size:clamp(2.6rem,4.4vw,4rem);line-height:.98;letter-spacing:-.012em;max-width:none;margin:0}
+h1.title-pair strong{color:var(--royal)}
+@media(max-width:700px){.interior-hero h1.title-pair em,.interior-hero h1.title-pair strong{font-size:clamp(2.3rem,10vw,3rem)}}
+.title-pair{margin-bottom:24px}
+.section-head .title-pair,.interior-hero h1.title-pair{margin-bottom:0}
+.interior-hero h1.title-pair{margin-bottom:28px}
+.consult-form,.lead-form{scroll-margin-top:calc(var(--header-h) + 24px)}
+body:has(.nav-links.open) .mobile-cta{display:none}
+main p a:not([class]),.detail-list li a:not([class]),.content-prose li a:not([class]){color:var(--royal);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+main p a:not([class]):hover,.detail-list li a:not([class]):hover,.content-prose li a:not([class]):hover{color:var(--hover)}
+
+/* Scope / cost-factor tables (2026-11-19): same table, last column is prose instead of a price. */
+.range-table--scope td:last-child{white-space:normal;font-weight:400;color:var(--ink)}
+.range-table--scope td:first-child{width:22%}
+.range-table--scope td:nth-child(2){width:42%}
+@media(max-width:700px){.range-table--scope thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.range-table--scope tr{display:block;padding:16px 0;border-bottom:1px solid var(--line)}.range-table--scope td,.range-table--scope td:first-child,.range-table--scope td:nth-child(2){display:block;width:auto;padding:3px 0;border:0}.range-table--scope td:first-child{font-size:1.02rem;padding-bottom:6px}.range-table--scope td[data-label]:before{content:attr(data-label);display:block;margin-top:8px;font-size:.78rem;font-weight:600;color:var(--accent-text)}}
+.range-table--links td:last-child{white-space:nowrap}.range-table--links td:nth-child(2){width:auto}
+.range-table--links td a{color:var(--royal);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}.range-table--links td a:hover{color:var(--hover)}
