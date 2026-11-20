@@ -4,7 +4,8 @@
 > (primary buttons), royal `#0864D8`, Barlow Condensed 800 uppercase display type + Switzer text. Where this file
 > says palette A, "Heritage Navy & Brass", ivory, brass, Gambetta or Gambetta italics, it describes the superseded
 > identity and is kept for history only. Do not restyle pages toward it. The live rules are the owner block at the
-> end of `blue_hammer_remodeling_site/assets/main.css`; summary in `DESIGN.md` > "Owner v2 identity".
+> end of `site-src/assets/main.css` (the source; `python3 scripts/build.py` minifies it into
+> `blue_hammer_remodeling_site/assets/main.css`, which is generated and never edited); summary in `DESIGN.md` > "Owner v2 identity".
 
 Every design or copy task reads this file first. If a change conflicts with it, update this
 file in the same commit and say why in AGENT-LOG.md.
@@ -48,7 +49,9 @@ least 4.5:1 (3:1 for 24 px+ headings).
 - Text and UI: **Switzer** (Fontshare, ITF Free Font License). Weights 400 to 700.
 - **Self-hosted** (2026-11-18): woff2 files in `assets/fonts/` (`gambetta-400`, `gambetta-400-italic`, `gambetta-500`,
   `gambetta-600`, `switzer-400` to `switzer-700`), declared with `@font-face` + `font-display: swap` at the top of
-  `assets/main.css`. No request to `api.fontshare.com`. `scripts/build.py` `preload_fonts()` preloads only the two
+  `site-src/assets/main.css` (source; the published `assets/main.css` is the minified copy written by
+  `python3 scripts/build.py`). Since 2026-11-20 the Gambetta files are no longer declared or loaded (unused by the
+  v2 identity); the files stay in `assets/fonts/`. No request to `api.fontshare.com`. `scripts/build.py` `preload_fonts()` preloads only the two
   above-the-fold faces per page (home: Switzer 700 + Gambetta 400 italic; other pages: Gambetta 500 + Switzer 400).
   Long cache for `/assets/fonts/*` is set in `netlify.toml`. Do not add a face without adding its file.
 - Scale (1.25 ratio, 17-18 px body on desktop): 14 / 16 / 18 / 22 / 28 / 36 / 46 / 58 / 72; hero display word up to 92 px.
@@ -81,7 +84,7 @@ least 4.5:1 (3:1 for 24 px+ headings).
 
 ## Motion
 - Small and purposeful: button press (scale .98), card hover lift 4 px with image zoom 1.03, one scroll reveal per element (14 px rise, 700 ms). Counters only on real, verified numbers (`data-count`).
-- Always respect `prefers-reduced-motion`. CSS and the small script in `assets/main.js` only; no animation libraries.
+- Always respect `prefers-reduced-motion`. CSS and the small script in `site-src/assets/main.js` (published minified as `assets/main.js`) only; no animation libraries.
 - Optional: one subtle looping hero clip (muted, under 2 MB, poster image, paused for reduced motion) only if it looks like real footage and adds something.
 
 ## Voice

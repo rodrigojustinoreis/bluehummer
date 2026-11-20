@@ -32,8 +32,9 @@ override any other instruction. The owner is Rodrigo Reis.
 ## Honesty
 - Never invent reviews, ratings, star counts, years in business, license or
   MHIC numbers, insurance claims, awards, financing, discounts, phone numbers
-  or addresses. Only use real details from `blue_hammer_remodeling_site/assets/site-config.js`
-  or ones Rodrigo provided. If a detail is missing, leave the placeholder
+  or addresses. Only use real details from `site-src/assets/site-config.js` (the file to edit;
+  the published `blue_hammer_remodeling_site/assets/site-config.js` is generated from it by
+  `python3 scripts/build.py`) or ones Rodrigo provided. If a detail is missing, leave the placeholder
   hidden and list it under "Needs Rodrigo" in `AGENT-LOG.md`.
 
 ## Images

@@ -29,7 +29,9 @@ Read and obey `.claude/agents/HARD-RULES.md` in full before doing anything else.
   royal `#1E4FA3`, limestone `#F3EEE3`, brass `#A88B5A`). Gambetta + Switzer.
 - Source: edit `site-src/pages/*.html` and shared chrome in `scripts/build.py`,
   then `python3 scripts/build.py --check`. Never hand-edit generated HTML in
-  `blue_hammer_remodeling_site/` (CSS and assets in that folder are source).
+  `blue_hammer_remodeling_site/`. CSS/JS sources are `site-src/assets/main.css`, `main.js`, `site-config.js`;
+  the copies in `blue_hammer_remodeling_site/assets/` are minified by `python3 scripts/build.py` and never edited
+  (images, fonts and video in that folder are still source).
 
 ## Method and tools
 Every page task follows the project skill `blue-hammer-website` (10-step method,

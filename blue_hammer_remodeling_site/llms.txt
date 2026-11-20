@@ -1,0 +1,33 @@
+# Blue Hammer Remodeling
+
+> Blue Hammer Remodeling is a remodeling company based in Olney, Maryland 20832. It remodels kitchens, bathrooms, basements and interior rooms. The site has service-area pages for Olney, Potomac, Bethesda, Chevy Chase, Kensington & Garrett Park, Rockville, Silver Spring and Howard County, all in Maryland. A consultation is requested through the form on the site.
+
+## Services
+
+- [Remodeling Services: Kitchens, Baths & Basements](https://bluehammermd.com/services): Remodeling services from Blue Hammer in Olney, MD: kitchens, bathrooms, basements and interior rooms, plus small repairs. Find the page that fits your project.
+- [Kitchen Remodeling in Maryland](https://bluehammermd.com/kitchen-remodeling): Kitchen remodeling in Maryland from a company based in Olney. Compare scope options, see what drives cost, and learn how permits work for your address.
+- [Bathroom Remodeling in Maryland](https://bluehammermd.com/bathroom-remodeling): Bathroom remodeling in Maryland, from hall baths to primary suites. Scope options, cost factors, waterproofing and plumbing permits, from a company in Olney.
+- [Basement Remodeling & Finishing in Maryland](https://bluehammermd.com/basements-interiors): Basement remodeling and finishing in Maryland, plus interior rooms. What to check first, what shapes the budget, and who issues permits. Based in Olney, MD.
+
+## Service areas
+
+- [Home Remodeling in Montgomery County, MD](https://bluehammermd.com/service-areas): Home remodeling in Montgomery County, MD and Howard County from a company based in Olney 20832. Find the page for your town and check your address.
+- [Home Remodeling in Olney, MD](https://bluehammermd.com/olney-md): Home remodeling in Olney, MD from a company based in Olney 20832: kitchens, bathrooms and lower levels, the cost factors for each, and how to start.
+- [Home Remodeling in Potomac, MD](https://bluehammermd.com/potomac-md): Home remodeling in Potomac, MD: kitchens with a pantry or scullery, primary baths and finished lower levels. See the choices, the cost factors and how to start.
+- [Home Remodeling in Bethesda, MD](https://bluehammermd.com/bethesda-md): Home remodeling in Bethesda, MD: kitchen, bathroom and basement options, the choices that shape the budget, and how to start with a consultation.
+- [Home Remodeling in Chevy Chase, MD](https://bluehammermd.com/chevy-chase-md): Home remodeling in Chevy Chase, MD: kitchens, added and rebuilt bathrooms and finished basements planned inside the house you have. Choices and cost factors.
+- [Kensington & Garrett Park, MD Home Remodeling](https://bluehammermd.com/kensington-garrett-park-md): Bathroom remodeling, kitchens and finished basements in Kensington and Garrett Park, MD: scope choices, cost factors and how each town handles permits.
+- [Home Remodeling in Rockville, MD](https://bluehammermd.com/rockville-md): Home remodeling in Rockville, MD: compare smaller and larger scopes for a kitchen, bathroom or basement, and learn which permit office covers your address.
+- [Home Remodeling in Silver Spring, MD](https://bluehammermd.com/silver-spring-md): Home remodeling in Silver Spring, MD: kitchen, bathroom and basement remodeling planned room by room or in phases. Choices, cost factors and how to start.
+- [Home Remodeling in Howard County, MD](https://bluehammermd.com/howard-county-md): Home remodeling in Howard County, MD: kitchen remodeling, bathrooms and finished lower levels from Clarksville to Ellicott City. Choices and cost factors.
+
+## Company
+
+- [Home Remodeling in Maryland](https://bluehammermd.com/): Home remodeling in Maryland from a company based in Olney: kitchens, bathrooms, basements and interior rooms, with a written scope before work begins.
+- [About Blue Hammer Remodeling](https://bluehammermd.com/about): Blue Hammer Remodeling is a design-led remodeler based in Olney, MD: small repairs up to full remodels within about 40 miles in Maryland, DC and Virginia.
+- [Our Remodeling Process, Step by Step](https://bluehammermd.com/process): How a Blue Hammer project is planned, from a small repair to a full remodel: walkthrough, design and selections, written scope, permits for your address, build.
+- [Kitchen, Bath & Basement Design Gallery](https://bluehammermd.com/projects): Kitchen, bathroom and finished basement design ideas, sorted by room: cabinetry styles, counters, tile and layouts to point to when you describe your project.
+- [Remodeling FAQ: Budget, Schedule & Permits](https://bluehammermd.com/faq): Answers on kitchen, bathroom and basement remodeling in Maryland: what makes up a budget, what sets a schedule, permits by address and where we work.
+- [Contact Blue Hammer Remodeling](https://bluehammermd.com/contact): Start a repair or kitchen, bath or basement remodel with Blue Hammer Remodeling, based in Olney, MD and working within about 40 miles in MD, DC and VA.
+- [Privacy Policy](https://bluehammermd.com/privacy): How Blue Hammer Remodeling handles the information you share through our consultation form: Netlify Forms storage, retention and how to ask questions.
+- [Website Terms](https://bluehammermd.com/terms): Website terms for bluehammermd.com: consultation requests, how budget information and design imagery should be read, and what is confirmed in writing.

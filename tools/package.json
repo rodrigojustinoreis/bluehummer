@@ -1,8 +1,9 @@
 {
   "name": "bluehammer-dev-tools",
   "private": true,
-  "description": "Dev-only tooling for Claude Code (Playwright CLI). Not part of the site build; Netlify publishes blue_hammer_remodeling_site/.",
+  "description": "Dev tooling. esbuild (exact version) is used by scripts/build.py to minify site-src/assets/* into blue_hammer_remodeling_site/assets/; Playwright CLI is for browser checks. Netlify runs no build: it publishes the committed blue_hammer_remodeling_site/ folder.",
   "devDependencies": {
-    "@playwright/cli": "^0.1.25"
+    "@playwright/cli": "^0.1.25",
+    "esbuild": "0.28.2"
   }
 }

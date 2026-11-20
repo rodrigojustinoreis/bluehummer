@@ -1,5 +1,5 @@
 import {continueRender, delayRender, staticFile} from 'remotion';
-// Palette A (docs/brand.md). Keep in sync with assets/main.css.
+// Palette A (docs/brand.md). Keep in sync with site-src/assets/main.css.
 export const C = {ivory: '#FBF8F2', navy: '#0B2347', navy2: '#071830', royal: '#1E4FA3', limestone: '#F3EEE3', line: '#E4DCCB', brass: '#A88B5A', accentText: '#7A6232', ink: '#14243D', muted: '#525D6B'};
 const faces: [string, string, string, string][] = [
   ['Gambetta', 'fonts/gambetta-400.woff2', '400', 'normal'],

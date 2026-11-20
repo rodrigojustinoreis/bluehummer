@@ -9,7 +9,7 @@
    the homeowner's permission. Until one exists, show none; never fill the slot with
    illustrative images.
 3. **Confirmed proof only.** Reviews, ratings, awards, years in business, MHIC license,
-   insurance, warranties, financing and prices appear only when confirmed in `site-config.js`
+   insurance, warranties, financing and prices appear only when confirmed in `site-src/assets/site-config.js`
    or by Rodrigo (see [evidence.md](evidence.md)). Missing items stay hidden and are logged.
 4. **Image provenance.** Every image has a known origin recorded in
    [evidence.md](evidence.md#image-provenance): real project photo or illustrative image.

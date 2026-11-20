@@ -4,11 +4,12 @@
 > (primary buttons), royal `#0864D8`, Barlow Condensed 800 uppercase display type + Switzer text. Where this file (sections "Color", "Typography", "Components", "Live site vs spec")
 > says palette A, "Heritage Navy & Brass", ivory, brass, Gambetta or Gambetta italics, it describes the superseded
 > identity and is kept for history only. Do not restyle pages toward it. The live rules are the owner block at the
-> end of `blue_hammer_remodeling_site/assets/main.css`; summary in `DESIGN.md` > "Owner v2 identity".
+> end of `site-src/assets/main.css` (the source; `python3 scripts/build.py` minifies it into
+> `blue_hammer_remodeling_site/assets/main.css`, which is generated and never edited); summary in `DESIGN.md` > "Owner v2 identity".
 
 
-Summary of the approved visual identity as observed on 2026-11-18 (repo `main`, live CSS
-`blue_hammer_remodeling_site/assets/main.css`). **`docs/brand.md` is the authoritative spec**
+Summary of the approved visual identity as observed on 2026-11-18 (repo `main`, CSS source
+`site-src/assets/main.css`, published minified as `blue_hammer_remodeling_site/assets/main.css` by `scripts/build.py`). **`docs/brand.md` is the authoritative spec**
 (tokens, scale, spacing, photography, motion, voice). This file records what is live, where it
 lives, and where the live site still differs from the spec. Do not duplicate values elsewhere.
 
@@ -30,7 +31,8 @@ Full table and usage rules: `docs/brand.md` > Color tokens.
 
 ## Typography
 Display **Gambetta**, text/UI **Switzer**, both from Fontshare (ITF Free Font License), **self-hosted** in
-`assets/fonts/` with `@font-face` in `assets/main.css`; two faces preloaded per page by `scripts/build.py`
+`assets/fonts/` with `@font-face` in `site-src/assets/main.css` (the Gambetta `@font-face` rules were removed
+on 2026-11-20: no page uses the face; the woff2 files remain in `assets/fonts/`); two faces preloaded per page by `scripts/build.py`
 `preload_fonts()`. Hero and section titles use the owner-approved pairing (Gambetta italic + Switzer 700 uppercase
 word + brass rule). Scale, line length, casing and the override: `docs/brand.md` > Typography.
 
@@ -54,7 +56,7 @@ presented as Blue Hammer projects (owner rule 2026-11-18).
 The owner's package replaced palette A on the live site: navy `#142131` header/footer, orange `#FF7A24` primary
 buttons with navy text, royal `#0864D8` links and second lines of H1s, Barlow Condensed 800 uppercase display type +
 Switzer text, `bh-hammer-v2.png` mark, nav Services / Our Process / Service Areas / About, primary CTA
-"Schedule a Consultation" (title case). Rules: owner block at the end of `assets/main.css`, plus the appended
+"Schedule a Consultation" (title case). Rules: owner block at the end of `site-src/assets/main.css`, plus the appended
 "Pass 4 alignment" block (no Barlow italics; h3/FAQ questions in Switzer). `docs/brand.md` still describes palette A
 and is pending the owner's approval to be rewritten. AUDIT 15 pass 4 (process, faq, projects, reviews, contact,
 legal, 404, thank-you) is done: paired titles, no eyebrows.

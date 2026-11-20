@@ -47,7 +47,8 @@ no identical rounded cards with the same soft shadow. Full brief:
 
 ## How you work
 - Edit `site-src/pages/*.html`, shared chrome in `scripts/build.py`, and
-  styles in `blue_hammer_remodeling_site/assets/main.css`. Never hand-edit
+  styles in `site-src/assets/main.css` (then `python3 scripts/build.py`; the published
+  `blue_hammer_remodeling_site/assets/main.css` is generated). Never hand-edit
   generated HTML in `blue_hammer_remodeling_site/`.
 - Run `python3 scripts/build.py --check` and fix failures.
 - Icons: one Lucide-style inline SVG set, never emoji. Motion: light CSS/JS

@@ -25,4 +25,4 @@ are allowed exceptions; note them. The optional rival-model `cleanse.sh` step is
 ## Never invent
 Facts, numbers, years in business, project counts, licenses, insurance, awards, reviews, ratings,
 prices, guarantees or financing. If a sentence needs one of those and it is not in
-`assets/site-config.js` or from Rodrigo, rewrite the sentence or list the gap in AGENT-LOG.md.
+`site-src/assets/site-config.js` (the file to edit; `python3 scripts/build.py` generates the published copy) or from Rodrigo, rewrite the sentence or list the gap in AGENT-LOG.md.

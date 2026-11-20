@@ -80,7 +80,7 @@ Inspiration for structure and rhythm only; write our own copy, use our own image
 7. **Contact block**: big pairing headline ("LET'S BUILD / *your next space.*" pattern, our own
    words), short line on the right; simple form left (name, email, project), vertical hairline,
    contact methods right with line icons. Ours: the existing Netlify `consultation` form fields;
-   phone/email only when confirmed in `site-config.js`.
+   phone/email only when confirmed in `site-src/assets/site-config.js`.
 8. **Footer**: logo, the same 4 links, social icons right; thin rule; copyright left, short
    accent dash + tagline right. Ours: on ivory or navy2, brass dash, no social icons until real
    profiles exist.

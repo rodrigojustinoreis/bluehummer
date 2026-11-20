@@ -4,7 +4,8 @@
 > (primary buttons), royal `#0864D8`, Barlow Condensed 800 uppercase display type + Switzer text. Where this file
 > says palette A, "Heritage Navy & Brass", ivory, brass, Gambetta or Gambetta italics, it describes the superseded
 > identity and is kept for history only. Do not restyle pages toward it. The live rules are the owner block at the
-> end of `blue_hammer_remodeling_site/assets/main.css`; summary in `DESIGN.md` > "Owner v2 identity".
+> end of `site-src/assets/main.css` (the source; `python3 scripts/build.py` minifies it into
+> `blue_hammer_remodeling_site/assets/main.css`, which is generated and never edited); summary in `DESIGN.md` > "Owner v2 identity".
 
 **Client**: Blue Hammer Remodeling, Olney, Maryland. Small repairs up to kitchens, baths and lower
 levels for affluent homeowners in Potomac, Bethesda, Chevy Chase, Kensington, Olney and western Howard

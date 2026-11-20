@@ -4,7 +4,13 @@
 > desta pasta (`netlify.toml` na raiz do repo). O formulário usa **Netlify Forms** (não o `server.mjs`).
 > **As páginas HTML desta pasta são geradas**: edite os fragmentos em `../site-src/pages/*.html` e rode
 > `python3 scripts/build.py --check` na raiz do repo. O script monta cabeçalho, navegação, rodapé, formulário,
-> canonical/Open Graph, JSON-LD e `sitemap.xml` para todas as páginas de forma consistente. Não edite os HTML gerados à mão.
+> canonical/Open Graph, JSON-LD, `sitemap.xml` e `llms.txt` para todas as páginas de forma consistente. Não edite os HTML gerados à mão.
+> **CSS e JS também são gerados (desde 2026-11-20)**: os arquivos legíveis ficam em `../site-src/assets/` (`main.css`, `main.js`,
+> `site-config.js`). `python3 scripts/build.py` minifica cada um com esbuild (versão exata em `tools/package.json`; instale com
+> `npm --prefix tools ci`) e grava em `assets/` desta pasta com o mesmo nome. Nunca edite `assets/main.css`, `assets/main.js` ou
+> `assets/site-config.js` aqui: edite o arquivo em `site-src/assets/`, rode `python3 scripts/build.py` e depois
+> `python3 scripts/build.py --check` (o check falha se o arquivo publicado for diferente do fonte minificado, ou se o esbuild
+> não estiver instalado). O Netlify não roda build: os arquivos minificados são commitados.
 > Imagens: `python3 scripts/gen-image.py "<prompt>" <nome>` (chave OpenAI no Keychain). Registro de trabalho do agente: `AGENT-LOG.md`.
 
 Este pacote contém **18 páginas HTML** em inglês, CSS responsivo, identidade visual azul escolhida, navegação mobile, SEO local de base, imagens de conceito de cozinha/banheiro/porão em WebP, otimizadas e hospedadas junto ao site, formulário de consulta em duas etapas, privacidade e um servidor Node.js sem dependências que **registra leads em arquivo privado**.
@@ -32,7 +38,7 @@ Sem isso, **os leads são salvos localmente, mas não são enviados automaticame
 
 ## Antes de publicar para clientes
 
-1. Edite `assets/site-config.js` e adicione somente **telefone real, email comercial real e licença/MHIC real**, se aplicável. O site oculta campos que ainda não foram confirmados. Verifique seguro, licença e áreas atendidas antes de afirmar publicamente credenciais.
+1. Edite `../site-src/assets/site-config.js` (não a cópia publicada `assets/site-config.js`, que é gerada), rode `python3 scripts/build.py` na raiz do repo, e adicione somente **telefone real, email comercial real e licença/MHIC real**, se aplicável. O site oculta campos que ainda não foram confirmados. Verifique seguro, licença e áreas atendidas antes de afirmar publicamente credenciais.
 2. Substitua as imagens de inspiração pelas **fotos reais dos projetos da Blue Hammer**, com autorização quando necessário. As imagens atuais são ilustrativas; não são obras executadas pela empresa. Agora as 6 imagens de conceito são arquivos WebP locais em `assets/` (duas resoluções cada); o site não depende de Unsplash ou de conexão externa para exibi-las. As pessoas ilustradas na cena de consulta não são funcionários reais da Blue Hammer.
 3. Depois de confirmar o domínio, execute `python configure-domain.py https://SEU-DOMINIO.com` para gerar `sitemap.xml`, atualizar `robots.txt` e adicionar URLs canônicas e Open Graph automaticamente.
 4. Publique somente avaliações reais e verificáveis. O site **não inventa reviews, 5 estrelas, anos de experiência, números de licença, financiamento ou descontos**.
@@ -65,4 +71,4 @@ Este é um site desenvolvido e navegável, pronto para avaliação técnica, nã
 - `consultation-scene-*`: About Us (cena ilustrativa, não equipe real)
 - `design-gallery-collage-*`: cabeçalho da página Design Gallery (projects.html)
 
-As imagens são **conceitos visuais gerados por IA**, não fotos de serviços executados. Cada imagem possui `srcset` WebP em 720 e 1440 pixels para celular e desktop. CSS e JS continuam sem frameworks externos.
+As imagens são **conceitos visuais gerados por IA**, não fotos de serviços executados. Cada imagem possui `srcset` WebP em 720 e 1440 pixels para celular e desktop. CSS e JS continuam sem frameworks externos (fontes em `../site-src/assets/`, cópias minificadas em `assets/`).
