@@ -1,7 +1,7 @@
 # Blue Hammer keyword -> URL map (implemented)
 
 Date: 2026-11-19. Source: Semrush export `Blue_Hammer_SEO_Keywords_2026-11-19.csv` (65 terms, US database).
-Status: **implemented in the working tree, not committed, not deployed.** Titles, H1s and robots values below were
+Status: **published.** Committed as 0a9e24f, pushed to main and live on https://bluehammermd.com on 2026-11-19. Titles, H1s and robots values below were
 read from the built output in `blue_hammer_remodeling_site/` after `python3 scripts/build.py --check` (OK, 24 pages).
 Volumes, KD and intent are the CSV values, unchanged from the plan.
 

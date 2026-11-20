@@ -779,3 +779,13 @@ Process, FAQ, about, projects, contact, reviews, legal pages, shared fragments, 
   `/bathroom-remodeling`, `/basements-interiors`, `/silver-spring-md` return 200 with the new H1s and extensionless
   canonicals; `/reviews` is `noindex,follow`; `sitemap.xml` has 21 URLs, includes silver-spring-md, no reviews, no `.html`.
 - Not measured: Semrush audit counts (need a re-crawl), rankings, indexing.
+
+## 2026-11-19 — Post-publication: Semrush re-run (observed by the owner) and two final corrections
+- Owner re-ran the Semrush site audit after the deploy and reported: 27 URLs crawled; Site Health 99% (was 95);
+  AI Search Health 89% (was 88); Errors filter = 0 / nothing found; Markup 100% (was 60); Internal Linking 100%
+  (was 96). The old `serviceType` detail was confirmed as the schema cause.
+- Still listed by Semrush: 44 unminified JS/CSS warnings, 1 missing llms.txt, 1 blocked, 4 external resources 403.
+  Not addressed (no minifier in the repo; llms.txt is not a Google requirement).
+- Potomac septic FAQ: the absolute "requires a septic permit record on file" now follows the County guideline and
+  covers the no-record case (tests to establish a reserve area + new system). Source re-read and evidence.md updated.
+- docs/seo-keyword-map-2026-11-19.md status set to published.
