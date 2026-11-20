@@ -772,3 +772,10 @@ Process, FAQ, about, projects, contact, reviews, legal pages, shared fragments, 
   4. `CLAUDE.md` and `.claude/agents/bluehammer.md` may still describe the old identity and scope; not edited here.
   5. Sandy Spring 20860 is on `/service-areas`, `/olney-md` and in `areaServed` but not in the HARD-RULES tier list.
   6. Review, then commit and deploy; re-crawl in Semrush afterwards.
+
+## 2026-11-19 — Published: SEO content pass (commit 0a9e24f)
+- Commit 0a9e24f pushed to main (fast-forward from e455100, no force). Owner authorized after his own review.
+- Live check on https://bluehammermd.com after the Netlify deploy (curl, no form submitted): `/`, `/kitchen-remodeling`,
+  `/bathroom-remodeling`, `/basements-interiors`, `/silver-spring-md` return 200 with the new H1s and extensionless
+  canonicals; `/reviews` is `noindex,follow`; `sitemap.xml` has 21 URLs, includes silver-spring-md, no reviews, no `.html`.
+- Not measured: Semrush audit counts (need a re-crawl), rankings, indexing.
