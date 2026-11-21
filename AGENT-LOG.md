@@ -1060,3 +1060,9 @@ source, copy, route, metadata, schema, sitemap, llms.txt, robots or form markup 
   (about 76 KB); if that weighs on the first paint, the wordmark could become part of the logo image.
   `gambetta-400`, `gambetta-400-italic` and `gambetta-600` are still in `assets/fonts/` but not loaded.
 - **Needs Rodrigo:** nothing new. Still open from before: phone, email and license number (hidden while empty).
+
+- **Published:** commit 7546ce7 pushed to main (fast-forward from f1284e0, no force). Live on https://bluehammermd.com
+  after the Netlify deploy: `main.css` (35,163 bytes) byte-identical to the repo; `gambetta-500.woff2` served 200
+  `font/woff2`, immutable cache, SHA-256 matches FONT-LICENSES.txt; preloads gambetta-500 / switzer-400 /
+  barlow-condensed-800. In Chrome on the live site, `/`, `/kitchen-remodeling` and `/contact` render the H1 in Gambetta
+  500 with the face loaded, page background rgb(253,252,250) and blue primary buttons. No form submitted.
