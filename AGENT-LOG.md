@@ -1146,3 +1146,16 @@ service cards, centered serif H2s, discreet numbered steps, fade-up on entry). H
 - Deliberately NOT included: star ratings, review counts, job counts, Google/Facebook/HomeAdvisor/Houzz logos, review placeholders, AggregateRating/Review schema. `site-config.reviewProfileUrl` is empty, /reviews has no reviews, and no verifiable public profile for this Maryland business was found (a same-name Florida business exists and must not be used). Ratings or platform logos require real, verified profiles first; revisit then.
 - Checks: `build.py --check` OK 24/0. Chrome at 320/390/1440: no horizontal overflow, H2 Gambetta 400 (36px mobile, 50px desktop), icons 2 rows on mobile / 1 row desktop, CTA 50px tall, link opens /process, 0 console errors, 0 POST. Fixed "walk-through" breaking at the hyphen at 320px.
 - Owner review (1280, internal browser): composition approved; H2 max-width changed from 20ch to min(1000px,100%) so it sits on one wide line on desktop (50px kept, no nowrap; mobile wraps naturally). Rechecked: check OK 24/0, 320/390/1440 no overflow, one line at 1440, CTA -> /process, 0 errors, 0 POST.
+
+## 2026-11-21 — Trust band: icon row replaced by illustrative platform logos (owner decision)
+- Owner instruction (explicit, supersedes the earlier "no logos without verified profiles" note for this section): show Google, Facebook, HomeAdvisor and Houzz logos as illustration only, images WITHOUT links, no profiles, no reviews.
+- Replaced the four icons/labels in `section.home-trust` with four `<img>` (alt = platform name, width/height set, lazy), no `<a>`/href. Added neutral caption "Platforms homeowners use to research remodeling companies." Title, paragraph and "Explore our process" CTA unchanged. No stars, ratings, counts, seals, endorsements or Review/AggregateRating schema.
+- Assets hosted locally, unmodified gray (#6d6e71) SVGs, checked for scripts/external refs (none):
+  - assets/platform-logo-google.svg <- https://www.rebath.com/uploads/2024/03/logo-google.svg
+  - assets/platform-logo-facebook.svg <- https://www.rebath.com/uploads/2024/03/logo-facebook.svg
+  - assets/platform-logo-homeadvisor.svg <- https://www.rebath.com/uploads/2024/03/logo-homeadvisor.svg
+  - assets/platform-logo-houzz.svg <- https://www.rebath.com/uploads/2024/03/logo-houzz.svg
+  (downloaded 2026-11-21; trademarks belong to their owners; no Re-Bath branding or text reused.)
+- Sizing: desktop 4-up (Google 190x63, Facebook 64x64, HomeAdvisor 245x38, Houzz 205x47, max-width 100%); mobile 2x2 capped at 44px height (Facebook 52px). No cards or boxes.
+- Checks: build --check OK 24/0; Chrome 320/390/1440 no horizontal overflow, CTA -> /process, 0 console errors, 0 POST.
+- Open risk for the owner: platform brand guidelines generally restrict logo use that could suggest a presence or endorsement; replace with real profile links (or remove) once profiles exist.
