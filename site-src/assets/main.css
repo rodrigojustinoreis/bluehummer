@@ -17,6 +17,7 @@
 @font-face{font-family:"Switzer";src:url("fonts/switzer-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:"Switzer";src:url("fonts/switzer-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
 @font-face{font-family:"Switzer";src:url("fonts/switzer-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Gambetta";src:url("fonts/gambetta-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Gambetta";src:url("fonts/gambetta-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:"Barlow Condensed";src:url("fonts/barlow-condensed-800.woff2") format("woff2");font-weight:800;font-style:normal;font-display:swap}
 :root{
@@ -348,44 +349,8 @@ main p a:not([class]):hover,.detail-list li a:not([class]):hover,.content-prose 
 .mobile-cta{display:none}
 
 /* ---------- 8. Home page ---------- */
-/* Hero: the H1 and one action above a single wide photograph with its caption. */
-.home-hero{padding:clamp(36px,4.6vw,64px) 0 0}
-.home-hero-head{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);align-items:end;gap:var(--gap) 64px;margin-bottom:clamp(28px,3.2vw,44px)}
-.home-hero h1{font-size:clamp(3.5rem,1.5rem + 3.6vw,4.75rem);line-height:1.03;letter-spacing:-.022em;margin:0 0 -.1em;white-space:nowrap}
-.home-hero-intro{justify-self:end;max-width:27.5rem;padding-bottom:4px}
-.home-hero-intro p{font-size:var(--t-lede);line-height:1.5;color:var(--ink);margin-bottom:24px}
-.home-hero-photo img{width:100%;height:auto;aspect-ratio:2.2 / 1;object-fit:cover;object-position:50% 58%;border-radius:2px;background:var(--soft)}
-.home-hero-photo figcaption{display:flex;justify-content:space-between;gap:8px 32px;flex-wrap:wrap;padding-top:12px}
+/* Home hero, services and facts strip: see "9b. Home" below (2026-11-20, Re-Bath-style direction). */
 figcaption{font-size:var(--t-small);line-height:1.5;color:var(--muted)}
-.home-hero-photo figcaption span:last-child{color:var(--ink)}
-/* Services: a mosaic of three photographs of different sizes. Kitchen and bathroom share the first row at
-   one height; the basement sits lower right with its text beside it. Each article is one link (the H3). */
-.home-services{padding:var(--sec) 0}
-.home-services .sec-head{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
-.home-svc-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:56px var(--gap)}
-.home-svc{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:16px;min-width:0}
-.home-svc figure{display:grid;grid-template-rows:minmax(0,1fr) auto;min-height:0}
-.home-svc img{width:100%;max-width:100%;height:100%;object-fit:cover;border-radius:2px;background:var(--soft)}
-.home-svc figcaption{padding-top:10px}
-.home-svc h3{font-size:1.375rem;letter-spacing:-.018em;margin-bottom:6px}
-.home-svc h3 a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;text-decoration-color:var(--field-line)}
-.home-svc h3 a:after{content:"";position:absolute;inset:0}
-.home-svc:hover h3 a{color:var(--royal);text-decoration-color:currentColor}
-.home-svc h3 a:focus-visible{outline:0}
-.home-svc:has(a:focus-visible){outline:2px solid var(--royal);outline-offset:6px}
-.home-svc-text p{margin:0;font-size:1rem;max-width:40ch}
-.home-svc--kitchen{grid-column:1 / span 7}
-.home-svc--kitchen img{height:auto;aspect-ratio:4 / 3}
-.home-svc--bath{grid-column:8 / span 5}
-.home-svc--bath img{height:0;min-height:100%;object-position:60% 50%}
-.home-svc--basement{grid-column:1 / -1;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto;gap:var(--gap);align-items:end}
-.home-svc--basement figure{grid-column:6 / span 7;grid-row:1}
-.home-svc--basement .home-svc-text{grid-column:1 / span 4;grid-row:1;align-self:start;border-top:1px solid var(--navy);padding-top:16px}
-.home-svc--basement img{height:auto;aspect-ratio:16 / 9;object-position:50% 62%}
-.home-svc--basement{grid-row:2}
-/* Sits under the basement summary; raised above the article's whole-card link so its own link is reachable. */
-.home-svc-text p.home-repairs{position:relative;z-index:1;max-width:none;margin:24px 0 0;padding-top:16px;border-top:1px solid var(--line);color:var(--ink)}
-.home-repairs a{display:inline-block;font-weight:600}
 /* Process: a dense text band, no images. */
 .home-process{background:var(--soft);padding:var(--sec-tight) 0}
 .home-process .sec-head{margin-bottom:28px}
@@ -451,15 +416,6 @@ figcaption{font-size:var(--t-small);line-height:1.5;color:var(--muted)}
 .gallery-card,.gallery-card:nth-child(n of :not(.hidden)){grid-column:span 6}
 .gallery-card img{height:auto;aspect-ratio:4 / 3}
 /* Home */
-.home-hero-head{grid-template-columns:minmax(0,1fr);align-items:start;row-gap:22px}
-.home-hero h1{margin-bottom:0;font-size:clamp(2.1875rem,10.6vw,4rem);line-height:1.05}
-.home-hero-intro{justify-self:start;max-width:34rem;padding:0}
-.home-hero-photo img{aspect-ratio:16 / 10}
-.home-svc-grid{row-gap:44px}
-.home-svc--basement{grid-template-columns:minmax(0,1fr);gap:16px}
-.home-svc--basement figure,.home-svc--basement .home-svc-text{grid-column:auto;grid-row:auto;padding:0;border:0}
-.home-svc--basement{grid-row:auto}
-.home-services .sec-head{grid-template-columns:minmax(0,1fr)}
 .home-areas-photo{order:-1}
 }
 @media(max-width:700px){:root{--gutter:18px;--gap:20px}
@@ -515,16 +471,8 @@ figcaption{font-size:var(--t-small);line-height:1.5;color:var(--muted)}
 .has-nl-badge .mobile-cta{padding-bottom:calc(var(--nl-badge-h,56px) + 8px + env(safe-area-inset-bottom))}
 body:has(.nav-links.open) .mobile-cta{display:none}
 /* Home */
-.home-hero-intro p{font-size:1.0625rem;margin-bottom:20px}
-.home-hero-intro .btn{width:100%}
-.home-hero-photo{margin-inline:calc(-1 * var(--gutter))}
-.home-hero-photo img{aspect-ratio:5 / 4;border-radius:0;object-position:50% 50%}
-.home-hero-photo figcaption{padding-inline:var(--gutter);flex-direction:column}
 /* One column: twelve tracks plus their gaps would be wider than a narrow phone. */
-.home-svc-grid,.gallery-grid{grid-template-columns:minmax(0,1fr)}
-.home-svc--kitchen,.home-svc--bath,.home-svc--basement{grid-column:auto}
-.home-svc--bath img{height:auto;min-height:0;aspect-ratio:5 / 4;object-position:50% 50%}
-.home-svc--basement img{aspect-ratio:3 / 2}
+.gallery-grid{grid-template-columns:minmax(0,1fr)}
 .link-index{gap:0 16px}
 }
 @media(max-width:420px){.hero-actions{flex-direction:column;align-items:stretch}
@@ -536,6 +484,111 @@ body:has(.nav-links.open) .mobile-cta{display:none}
 .menu-toggle{padding-inline:8px}
 }
 
+/* ---------- 9b. Home (2026-11-20, owner direction: Re-Bath-style composition in Blue Hammer colors) ----------
+   Everything here is scoped to home-only classes (.home-hero, .home-facts, .home-services, .home-process,
+   .home-areas h2, .home-faq h2) or to body:has(.home-hero), so interior pages are unaffected. Gambetta 400 (light
+   upright serif, stands in for the reference's commercial Freight Display Light) is used only here; the browser
+   fetches it only on pages that use it. Switzer stays the text face. */
+.home-hero{background:var(--soft)}
+.home-hero-grid{display:grid;grid-template-columns:minmax(0,72fr) minmax(360px,28fr);align-items:stretch}
+.home-hero-stage{position:relative;display:grid;min-height:clamp(580px,46vw,720px);background:var(--navy);overflow:hidden}
+.home-hero-media{position:absolute;inset:0}
+.home-hero-frame{position:absolute;inset:0}
+.home-hero-still,.home-hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;background:var(--navy)}
+.home-hero-video{opacity:0;transition:opacity .5s ease}
+.home-hero-media.is-video .home-hero-video{opacity:1}
+/* Scrim: navy, darker toward the bottom where the caption and controls sit. White text stays above 4.5:1. */
+.home-hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,33,49,.56) 0%,rgba(20,33,49,.6) 55%,rgba(20,33,49,.76) 100%)}
+.home-hero-content{position:relative;z-index:1;align-self:center;text-align:center;padding:48px 0 104px}
+.home-hero-content .container{width:min(800px,calc(100% - 2 * var(--gutter)))}
+.home-hero h1{font-weight:400;color:#fff;font-size:clamp(3.25rem,1.6rem + 3.9vw,5.0625rem);line-height:1;letter-spacing:-.012em;margin:0 0 24px;text-shadow:0 1px 28px rgba(10,20,32,.28)}
+.home-hero-content p{color:#fff;font-size:1.25rem;line-height:1.55;max-width:36rem;margin:0 auto 32px;text-shadow:0 1px 14px rgba(10,20,32,.3)}
+body:has(.home-hero) main .btn{border-radius:999px;padding-inline:30px}
+.home-hero-content .btn{min-height:52px;font-size:1.0625rem}
+.home-hero-content .btn--primary:active{background:var(--navy2)}
+.home-hero-content .btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.home-hero-controls{position:absolute;right:20px;bottom:20px;z-index:2;display:flex;align-items:center;gap:6px}
+.home-hero-controls[hidden]{display:none}
+.hero-ctl{display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.75);background:rgba(20,33,49,.55);color:#fff;transition:background .38s,border-color .38s}
+.hero-ctl:hover{background:rgba(20,33,49,.85);border-color:#fff}
+.hero-ctl:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.hero-ctl .i-play,.hero-ctl[data-paused] .i-pause{display:none}
+.hero-ctl[data-paused] .i-play{display:block}
+.hero-ctl[hidden]{display:none}
+.hero-count{min-width:3.4em;text-align:center;color:#fff;font-size:.9375rem;font-weight:600;font-variant-numeric:tabular-nums}
+.home-hero-caption{position:absolute;left:24px;bottom:30px;z-index:2;max-width:min(46ch,calc(100% - 260px));color:#fff;font-size:.875rem;line-height:1.45;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.home-hero-panel{background:var(--soft);padding:32px clamp(24px,2.4vw,40px) 36px;border-left:1px solid var(--line);scroll-margin-top:calc(var(--header-h) + 8px)}
+.home-hero-panel h2{font-family:var(--font-text);font-weight:700;font-size:1.625rem;line-height:1.15;letter-spacing:-.02em;margin-bottom:10px}
+.home-hero-panel .consult-lede{font-size:.975rem;line-height:1.55;margin-bottom:22px}
+.home-hero-panel .field-row{grid-template-columns:minmax(0,1fr);gap:0}
+.home-hero-panel .form-head h3{font-size:1rem}
+/* Facts strip under the hero (reference: the light band of four short items). Only facts already on the site. */
+.home-facts{background:var(--paper);border-bottom:1px solid var(--line)}
+.home-facts ul{list-style:none;margin:0;padding:22px 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px var(--gap)}
+.home-facts li{display:flex;align-items:center;gap:12px;font-weight:600;font-size:1rem;line-height:1.35;color:var(--navy)}
+.home-facts svg{flex:none;color:var(--royal)}
+/* Centered serif section heads. */
+.home-services h2,.home-process h2,.home-areas h2,.home-faq h2{font-family:var(--font-serif);font-weight:400;font-size:clamp(2.25rem,1.3rem + 2.3vw,3.375rem);line-height:1.05;letter-spacing:-.01em;font-synthesis:none}
+.home-services .sec-head,.home-process .sec-head{display:block;text-align:center;max-width:46rem;margin:0 auto 48px}
+.home-services .sec-head p,.home-process .sec-head p{margin:16px auto 0;max-width:56ch;font-size:1.0625rem}
+/* Services: three equal cards, photo on top and a light strip with a strong sans title. */
+.home-services{padding:var(--sec) 0}
+.home-svc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap)}
+.home-svc{position:relative;display:flex;flex-direction:column;min-width:0;background:var(--soft)}
+.home-svc figure{overflow:hidden}
+.home-svc img{width:100%;height:auto;aspect-ratio:4 / 3;object-fit:cover;background:var(--line);transition:transform .6s var(--ease-out)}
+.home-svc:hover img{transform:scale(1.03)}
+.home-svc--bath img{object-position:45% 50%}
+.home-svc-text{padding:22px 24px 28px;text-align:center}
+.home-svc h3{font-weight:700;font-size:1.25rem;letter-spacing:-.015em;margin-bottom:8px}
+.home-svc h3 a:after{content:"";position:absolute;inset:0}
+.home-svc:hover h3 a{color:var(--royal)}
+.home-svc h3 a:focus-visible{outline:0}
+.home-svc:has(a:focus-visible){outline:2px solid var(--royal);outline-offset:4px}
+.home-svc-text p{margin:0 auto;font-size:1rem;max-width:36ch}
+p.home-repairs{text-align:center;margin:36px 0 0;color:var(--ink)}
+.home-repairs a{font-weight:600}
+p.home-credit{text-align:center;font-size:.8125rem;margin:14px 0 0}
+/* Process: three numbered steps on one line, discreet circles joined by a hairline. */
+.home-process{padding:var(--sec) 0}
+.home-process .steps li{border-top:0;padding-top:0;text-align:center;position:relative}
+.home-process .steps li:before{display:grid;place-items:center;width:40px;height:40px;margin:0 auto 18px;border-radius:50%;border:1px solid var(--navy);background:var(--soft);color:var(--navy);font-size:.9375rem;position:relative;z-index:1}
+.home-process .steps li:not(:last-child):after{content:"";position:absolute;top:20px;left:calc(50% + 28px);right:calc(28px - 50% - var(--gap));height:1px;background:var(--line-strong)}
+.home-process .steps p{margin:0 auto}
+/* Entry motion (reference: fade-up on scroll). JS adds .reveal-on only when motion is allowed; without JS or
+   with reduced motion everything is simply visible. Transform and opacity only, so nothing shifts layout. */
+.reveal-on [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease-out),transform .6s var(--ease-out)}
+.reveal-on [data-reveal].is-in{opacity:1;transform:none}
+@media(max-width:1060px){
+.home-hero-grid{grid-template-columns:minmax(0,1fr)}
+.home-hero-stage{min-height:clamp(560px,66vw,660px)}
+.home-hero-panel{border-left:0;border-top:1px solid var(--line);padding:36px max(var(--gutter),calc((100% - 640px) / 2)) 44px}
+.home-hero-panel .field-row{grid-template-columns:1fr 1fr;gap:14px}
+.home-facts ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:900px){
+.home-svc-grid{grid-template-columns:minmax(0,1fr);max-width:600px;margin-inline:auto}
+}
+@media(max-width:820px){
+.home-process .steps li{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:16px;text-align:left;padding:14px 0}
+.home-process .steps li:before{grid-row:1 / span 2;margin:0}
+.home-process .steps li:not(:last-child):after{display:none}
+.home-process .steps p{margin:0}
+}
+@media(max-width:700px){
+.home-hero-stage{min-height:clamp(580px,150vw,680px)}
+.home-hero-still{object-position:56% 50%}
+.home-hero-content{padding:36px 0 150px}
+.home-hero h1{font-size:clamp(2.625rem,13.2vw,3.5rem);line-height:1.02}
+.home-hero-content p{font-size:1.0625rem;margin-bottom:26px}
+.home-hero-content .btn{width:100%}
+.home-hero-controls{right:auto;left:50%;transform:translateX(-50%);bottom:16px}
+.home-hero-caption{left:var(--gutter);right:var(--gutter);bottom:76px;max-width:none;text-align:center}
+.home-hero-panel .field-row{grid-template-columns:minmax(0,1fr);gap:0}
+.home-facts ul{gap:14px 16px;padding:20px 0}
+.home-facts li{font-size:.9375rem;gap:10px}
+.home-facts svg{width:24px;height:24px}
+}
 
 /* ---------- 10. Motion ---------- */
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}

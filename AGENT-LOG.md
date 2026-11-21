@@ -1066,3 +1066,69 @@ source, copy, route, metadata, schema, sitemap, llms.txt, robots or form markup 
   `font/woff2`, immutable cache, SHA-256 matches FONT-LICENSES.txt; preloads gambetta-500 / switzer-400 /
   barlow-condensed-800. In Chrome on the live site, `/`, `/kitchen-remodeling` and `/contact` render the H1 in Gambetta
   500 with the face loaded, page background rgb(253,252,250) and blue primary buttons. No form submitted.
+
+## 2026-11-20: home page, real photographs, Remotion hero carousel, Re-Bath-style composition. Not committed
+
+Owner requests (same day, in order): replace the home photographs with real, freely licensed stock photos and add
+a Remotion hero carousel; then "rebath.com style: fonts, motion, everything except our colors and brand"; then his
+own notes (photo column + consultation panel with the existing form, light serif H1, blue pill CTA, three equal
+service cards, centered serif H2s, discreet numbered steps, fade-up on entry). Home page only.
+
+- **Photos.** Six free Unsplash photos (Unsplash License; not Unsplash+, not public domain), owner-approved:
+  Zac Gudakov LC-6Dnwo6_g (hero slide 1, poster, og:image), Taylor Beach PR7h5QGXd8A (slide 2), Francesca Tosolini
+  XyGvEj587Mc (slide 3), Clay Elliot 1by_GbwEMwc (kitchen card), Zac Gudakov FPim6ZLM6fc (bath card), Ronnie George
+  S0-e9aITeHc (interiors card). Small edits: a candle label and a refrigerator badge made unreadable, a refrigerator
+  logo and photo magnets cropped off, framed family pictures on a mantel blurred. All new filenames (`home-*`); no
+  existing image file changed. WebP 720/1440 (+1920 for hero slides), no EXIF/GPS. Full manifest, licenses,
+  cameras and rejected candidates: `docs/image-sources.md`. Credit line on the page: "Photographs: ..." (names only;
+  the build's FORBIDDEN list rejects the word "Unsplash" in page text).
+- **Remotion.** Free License condition relied on: individual or for-profit with up to 3 employees (read on
+  remotion.dev/pricing and in node_modules/remotion/LICENSE.md v4.0.545). New composition `HomeHeroCarousel`
+  (1280x800) / `HomeHeroCarouselMobile` (720x944) in `tools/remotion/src/HomeHeroCarousel.tsx`: 3 photos, 5.5 s
+  each, 0.6 s crossfade, scale 1.000 to 1.025, no text, no audio, seamless 16.5 s loop. `./render.sh home-hero`
+  renders a Remotion master into out/ (gitignored) and encodes H.264 CRF 29 (+faststart) and VP9 CRF 41 with a
+  keyframe at each slide start. Files: `assets/video/home-hero-1280.mp4` 1,401,967 B, `.webm` 1,153,813 B;
+  `home-hero-720.mp4` 980,907 B, `.webm` 802,443 B. No React or player ships to the site.
+- **Carousel behaviour** (`site-src/assets/main.js` initHeroCarousel). Poster `<img>` = slide 1, fetchpriority high,
+  same box as the video (no layout shift). Video sources are attached only after load + idle and when the hero is
+  near the viewport; never with prefers-reduced-motion or Save-Data. Prev / Next / Pause-Play (44 px, white focus
+  ring), "1 / 3" counter, caption per slide, polite live region on manual changes only. Prev/Next seek the video to
+  `index * 5.5 + 0.05 s` (a clean frame); if `video.seekable` does not cover the target or the seek does not land
+  (a server without HTTP Range, such as scripts/preview.py), the carousel switches to still mode (video paused and
+  hidden, WebP still for that slide loaded on demand) until Play. Pauses on hover, keyboard focus on the controls,
+  tab hidden, off-screen; stays paused after Pause. No JS: poster + caption, controls hidden.
+- **Re-Bath analysis** (rebath.com read in Chrome at 1440 and 390 on 2026-11-20, cookie dialog hidden with CSS,
+  nothing accepted or submitted). Adopted: full-height photo hero with a dark scrim, centered white light serif H1
+  (theirs: Freight Display Pro 300, 81 px / 1.0; ours: Gambetta 400, 81 px / 1.0 at 1440, 42 px at 320, 51 px at
+  390, three lines on phones), white lead and pill CTA; a consultation panel beside the photo (about 28%) holding the
+  existing 2-step form (stacked under the hero at 1060 px and below); a light band of four short items (only facts
+  already on the site); centered serif H2s (54 px at 1440); three equal cards, photo on top, light strip with a bold
+  sans title; numbered steps on one line; pill buttons in the home's main content; fade-up on entry (18 px, 0.6 s,
+  transform/opacity only). Not adopted: their typefaces (Freight Display is commercial; Open Sans and Montserrat
+  would add files, so Switzer keeps the text role), their colors, photos, copy, reviews, logos of review sites,
+  stats, offers, phone number, "Free" wording, button "shine" animation, image parallax, and animation of the H1 or
+  CTA (kept static for LCP and the earlier owner rule).
+- **Form.** The home page meta is now `"consult": false` and the form is placed with `{{FORM:consult-form-consultation}}`
+  inside `#consultation` in the hero panel: one form on the page, same id and field names as before. The hero CTA
+  targets `#consultation`; the header, menu, footer and mobile-bar CTAs target `#consult-form-consultation` (the
+  build's rule for pages without the shared section). Both land on the panel. The bottom consultation section is no
+  longer on the home page.
+- **Other.** og:image / twitter:image: new `assets/home-og-kitchen-gudakov-1200x630.jpg` (106,280 B); schema
+  primaryImageOfPage: `home-hero-kitchen-gudakov-1440.webp`. Gambetta 400 declared in main.css (used on the home
+  page only; FONT-LICENSES.txt updated). Title, meta description, canonical, H1 words, FAQ and schema rules are
+  unchanged. The "Where we work" house photo is unchanged (same files, markup, CSS, caption); SHA-256 identical:
+  1440 `4ed5ee56...f1c629`, 720 `b486578f...f52e3`.
+- **Checks.** `python3 scripts/build.py --check`: OK, 24 pages, 0 problems. The other 23 generated pages differ
+  only in `?v=` hashes; CSS changes are home-only selectors (plus the unused-elsewhere Gambetta 400 face). Chrome:
+  no horizontal overflow at 320 / 390 / 1440; CLS 0 / 0.0007 / 0.0035; 0 console errors, 0 failed requests,
+  0 POST; all 7 images load; seek path and still fallback both tested; reduced motion and Save-Data load no video;
+  form step 1 -> 2 -> Back in the panel works. First load of / at 1440 (to the load event, local server): before
+  732,284 B, after 470,467 B; after 6 s including the idle video: before 805,119 B, after 1,697,115 B (WebM
+  1,153,813 B). Screenshots in the session scratchpad (home-photos/).
+- **Not done / next.** Not committed or pushed. Chrome only. `preload_fonts()` in build.py still preloads
+  gambetta-500 on the home page, which now uses 400 (one wasted 20 KB preload and a font swap on the H1); a
+  slug-aware preload is a small build.py change, not made here. The Remotion master renders are in
+  tools/remotion/out (gitignored).
+- **Needs Rodrigo:** nothing new. If the company grows past 3 employees, Remotion needs a Company License before
+  any new render. Still open: phone, email, license number (hidden while empty).
+- Follow-up before commit: the homepage now preloads `gambetta-400` (the weight its H1/H2 use) instead of `gambetta-500`; interior pages keep 500. Build check OK, 24 pages, 0 problems.

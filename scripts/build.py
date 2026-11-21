@@ -468,7 +468,9 @@ def schema_graph(meta: dict, slug: str, body: str, crumb_items) -> str:
 def preload_fonts(slug: str):
     """Only the faces visible above the fold (Gambetta and Switzer: Fontshare, ITF Free Font License; Barlow Condensed: OFL)."""
     # The H1 serif (Gambetta 500), the text face, and the logo wordmark face (the wordmark is live text in the header).
-    return ["gambetta-500", "switzer-400", "barlow-condensed-800"]
+    # The homepage hero H1 and H2s use the lighter Gambetta 400 (2026-11-20 homepage refresh); interior H1s use 500.
+    serif = "gambetta-400" if slug == "index.html" else "gambetta-500"
+    return [serif, "switzer-400", "barlow-condensed-800"]
 
 def head(meta: dict, slug: str, body: str, crumb_items) -> str:
     url = page_url(slug)

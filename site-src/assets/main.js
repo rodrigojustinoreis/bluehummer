@@ -176,5 +176,125 @@
     },{rootMargin:'-68px 0px 0px 0px'});
     targets.forEach(t=>io.observe(t));
   }
-  setContact();nav();initForms();initGallery();initTracking();initBadgeSafeArea();initMobileBar();
+  // Home hero carousel (2026-11-20). The <img> poster is slide 1 and is the no-JS / reduced-motion / Save-Data view.
+  // With motion allowed, a pre-rendered Remotion video (all slides, 0.6 s crossfades, seamless loop) is attached
+  // after load, only near the viewport. Controls seek the video to the start of a slide (index * slide duration),
+  // a frame that is never inside a crossfade; the counter follows timeupdate. Without the video the controls swap
+  // the still (srcset loaded on demand). The live region speaks only on manual changes, never on autoplay.
+  function initHeroCarousel(){
+    const root=document.querySelector('[data-carousel]');
+    if(!root)return;
+    let slides=[];try{slides=JSON.parse(root.dataset.slides||'[]')}catch(e){return}
+    const n=slides.length;if(n<2)return;
+    const dur=parseFloat(root.dataset.slideDuration)||5.5,fade=parseFloat(root.dataset.fade)||0.6;
+    const img=root.querySelector('.home-hero-still'),video=root.querySelector('video');
+    const controls=root.querySelector('.home-hero-controls'),count=root.querySelector('[data-count]');
+    const caption=root.querySelector('[data-caption]'),status=root.querySelector('[data-status]');
+    const prev=root.querySelector('[data-prev]'),next=root.querySelector('[data-next]'),toggle=root.querySelector('[data-toggle]');
+    const phone=window.matchMedia('(max-width: 700px)');
+    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData=!!(navigator.connection&&navigator.connection.saveData);
+    const motion=!!video&&!reduce&&!saveData&&typeof video.canPlayType==='function'&&(video.canPlayType('video/webm')||video.canPlayType('video/mp4'));
+    // stillMode: the video is paused and hidden and the WebP still of the current slide is shown. Entered when a
+    // seek is not possible (server without HTTP Range, video.seekable empty) or does not take effect; left on Play.
+    let index=0,userPaused=false,ready=false,attached=false,stillMode=false,quietUntil=0;const holds=new Set();
+    controls.hidden=false;
+    if(!motion&&toggle)toggle.hidden=true;
+    const pos=i=>phone.matches?slides[i].posPhone:slides[i].pos;
+    function paint(i,announce){
+      index=(i%n+n)%n;const s=slides[index];
+      count.textContent=(index+1)+' / '+n;caption.textContent=s.caption;img.alt=s.alt;
+      if(announce)status.textContent='Photo '+(index+1)+' of '+n+': '+s.caption;
+    }
+    function showStill(){const s=slides[index];if(img.getAttribute('src')!==s.src){img.srcset=s.srcset;img.src=s.src}img.style.objectPosition=pos(index)}
+    const target=i=>i*dur+0.05;
+    function canSeek(t){const r=video.seekable;for(let k=0;k<r.length;k++){if(r.start(k)<=t&&t<=r.end(k))return true}return false}
+    function setPaused(on){userPaused=on;if(toggle){toggle.toggleAttribute('data-paused',on);toggle.setAttribute('aria-label',on?'Play slideshow':'Pause slideshow')}}
+    function enterStill(){stillMode=true;setPaused(true);video.pause();root.classList.remove('is-video');showStill()}
+    function seek(){
+      const t=target(index);
+      if(!canSeek(t))return false;
+      try{video.currentTime=t}catch(e){return false}
+      // Verify the seek landed; some servers report seekable but still cannot serve the range.
+      const want=index,check=()=>{if(!stillMode&&index===want&&Math.abs(video.currentTime-t)>0.3)enterStill()};
+      video.addEventListener('seeked',check,{once:true});setTimeout(check,800);
+      return true;
+    }
+    function sync(){if(!ready||stillMode){if(ready)video.pause();return}if(userPaused||holds.size)video.pause();else{const p=video.play();if(p&&p.catch)p.catch(()=>{})}}
+    function go(i){
+      paint(i,true);quietUntil=Date.now()+900;
+      if(!ready||stillMode){showStill();return}
+      if(!seek())enterStill();
+    }
+    prev.addEventListener('click',()=>go(index-1));
+    next.addEventListener('click',()=>go(index+1));
+    if(toggle)toggle.addEventListener('click',()=>{
+      setPaused(!userPaused);
+      status.textContent=userPaused?'Slideshow paused':'Slideshow playing';
+      if(!userPaused){
+        // An explicit Play wins over the hover / focus holds of the control it was pressed on.
+        holds.delete('hover');holds.delete('focus');
+        if(stillMode&&ready){stillMode=false;quietUntil=Date.now()+900;if(!seek())quietUntil=0;root.classList.add('is-video')}  // not seekable: the video resumes where it was and the counter follows it
+      }
+      sync();
+    });
+    if(!motion)return;
+    // Pause while the pointer or keyboard focus is on the controls, while off-screen and while the tab is hidden.
+    const hold=(k,on)=>{if(on)holds.add(k);else holds.delete(k);sync()};
+    controls.addEventListener('pointerenter',()=>hold('hover',true));
+    controls.addEventListener('pointerleave',()=>hold('hover',false));
+    controls.addEventListener('focusin',e=>{if(e.target.matches(':focus-visible'))hold('focus',true)});  // keyboard focus only; a mouse click is covered by hover
+    controls.addEventListener('focusout',e=>{if(!controls.contains(e.relatedTarget))hold('focus',false)});
+    document.addEventListener('visibilitychange',()=>hold('hidden',document.hidden));
+    video.addEventListener('timeupdate',()=>{
+      if(video.seeking||stillMode||Date.now()<quietUntil)return;
+      const i=Math.floor((video.currentTime+fade/2)/dur)%n;
+      if(i!==index)paint(i,false);
+    });
+    function sources(){
+      const webm=phone.matches?video.dataset.webmPhone:video.dataset.webm,mp4=phone.matches?video.dataset.mp4Phone:video.dataset.mp4;
+      video.replaceChildren();
+      [[webm,'video/webm'],[mp4,'video/mp4']].forEach(([src,type])=>{const el=document.createElement('source');el.src=src;el.type=type;video.appendChild(el)});
+      video.lastElementChild.addEventListener('error',fail);
+      video.preload='auto';video.load();
+    }
+    video.addEventListener('loadeddata',()=>{
+      ready=true;
+      if(stillMode)return;
+      if(index!==0&&!seek()){enterStill();return}
+      const show=()=>{if(!stillMode){root.classList.add('is-video');sync()}};
+      if(video.readyState>=2)show();else video.addEventListener('canplay',show,{once:true});
+    });
+    // Only the last source failing means no playable video: fall back to the stills.
+    const fail=()=>{ready=false;root.classList.remove('is-video');showStill()};
+    function attach(){if(attached)return;attached=true;sources()}
+    phone.addEventListener?.('change',()=>{if(attached){ready=false;root.classList.remove('is-video');showStill();sources()}else showStill()});
+    const idle=window.requestIdleCallback||(cb=>setTimeout(cb,300));
+    const start=()=>idle(()=>{
+      if(!('IntersectionObserver' in window)){attach();return}
+      const io=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting)attach();
+          hold('offscreen',!e.isIntersecting);
+        });
+      },{rootMargin:'200px 0px',threshold:0});
+      io.observe(root);
+    });
+    if(document.readyState==='complete')start();else window.addEventListener('load',start,{once:true});
+  }
+  // Entry motion on the home sections: a short fade-up the first time each block enters the viewport. Content is
+  // visible without JS and with reduced motion (the class that hides it is only added here). Blocks already on
+  // screen when the script runs are shown at once.
+  function initReveal(){
+    const items=[...document.querySelectorAll('[data-reveal]')];
+    if(!items.length||!('IntersectionObserver' in window)||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const vh=window.innerHeight;
+    items.forEach(el=>{if(el.getBoundingClientRect().top<vh*0.92)el.classList.add('is-in')});
+    document.documentElement.classList.add('reveal-on');
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}});
+    },{rootMargin:'0px 0px -8% 0px',threshold:0.08});
+    items.forEach(el=>{if(!el.classList.contains('is-in'))io.observe(el)});
+  }
+  setContact();nav();initForms();initGallery();initTracking();initBadgeSafeArea();initMobileBar();initHeroCarousel();initReveal();
 })();

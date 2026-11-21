@@ -140,3 +140,25 @@ type and color only. Layouts, photographs, copy, routes and the form are as in p
 5. **License.** Gambetta is an Indian Type Foundry family under the ITF Free Font License, read on 2026-11-20 at
    https://www.fontshare.com/licenses/itf-ffl (commercial use and `@font-face` self-hosting allowed; no modifying,
    subsetting or redistributing the files). Token table and details: `docs/brand.md`, first block.
+
+## 2026-11-20: home page in the Re-Bath-style composition (owner direction; home page only)
+
+Reference: https://www.rebath.com/ (read 2026-11-20 at 1440 and 390). The owner asked for its typography,
+composition, hierarchy, image presentation and motion, in Blue Hammer's colors and brand. Interior pages keep the
+"serif H1, warm surfaces, blue actions" rules below.
+
+| Reference trait | Home page implementation |
+|---|---|
+| Full-height photo hero, dark scrim, centered white light serif H1 (Freight Display Pro 300, 81 px, line-height 1) | Photo/video column with a navy scrim (0.56 to 0.76), centered white Gambetta 400, 81 px / 1.0 at 1440; 3 lines on phones (42 px at 320, 51 px at 390) |
+| White lead paragraph and a pill CTA | White lead 20 px; blue pill "Schedule a Consultation" (--action, white text) |
+| Consultation form panel beside the hero photo (about 25%) | Light panel (about 28%) with the existing 2-step form, `#consultation`; stacked under the hero at 1060 px and below |
+| Light band of four short value items with line icons | Four facts already on the site, royal line icons, on --paper |
+| Centered serif H2s (54 px, 400) with centered intro | Gambetta 400, 54 px at 1440, centered with intro (services, process); left-aligned in the two-column areas and FAQ sections |
+| Three equal service cards, photo on top, bold sans title | Three equal cards, 4:3 photo, --soft strip, Switzer 700 title, text, whole-card link |
+| Numbered steps on one line joined by a line | Three 40 px outlined circles joined by a hairline; a vertical list under 820 px |
+| Pill buttons | Pills inside the home page's main content (`body:has(.home-hero) main .btn`) |
+| Scroll-triggered fade/slide (6 px to 1 rem, 380 ms), image parallax, button shine | Fade-up 18 px, 0.6 s, on entry, below the fold only; no parallax, no shine; H1 and CTA static; nothing with reduced motion |
+| Hero is a still photo | Remotion carousel of three real photos (owner request), with accessible controls |
+
+Not taken: their typefaces (commercial), colors, photos, copy, reviews and review-site logos, stats, offers and
+"Free" wording, phone number.

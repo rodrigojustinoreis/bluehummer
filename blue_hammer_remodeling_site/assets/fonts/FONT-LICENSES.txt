@@ -1,6 +1,9 @@
 Fonts in this folder (self-hosted, declared with @font-face in assets/main.css)
 
-Gambetta (gambetta-*.woff2; the site loads gambetta-500.woff2 only, for the page H1)
+Gambetta (gambetta-*.woff2; gambetta-500.woff2 for the page H1 on interior pages; since 2026-11-20 the home page
+  uses gambetta-400.woff2 for its H1 and H2s. Both are declared with @font-face; a browser downloads a face only on
+  pages that use it. gambetta-400.woff2 SHA-256 34b7af359f2570572b6d94bc6338759306a31c3d8c0a3e0799cf50500b1a1fc2, 20,164 bytes,
+  not re-compared with the Fontshare original on 2026-11-20; same family, same license)
   Family:   Gambetta, designed by Paul Troppmar
   Foundry:  Indian Type Foundry (ITF), distributed through Fontshare
   License:  ITF Free Font License (FFL), "Version 2.0 - 17 Aug 2026" as shown on the license page
