@@ -1132,3 +1132,10 @@ service cards, centered serif H2s, discreet numbered steps, fade-up on entry). H
 - **Needs Rodrigo:** nothing new. If the company grows past 3 employees, Remotion needs a Company License before
   any new render. Still open: phone, email, license number (hidden while empty).
 - Follow-up before commit: the homepage now preloads `gambetta-400` (the weight its H1/H2 use) instead of `gambetta-500`; interior pages keep 500. Build check OK, 24 pages, 0 problems.
+
+- **Published:** commit 21c9a17 pushed to main (fast-forward from bb930a9, no force). Live on https://bluehammermd.com:
+  `main.css`, `main.js`, the six new photos, the og image, the four hero videos, `gambetta-400.woff2` and the house
+  photo are byte-identical to the repo; Netlify answers Range requests (206); og:image is
+  `home-og-kitchen-gudakov-1200x630.jpg`; the home preloads gambetta-400, switzer-400, barlow-condensed-800. Chrome on
+  the live home: the WebM autoplays (readyState 4, seekable 0-16.5 s), Pause stops it, Next seeks to 11.05 s (3 / 3)
+  and wraps to 0.05 s (1 / 3); H1 Gambetta 400 "Home remodeling. In Maryland."; 0 console errors, 0 POST.
