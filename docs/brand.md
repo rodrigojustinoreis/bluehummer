@@ -1,5 +1,45 @@
 # Blue Hammer Remodeling: brand guideline
 
+> **AUTHORITATIVE: refinement of 2026-11-20 (owner: "a designer who brings trust, modern and traditional at the
+> same time").** This block wins over every other statement in this file, including the "Current rules" note
+> below where it says Barlow Condensed for the H1, orange for the primary button, a white page or cool grey.
+> - **Type roles.** **Gambetta 500** (upright serif, never italic, no small caps): the page H1 only.
+>   **Switzer** (400 to 700): everything else (H2, H3, body, navigation, buttons, forms, captions).
+>   **Barlow Condensed 800**: the logo wordmark only.
+> - **H1 settings.** `clamp(2.5rem, 1.5rem + 3.2vw, 4.25rem)` = 68 px at 1440; line-height 1.06; tracking
+>   -0.018em; `text-wrap: balance`. Phones (700 px and under): `clamp(2.375rem, 10.4vw, 3rem)` = 38 px at 320,
+>   40.6 px at 390; line-height 1.08. Home H1 ("Home remodeling." / "In Maryland.", two fixed lines):
+>   `clamp(3.5rem, 1.5rem + 3.6vw, 4.75rem)` = 76 px at 1440, line-height 1.03, tracking -0.022em; phones
+>   `clamp(2.1875rem, 10.6vw, 4rem)` = 35 px at 320 (so the fixed first line fits), 41 px at 390, line-height 1.05.
+>   H2 is unchanged (Switzer 600, 28 to 40 px, 1.14, -0.022em).
+> - **Color tokens** (`:root` in `site-src/assets/main.css`):
+>
+>   | Token | Hex | Role |
+>   |---|---|---|
+>   | `--navy` | `#142131` | Header, footer, headings, rules |
+>   | `--royal` / `--royal-hover` | `#0864D8` / `#074EAE` | Links, focus ring on light surfaces |
+>   | `--action` / `--action-hover` | `#0B57C0` / `#0A4596` | Primary button fill (white text) and its hover |
+>   | `--paper` | `#FDFCFA` | Page surface (warm near-white) |
+>   | `--soft` | `#F6F3EE` | Dense text bands, consultation section, image placeholders |
+>   | `--white` | `#FFFFFF` | Form fields, dropdown menu, header button |
+>   | `--ink` / `--muted` | `#172638` / `#55606B` | Body text / secondary text and captions |
+>   | `--line` / `--line-strong` | `#E7E2D9` / `#C8C0B3` | Warm hairlines |
+>   | `--field-line` | `#857C70` | Field and outline-button borders (4.1:1 on white) |
+>   | `--on-dark` / `--focus-on-dark` / `--on-navy-hover` | `#CBD6E3` / `#9AC6FF` / `#DCE8F7` | Text, focus ring and button hover on navy |
+>   | `--orange` | `#FF7A24` | The two hairlines inside the logo wordmark. Nothing else. |
+> - **Primary button rule.** `.btn--primary` is `--action` with white text (6.69:1), hover `--action-hover`,
+>   pressed navy, focus a 2 px royal outline offset 3 px. Inside the navy header and the open mobile menu the same
+>   button is white with navy text (16.26:1 for the text and for the shape against the header), hover `#DCE8F7`.
+>   The mobile bar and the form's Continue and Send buttons use the blue primary. Orange is never a button, bar,
+>   rule or text color.
+> - **Font license.** Gambetta and Switzer: Indian Type Foundry, ITF Free Font License, read at
+>   https://www.fontshare.com/licenses/itf-ffl on 2026-11-20: free commercial use and self-hosting with
+>   `@font-face` are allowed; the files may not be modified, subset, converted or redistributed. Note file:
+>   `blue_hammer_remodeling_site/assets/fonts/FONT-LICENSES.txt`. Barlow Condensed: SIL OFL 1.1.
+> - **Superseded by this block:** "Barlow Condensed 800 for the page H1", "orange `#FF7A24` on the primary
+>   button", "white page, cool grey `#F4F6F8`", "No Gambetta, no ivory" and "do not change typefaces to look
+>   traditional". Still in force: sentence case, no eyebrows, no italics, no ornament, no brass, the layouts.
+
 > **Current rules (2026-11-20, redesign phase 1).** Identity v2: navy `#142131`, royal `#0864D8`, orange `#FF7A24`
 > (primary button only), white and cool grey `#F4F6F8`, the hammer logo, Barlow Condensed + Switzer. Type and
 > layout follow `docs/design-system/design-brief.md` > "2026-11-20 direction" and the "Typography (current)"
@@ -47,15 +87,16 @@ least 4.5:1 (3:1 for 24 px+ headings).
 
 ## Typography (current, 2026-11-20)
 - **Switzer** (400, 500, 600, 700) carries the hierarchy: H2, H3, body, labels, buttons, navigation. Sentence case.
-- **Barlow Condensed 800** is used in two places only: the logo wordmark (uppercase, as drawn) and the page H1
-  (sentence case). Never for H2/H3, labels, numerals or buttons. Never italic (one upright face is shipped).
+- **Gambetta 500** (upright) is the page H1, in sentence case, and nothing else. **Barlow Condensed 800** is the
+  logo wordmark only (uppercase, as drawn). (Superseded the same day: Barlow Condensed 800 as the H1 face.)
 - No all-caps headings. No eyebrow label above headings. No word in a heading set in another color or style.
-- Scale: H1 `clamp(2.75rem, 1.6rem + 3.6vw, 4.5rem)` (home H1 up to 6.25rem); H2 `clamp(1.75rem, 1.2rem + 1.6vw,
+- Scale: H1 `clamp(2.5rem, 1.5rem + 3.2vw, 4.25rem)`, line-height 1.06 (home H1 up to 4.75rem); H2 `clamp(1.75rem, 1.2rem + 1.6vw,
   2.5rem)` weight 600; H3 1.1875rem weight 600; body 1.0625rem / 1.62; lede 1.1875rem; captions and small text
   0.875rem. Line length 45 to 75 characters.
 - Spacing: 12 columns, 1240 px, 32 px gap; section padding `--sec` (72 to 120 px) for image-led sections and
   `--sec-tight` (48 to 72 px) for dense text bands; radius 2 px on images, 3 px on buttons and inputs.
-- Orange is for the primary button. Rules and dividers are grey or navy.
+- The primary button is blue `#0B57C0` with white text (superseded: orange). Rules and dividers are warm grey or navy.
+- Preloaded faces (`preload_fonts()` in `scripts/build.py`): `gambetta-500`, `switzer-400`, `barlow-condensed-800` (the wordmark is live text in the header).
 
 ## Typography (history: palette A and the first v2 pass, superseded)
 - Display: **Gambetta** (Fontshare, ITF Free Font License, free for commercial web use). Weights 400, 400 italic, 500, 600.

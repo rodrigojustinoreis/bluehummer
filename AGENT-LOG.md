@@ -1028,3 +1028,35 @@ page was recomposed from its own content; none keeps the old two-column hero, `.
   `/potomac-md`, `/process`, `/projects`, `/contact`, `/reviews`, `/thank-you` return 200 with the expected H1, one
   canonical each and no `<video>`; `/reviews` and `/thank-you` still noindex; sitemap 21 URLs; `/llms.txt` 200;
   `robots.txt` unchanged; video files still served. The live pages were not viewed in a browser after the deploy.
+
+## 2026-11-20: design refinement (serif H1, warm surfaces, blue actions). Not committed
+
+Owner: "I need a designer who brings trust, modern and traditional at the same time." The Barlow Condensed 800 H1
+read as heavy. Shared style only: `site-src/assets/main.css`, `scripts/build.py` (`preload_fonts()`), docs. No page
+source, copy, route, metadata, schema, sitemap, llms.txt, robots or form markup changed.
+
+- **Font license checked first.** Gambetta (Indian Type Foundry, designer Paul Troppmar) is under the ITF Free
+  Font License; text read on 2026-11-20 at https://www.fontshare.com/licenses/itf-ffl (shown there as "Version 2.0 -
+  17 Aug 2026"). It allows free commercial use and self-hosting with `@font-face`; it forbids modifying, subsetting,
+  converting or redistributing the files. `gambetta-500.woff2` in the repo is byte-identical to the Fontshare file.
+  Note file added: `blue_hammer_remodeling_site/assets/fonts/FONT-LICENSES.txt`.
+- **Type.** H1 on all 24 pages: Gambetta 500 upright (was Barlow Condensed 800). 68 px at 1440, 40.6 px at 390,
+  line-height 1.06 / 1.08, tracking -0.018em. Home H1: 76 px at 1440, 41 px at 390, 35 px at 320 (the fixed line
+  "Home remodeling." does not fit at 38 px on a 320 px screen). Switzer for everything else; Barlow Condensed only
+  in the wordmark. End-aligned page heads: the last H1 baseline now sits on the bottom edge of the intro column.
+- **Color.** `--white` page -> `--paper #FDFCFA`; `--soft #F4F6F8 -> #F6F3EE`; `--line #DFE5EB -> #E7E2D9`;
+  `--line-strong #B9C4D0 -> #C8C0B3`; `--field-line #74859A -> #857C70`; `--muted #51606F -> #55606B`;
+  `--focus-on-dark #FFAB70 -> #9AC6FF`; new `--action #0B57C0`, `--action-hover #0A4596`, `--on-navy-hover #DCE8F7`;
+  `--orange-hover` removed. Primary buttons (hero, mobile bar, form Continue and Send): blue with white text
+  (6.69:1). Header button and the button in the open mobile menu: white with navy text (16.26:1). Orange is left
+  only in the two hairlines of the logo wordmark.
+- **Preload.** `gambetta-500`, `switzer-400`, `barlow-condensed-800` (was Barlow + Switzer). Barlow stays because
+  the wordmark is live text in the header.
+- **Checks.** `python3 scripts/build.py --check`: OK, 24 pages, 0 problems. Chromium, 24 pages at 390 and 1440 plus
+  the home page at 320: no horizontal overflow, every H1 inside its container and the gutter, H1 family Gambetta
+  with the face loaded, no failed requests or console errors. Menus, the mobile menu and form steps 1 -> 2 -> Back
+  work; no POST was sent. Published `main.css`: 35,163 bytes. No photograph or crop was changed.
+- **Not done / next.** Not committed or pushed. Chrome only (no Safari or Firefox). Three fonts are preloaded
+  (about 76 KB); if that weighs on the first paint, the wordmark could become part of the logo image.
+  `gambetta-400`, `gambetta-400-italic` and `gambetta-600` are still in `assets/fonts/` but not loaded.
+- **Needs Rodrigo:** nothing new. Still open from before: phone, email and license number (hidden while empty).

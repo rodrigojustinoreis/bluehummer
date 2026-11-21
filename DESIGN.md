@@ -1,5 +1,15 @@
 # DESIGN.md - Blue Hammer Remodeling
 
+> **AUTHORITATIVE: refinement of 2026-11-20.** The H1 is **Gambetta 500** (upright serif, 68 px at 1440, about
+> 40 px on phones, line-height 1.06); **Switzer** sets everything else; **Barlow Condensed 800** is the logo wordmark
+> only. The page is warm near-white `#FDFCFA` with `#F6F3EE` soft bands and warm rules (`#E7E2D9`, `#C8C0B3`,
+> field borders `#857C70`). Primary buttons are blue `#0B57C0` with white text (hover `#0A4596`); in the navy
+> header and the open mobile menu the button is white with navy text. Orange `#FF7A24` remains only in the two
+> hairlines of the logo. Full token table, type settings and the font license record: `docs/brand.md`, first
+> block. This supersedes the statements below that give the H1 to Barlow Condensed, make the button orange, or
+> describe a white page with a grey consultation band ("orange" and "grey" in the phase 1 list now read "white on
+> navy / blue" and "warm neutral").
+
 > **Current state (2026-11-20, redesign phase 1).** Identity v2 (navy `#142131`, royal `#0864D8`, orange `#FF7A24`
 > on the primary button only, hammer logo, Barlow Condensed + Switzer). Headings are **Switzer, sentence case**;
 > Barlow Condensed 800 is only the logo wordmark and the page H1 (sentence case). No eyebrows, no all-caps

@@ -1,8 +1,11 @@
 /* ==========================================================================
    Blue Hammer Remodeling: site stylesheet (one layer, rewritten 2026-11-20, redesign phase 1).
    Direction: docs/design-system/design-brief.md > "2026-11-20 direction". Tokens and rules: docs/brand.md.
-   Type: Switzer carries the hierarchy (sentence case). Barlow Condensed 800 is used in two places only:
-   the logo wordmark and the page H1. Orange is reserved for the primary action.
+   Refined 2026-11-20 (owner: "trust, modern and traditional at the same time"):
+   Type: Gambetta 500 (upright serif) for the page H1 only; Switzer for everything else (H2, H3, body, nav,
+   forms); Barlow Condensed 800 for the logo wordmark only. Color: warm near-white page, warm neutral soft
+   bands and rules; navy and royal are the anchors; primary actions are blue with white text (white with navy
+   text on the navy header); orange lives only in the two hairlines of the logo.
    THIS IS THE SOURCE. `python3 scripts/build.py` minifies it into blue_hammer_remodeling_site/assets/main.css
    (generated, never edited). url() paths are relative to that published assets folder.
    Order: 1 fonts and tokens, 2 base, 3 buttons and links, 4 header, 5 page components (interior pages),
@@ -14,17 +17,21 @@
 @font-face{font-family:"Switzer";src:url("fonts/switzer-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:"Switzer";src:url("fonts/switzer-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
 @font-face{font-family:"Switzer";src:url("fonts/switzer-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Gambetta";src:url("fonts/gambetta-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:"Barlow Condensed";src:url("fonts/barlow-condensed-800.woff2") format("woff2");font-weight:800;font-style:normal;font-display:swap}
 :root{
-  /* Color. Navy and royal are the anchors; orange only on the primary button. */
-  --navy:#142131;--navy2:#101D2C;--royal:#0864D8;--royal-hover:#074EAE;--orange:#FF7A24;--orange-hover:#FF984F;
-  --ink:#172638;--muted:#51606F;--line:#DFE5EB;--line-strong:#B9C4D0;--soft:#F4F6F8;--white:#FFFFFF;
-  --on-dark:#CBD6E3;--on-dark-line:rgba(203,214,227,.2);--field-line:#74859A;--focus-on-dark:#FFAB70;
-  /* Type. */
-  --font-display:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  /* Color. Navy and royal are the anchors. --action is the primary button fill (white text); --royal is for
+     links and focus. Surfaces are warm and close to white: --paper (page), --soft (dense text bands),
+     --white (fields, menus). --orange is the logo accent only (the two hairlines in the wordmark). */
+  --navy:#142131;--navy2:#101D2C;--royal:#0864D8;--royal-hover:#074EAE;--action:#0B57C0;--action-hover:#0A4596;--orange:#FF7A24;
+  --ink:#172638;--muted:#55606B;--line:#E7E2D9;--line-strong:#C8C0B3;--paper:#FDFCFA;--soft:#F6F3EE;--white:#FFFFFF;
+  --on-dark:#CBD6E3;--on-dark-line:rgba(203,214,227,.2);--field-line:#857C70;--focus-on-dark:#9AC6FF;--on-navy-hover:#DCE8F7;
+  /* Type. --font-serif: page H1 only. --font-wordmark: logo only. --font-text: everything else. */
+  --font-serif:"Gambetta",Georgia,"Times New Roman",serif;
+  --font-wordmark:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
   --font-text:"Switzer",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
   --t-small:.875rem;--t-body:1.0625rem;--t-lede:1.1875rem;--t-h3:1.1875rem;
-  --t-h2:clamp(1.75rem,1.2rem + 1.6vw,2.5rem);--t-h1:clamp(2.75rem,1.6rem + 3.6vw,4.5rem);
+  --t-h2:clamp(1.75rem,1.2rem + 1.6vw,2.5rem);--t-h1:clamp(2.5rem,1.5rem + 3.2vw,4.25rem);
   /* Space. Sections do not all take the same padding: --sec for image-led sections, --sec-tight for dense text. */
   --sec:clamp(72px,8vw,120px);--sec-tight:clamp(48px,5vw,72px);--gap:32px;--gutter:24px;
   --max:1240px;--header-h:76px;--radius:3px;--ease-out:cubic-bezier(.2,.7,.2,1);--dur:.2s
@@ -33,7 +40,7 @@
 /* ---------- 2. Base ---------- */
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 16px);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
-body{margin:0;font-family:var(--font-text);font-feature-settings:"kern","liga";color:var(--ink);background:var(--white);touch-action:manipulation}
+body{margin:0;font-family:var(--font-text);font-feature-settings:"kern","liga";color:var(--ink);background:var(--paper);touch-action:manipulation}
 ::selection{background:var(--navy);color:#fff}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
@@ -44,8 +51,8 @@ a:focus-visible,button:focus-visible,.btn:focus-visible,input:focus-visible,sele
 .site-header :focus-visible,.footer :focus-visible{outline:3px solid var(--focus-on-dark)}
 h1,h2,h3,p{margin-top:0}
 h1,h2,h3{color:var(--navy);text-wrap:balance}
-/* The page H1 is the one display line: Barlow Condensed 800, sentence case. */
-h1{font-family:var(--font-display);font-weight:800;font-size:var(--t-h1);line-height:.98;letter-spacing:-.005em;margin-bottom:24px}
+/* The page H1 is the one serif line: Gambetta 500, upright, sentence case. No italics, no small caps. */
+h1{font-family:var(--font-serif);font-weight:500;font-size:var(--t-h1);line-height:1.06;letter-spacing:-.018em;font-synthesis:none;margin-bottom:24px}
 h2{font-family:var(--font-text);font-weight:600;font-size:var(--t-h2);line-height:1.14;letter-spacing:-.022em;margin-bottom:16px}
 h3{font-family:var(--font-text);font-weight:600;font-size:var(--t-h3);line-height:1.3;letter-spacing:-.012em;margin-bottom:10px}
 p{line-height:1.62;color:var(--muted);font-size:var(--t-body);text-wrap:pretty}
@@ -60,8 +67,12 @@ main p a:not([class]):hover,.detail-list li a:not([class]):hover,.content-prose 
 
 /* ---------- 3. Buttons and links ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:var(--radius);border:1px solid transparent;min-height:50px;padding:13px 22px;font-family:var(--font-text);font-size:1rem;font-weight:600;line-height:1.25;text-align:center;transition:background var(--dur),border-color var(--dur),color var(--dur)}
-.btn--primary{background:var(--orange);color:var(--navy2)}
-.btn--primary:hover{background:var(--orange-hover)}
+/* Primary action: blue fill, white text. On the navy header and in the open menu it is white with navy text. */
+.btn--primary{background:var(--action);color:#fff}
+.btn--primary:hover{background:var(--action-hover)}
+.btn--primary:active{background:var(--navy)}
+.site-header .btn--primary{background:#fff;color:var(--navy)}
+.site-header .btn--primary:hover{background:var(--on-navy-hover)}
 .btn--outline{background:transparent;color:var(--navy);border-color:var(--field-line)}
 .btn--outline:hover{border-color:var(--navy);background:rgba(20,33,49,.04)}
 .btn--sm{min-height:46px;padding:11px 18px;font-size:.92rem}
@@ -76,7 +87,7 @@ main p a:not([class]):hover,.detail-list li a:not([class]):hover,.content-prose 
 .nav-wrap{min-height:var(--header-h);display:flex;align-items:center;gap:28px}
 .brand{display:flex;align-items:center;gap:6px;flex:none}
 .brand img{width:50px;height:55px;object-fit:contain}
-.brand-copy{display:flex;flex-direction:column;font-family:var(--font-display);font-weight:800;font-size:1.7rem;line-height:1;letter-spacing:-.015em;color:#fff;white-space:nowrap}
+.brand-copy{display:flex;flex-direction:column;font-family:var(--font-wordmark);font-weight:800;font-size:1.7rem;line-height:1;letter-spacing:-.015em;color:#fff;white-space:nowrap}
 .brand-copy small{display:flex;align-items:center;justify-content:space-between;gap:8px;font-family:var(--font-text);font-size:.5rem;font-weight:700;letter-spacing:.27em;margin-top:6px;color:#fff}
 .brand-copy small:before,.brand-copy small:after{content:"";display:block;flex:1;height:2px;background:var(--orange)}
 .nav-links{display:flex;gap:28px;align-items:center;margin-left:auto}
@@ -115,6 +126,8 @@ main p a:not([class]):hover,.detail-list li a:not([class]):hover,.content-prose 
 .page-head-grid{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:end;gap:var(--gap) 64px}
 .page-head h1{margin:0 0 -.04em}
 .page-head--top .page-head-grid{align-items:start}
+/* End-aligned head: the last H1 baseline sits on the bottom edge of the introduction column. */
+@media(min-width:821px){.page-head:not(.page-head--stack):not(.page-head--top) .page-head-grid h1{margin-bottom:-.22em}}
 .range-table td a{display:inline-block;padding-block:3px}
 .page-head-intro p{font-size:var(--t-lede);line-height:1.5;color:var(--ink);margin-bottom:24px}
 .page-head-intro>:last-child{margin-bottom:0}
@@ -338,7 +351,7 @@ main p a:not([class]):hover,.detail-list li a:not([class]):hover,.content-prose 
 /* Hero: the H1 and one action above a single wide photograph with its caption. */
 .home-hero{padding:clamp(36px,4.6vw,64px) 0 0}
 .home-hero-head{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr);align-items:end;gap:var(--gap) 64px;margin-bottom:clamp(28px,3.2vw,44px)}
-.home-hero h1{font-size:clamp(3.75rem,1rem + 6vw,6.25rem);line-height:.9;letter-spacing:-.01em;margin:0 0 -.06em;white-space:nowrap}
+.home-hero h1{font-size:clamp(3.5rem,1.5rem + 3.6vw,4.75rem);line-height:1.03;letter-spacing:-.022em;margin:0 0 -.1em;white-space:nowrap}
 .home-hero-intro{justify-self:end;max-width:27.5rem;padding-bottom:4px}
 .home-hero-intro p{font-size:var(--t-lede);line-height:1.5;color:var(--ink);margin-bottom:24px}
 .home-hero-photo img{width:100%;height:auto;aspect-ratio:2.2 / 1;object-fit:cover;object-position:50% 58%;border-radius:2px;background:var(--soft)}
@@ -406,8 +419,8 @@ figcaption{font-size:var(--t-small);line-height:1.5;color:var(--muted)}
 .dropdown-panel a{min-height:46px;padding:8px;font-size:1rem;color:#E8F1FA}
 .dropdown-panel a:hover{background:#25384E;color:#fff}
 .dropdown-panel a:focus-visible{outline:3px solid var(--focus-on-dark)}
-.nav-links>a.nav-cta-mobile{display:flex;justify-content:center;margin-top:20px;min-height:50px;padding:13px 20px;background:var(--orange);color:var(--navy2);border:0;border-radius:var(--radius);font-weight:600}
-.nav-links>a.nav-cta-mobile:hover{background:var(--orange-hover);color:var(--navy2)}
+.nav-links>a.nav-cta-mobile{display:flex;justify-content:center;margin-top:20px;min-height:50px;padding:13px 20px;background:#fff;color:var(--navy);border:0;border-radius:var(--radius);font-weight:600}
+.nav-links>a.nav-cta-mobile:hover{background:var(--on-navy-hover);color:var(--navy)}
 .menu-toggle{display:inline-flex}
 .header-cta,.header-phone{display:none}
 .nav-wrap,.site-header>.container{position:static}
@@ -439,7 +452,7 @@ figcaption{font-size:var(--t-small);line-height:1.5;color:var(--muted)}
 .gallery-card img{height:auto;aspect-ratio:4 / 3}
 /* Home */
 .home-hero-head{grid-template-columns:minmax(0,1fr);align-items:start;row-gap:22px}
-.home-hero h1{margin-bottom:0;font-size:clamp(2.25rem,12vw,5.5rem);line-height:.94}
+.home-hero h1{margin-bottom:0;font-size:clamp(2.1875rem,10.6vw,4rem);line-height:1.05}
 .home-hero-intro{justify-self:start;max-width:34rem;padding:0}
 .home-hero-photo img{aspect-ratio:16 / 10}
 .home-svc-grid{row-gap:44px}
@@ -455,7 +468,7 @@ figcaption{font-size:var(--t-small);line-height:1.5;color:var(--muted)}
 .menu-toggle{font-size:.86rem;padding:9px 11px}
 .page-head{padding-top:18px}
 .breadcrumbs{margin-bottom:24px}
-.page-head h1{font-size:clamp(2.5rem,11.5vw,3.25rem);line-height:1}
+.page-head h1{font-size:clamp(2.375rem,10.4vw,3rem);line-height:1.08}
 .page-head-intro p{font-size:var(--t-body)}
 .page-head-intro .btn{width:100%}
 /* The lead photograph runs to the screen edges, as on the home page. */
@@ -494,7 +507,7 @@ figcaption{font-size:var(--t-small);line-height:1.5;color:var(--muted)}
 .has-nl-badge .footer-bottom{padding-bottom:calc(84px + var(--nl-badge-h,56px) + env(safe-area-inset-bottom))}
 .has-nl-badge .no-mobile-cta .footer-bottom{padding-bottom:calc(14px + var(--nl-badge-h,56px) + env(safe-area-inset-bottom))}
 /* Fixed bar: one button. main.js hides it while a primary button or the form is already on screen. */
-.mobile-cta{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line-strong);padding:8px 18px calc(8px + env(safe-area-inset-bottom));gap:10px;z-index:50;transition:transform .25s var(--ease-out),visibility .25s}
+.mobile-cta{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:1px solid var(--line-strong);padding:8px 18px calc(8px + env(safe-area-inset-bottom));gap:10px;z-index:50;transition:transform .25s var(--ease-out),visibility .25s}
 .mobile-cta.is-idle{transform:translateY(110%);visibility:hidden}
 .mobile-cta .btn{flex:1;min-height:48px}
 .mobile-cta .mobile-phone{flex:0 0 auto;min-width:48px;padding:10px 13px}

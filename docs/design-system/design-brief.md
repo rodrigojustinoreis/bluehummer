@@ -1,5 +1,9 @@
 # Design brief: bluehammermd.com
 
+> **AUTHORITATIVE (2026-11-20 refinement): see "2026-11-20 refinement: serif H1, warm surfaces, blue actions" at
+> the end of this file.** It supersedes the Barlow Condensed H1, the orange primary button, the white / cool grey
+> surfaces and the "No Gambetta, no ivory" line wherever they appear below.
+
 > **Documentation note (2026-11-19): the live identity is the owner v2 package.** Navy `#142131`, orange `#FF7A24`
 > (primary buttons), royal `#0864D8`, Barlow Condensed + Switzer. Since 2026-11-20 the type and layout rules are the
 > "2026-11-20 direction" section at the end of this file (sentence case, Switzer headings, Barlow only in the logo and the H1). Where this file
@@ -55,6 +59,8 @@ trust of an American remodeling company; not a digital agency, not ostentatious 
   years, reviews, ratings or credentials that are not real.
 - Avoid: sterile empty-gallery minimalism, heavy all caps, vintage decoration (ornaments, faux-heritage badges,
   serif nostalgia), SaaS layouts. Do not change typefaces to "look traditional". No Gambetta, no ivory/brass.
+  (Last sentence superseded on 2026-11-20 by the refinement section at the end: a restrained upright serif H1 and
+  a warm near-white surface are now the rule. Brass, italics and ornament stay out.)
 
 **References studied on 2026-11-20** (layout and rhythm only; no text, image, code or claim was copied):
 - https://www.casedesign.com/ : one photograph leads the page; headings are medium-weight sentence case around
@@ -111,3 +117,26 @@ with captions, and its headings rewritten where they still read as slogans.
 `.media-split`, `.bento`, `.section-head`) no longer exist. Interior pages are built from `.page-head`, `figure.photo`,
 `.photo-pair`, `.sec-head`, `.cols-5-7` / `.cols-7-5`, `.rows`, `.trio`, `.notes`, `.feature`, `.callout` (see section 5 of
 `site-src/assets/main.css`). Pages of one type do not share one section order; see the AGENT-LOG phase 2 entry.
+
+## 2026-11-20 refinement: serif H1, warm surfaces, blue actions (authoritative)
+
+**Owner.** "I need a designer who brings trust, modern and traditional at the same time." The Barlow Condensed 800
+H1 read as heavy and aggressive; the traditional half of the brief was not visible. This section changes shared
+type and color only. Layouts, photographs, copy, routes and the form are as in phases 1 and 2.
+
+1. **Type roles.** Gambetta 500, upright, for the page H1 only (68 px at 1440, 38 to 41 px on phones, line-height
+   1.06 to 1.08, tracking -0.018em, balanced lines; home H1 76 px at 1440, 35 px at 320, 41 px at 390). Switzer for
+   everything else, H2 and H3 included. Barlow Condensed 800 for the logo wordmark only. No italics, no small caps,
+   no ornament, no second serif use (not in H2, quotes, numerals or captions).
+2. **Color.** Page `#FDFCFA`, soft bands `#F6F3EE`, rules `#E7E2D9` / `#C8C0B3`, field borders `#857C70`, secondary
+   text `#55606B`. Navy `#142131` and royal `#0864D8` stay the anchors. The page stays close to white; the
+   photographs carry the warmth. No beige or yellow fills.
+3. **Primary action.** Blue `#0B57C0`, white text, hover `#0A4596`. On the navy header and in the open mobile menu:
+   white fill, navy text. Same rule for the mobile bar and the form's Continue and Send buttons. Orange `#FF7A24`
+   is only the two hairlines in the logo.
+4. **Supersedes** decision 1 ("Barlow Condensed 800 ... the page H1"), decision 3 ("White page, cool grey `#F4F6F8`
+   ... Orange `#FF7A24` only on the primary button"), decision 7 ("one orange button") and decision 10 ("White" bar:
+   now the page surface color) of the "2026-11-20 direction" above. Its other decisions stand.
+5. **License.** Gambetta is an Indian Type Foundry family under the ITF Free Font License, read on 2026-11-20 at
+   https://www.fontshare.com/licenses/itf-ffl (commercial use and `@font-face` self-hosting allowed; no modifying,
+   subsetting or redistributing the files). Token table and details: `docs/brand.md`, first block.

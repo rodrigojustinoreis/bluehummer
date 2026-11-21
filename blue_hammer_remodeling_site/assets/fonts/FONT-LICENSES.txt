@@ -1,0 +1,23 @@
+Fonts in this folder (self-hosted, declared with @font-face in assets/main.css)
+
+Gambetta (gambetta-*.woff2; the site loads gambetta-500.woff2 only, for the page H1)
+  Family:   Gambetta, designed by Paul Troppmar
+  Foundry:  Indian Type Foundry (ITF), distributed through Fontshare
+  License:  ITF Free Font License (FFL), "Version 2.0 - 17 Aug 2026" as shown on the license page
+  URL:      https://www.fontshare.com/licenses/itf-ffl  (family page: https://www.fontshare.com/fonts/gambetta)
+  Checked:  2026-11-20. Section 01 grants free use "for personal or commercial purposes" in any media including
+            websites, and allows self-hosting "on your own servers or infrastructure for use on your own websites",
+            "including through standard webfont technologies such as CSS @font-face".
+  Limits:   Section 02: the font files may not be modified (no subsetting, format conversion or renaming of font
+            metadata) and may not be redistributed or handed to third parties; anyone else who needs the font gets
+            their own copy from Fontshare. gambetta-500.woff2 here is byte-identical to the file served by
+            Fontshare (SHA-256 e55e2245cb4ce1f9c85818c1c0008557447060fbf2d5a083ab64fab51a8da574, 20,100 bytes).
+            Do not subset or re-encode these files. The full license text is at the URL above; it is not copied here.
+
+Switzer (switzer-*.woff2; body, navigation, forms, H2 and H3)
+  Foundry:  Indian Type Foundry (ITF), distributed through Fontshare
+  License:  ITF Free Font License (FFL), same URL and date as above (the Fontshare catalog lists Switzer under
+            the same license type; its files were not re-compared with the Fontshare originals on 2026-11-20).
+
+Barlow Condensed (barlow-condensed-800.woff2; logo wordmark only)
+  License:  SIL Open Font License 1.1, see barlow-condensed-OFL.txt in this folder.
