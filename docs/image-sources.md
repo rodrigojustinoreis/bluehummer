@@ -95,3 +95,6 @@ interior), no people, no readable text or visible brand after the edits below.
 - Unsplash YBxrveqHAFU: photographer watermark/logo in the image and a readable poster.
 - Unsplash 9OKuf13OidA, asgkXxIQrPU (Peter Muniz): readable cosmetics brand label on the vanity.
 - Unsplash koLQ6-45B3k: furniture looks virtually staged.
+
+## Homepage local section map (2026-11-21)
+- `blue_hammer_remodeling_site/assets/home-map-maryland.svg`: decorative outline of Maryland (with county lines), DC and the neighbouring states, plus a soft marker at Olney (39.153 N, 77.067 W). Generated locally from `us-atlas@3.0.1` `counties-10m.json` (ISC license, Mike Bostock; derived from the U.S. Census Bureau cartographic boundary files, which are public domain U.S. government data) with `topojson-client@3.1.0` and `d3-geo@3.1.1` (Mercator fitted to Maryland). Generator script kept out of the repo (scratchpad); inputs and versions are listed here so it can be rebuilt. Shown at 40% opacity, `alt=""` and `aria-hidden`.

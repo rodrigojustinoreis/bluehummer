@@ -24,3 +24,18 @@ Switzer (switzer-*.woff2; body, navigation, forms, H2 and H3)
 
 Barlow Condensed (barlow-condensed-800.woff2; logo wordmark only)
   License:  SIL Open Font License 1.1, see barlow-condensed-OFL.txt in this folder.
+
+Open Sans (open-sans-var-latin.woff2; body text, from 2026-11-21)
+  License:  SIL Open Font License 1.1, see open-sans-OFL.txt (from https://github.com/googlefonts/opensans).
+  Source:   Google Fonts official distribution, variable file wght 400-700, latin subset as served by
+            https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700 ->
+            https://fonts.gstatic.com/s/opensans/v44/memvYaGs126MiZpBA-UvWbX2vVnXBbObj2OVTS-mu0SC55I.woff2
+            (downloaded 2026-11-21, unmodified, self-hosted).
+
+Montserrat (montserrat-var-latin.woff2; navigation, buttons, form labels, H3, from 2026-11-21)
+  License:  SIL Open Font License 1.1, see montserrat-OFL.txt (from https://github.com/JulietaUla/Montserrat).
+  Source:   Google Fonts official distribution, variable file wght 500-700, latin subset ->
+            https://fonts.gstatic.com/s/montserrat/v31/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2
+            (downloaded 2026-11-21, unmodified, self-hosted).
+
+Switzer files remain in this folder but are no longer referenced by the stylesheet (2026-11-21).

@@ -2,10 +2,10 @@
    Blue Hammer Remodeling: site stylesheet (one layer, rewritten 2026-11-20, redesign phase 1).
    Direction: docs/design-system/design-brief.md > "2026-11-20 direction". Tokens and rules: docs/brand.md.
    Refined 2026-11-20 (owner: "trust, modern and traditional at the same time"):
-   Type: Gambetta 500 (upright serif) for the page H1 only; Switzer for everything else (H2, H3, body, nav,
-   forms); Barlow Condensed 800 for the logo wordmark only. Color: warm near-white page, warm neutral soft
-   bands and rules; navy and royal are the anchors; primary actions are blue with white text (white with navy
-   text on the navy header); orange lives only in the two hairlines of the logo.
+   2026-11-21 (owner: harmonize with the Re-Bath reference, keep the Blue Hammer logo): see section 11 at the end.
+   Type: Gambetta 400 for H1/H2, Open Sans for text, Montserrat for navigation/buttons/labels/H3, Barlow
+   Condensed 800 for the wordmark only. Color: white header and surfaces, #F7F7F7 bands, blue-grey headings,
+   grey text, wine pill buttons and links, desaturated blue icons, dark slate footer; orange only in the logo.
    THIS IS THE SOURCE. `python3 scripts/build.py` minifies it into blue_hammer_remodeling_site/assets/main.css
    (generated, never edited). url() paths are relative to that published assets folder.
    Order: 1 fonts and tokens, 2 base, 3 buttons and links, 4 header, 5 page components (interior pages),
@@ -13,24 +13,24 @@
    ========================================================================== */
 
 /* ---------- 1. Fonts and tokens ---------- */
-@font-face{font-family:"Switzer";src:url("fonts/switzer-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:"Switzer";src:url("fonts/switzer-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:"Switzer";src:url("fonts/switzer-600.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
-@font-face{font-family:"Switzer";src:url("fonts/switzer-700.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:"Gambetta";src:url("fonts/gambetta-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Gambetta";src:url("fonts/gambetta-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Open Sans";src:url("fonts/open-sans-var-latin.woff2") format("woff2");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Montserrat";src:url("fonts/montserrat-var-latin.woff2") format("woff2");font-weight:500 700;font-style:normal;font-display:swap}
 @font-face{font-family:"Barlow Condensed";src:url("fonts/barlow-condensed-800.woff2") format("woff2");font-weight:800;font-style:normal;font-display:swap}
 :root{
-  /* Color. Navy and royal are the anchors. --action is the primary button fill (white text); --royal is for
-     links and focus. Surfaces are warm and close to white: --paper (page), --soft (dense text bands),
-     --white (fields, menus). --orange is the logo accent only (the two hairlines in the wordmark). */
-  --navy:#142131;--navy2:#101D2C;--royal:#0864D8;--royal-hover:#074EAE;--action:#0B57C0;--action-hover:#0A4596;--orange:#FF7A24;
-  --ink:#172638;--muted:#55606B;--line:#E7E2D9;--line-strong:#C8C0B3;--paper:#FDFCFA;--soft:#F6F3EE;--white:#FFFFFF;
-  --on-dark:#CBD6E3;--on-dark-line:rgba(203,214,227,.2);--field-line:#857C70;--focus-on-dark:#9AC6FF;--on-navy-hover:#DCE8F7;
-  /* Type. --font-serif: page H1 only. --font-wordmark: logo only. --font-text: everything else. */
+  /* Color (2026-11-21 owner direction: harmonized with the Re-Bath reference, Blue Hammer logo intact).
+     --navy is now the blue-grey for headings and navigation; --brand-navy is the logo wordmark only.
+     --action / --royal are the wine used for every button and link; --icon is the desaturated blue for icons.
+     Surfaces: white and --soft #F7F7F7 with light grey lines. --orange stays the logo accent only. */
+  --navy:#465B6B;--navy2:#2E3B46;--brand-navy:#142131;--royal:#A51F3D;--royal-hover:#871831;--action:#A51F3D;--action-hover:#871831;--orange:#FF7A24;
+  --ink:#51565B;--muted:#666A6F;--line:#E4E6E8;--line-strong:#CDD1D4;--paper:#FFFFFF;--soft:#F7F7F7;--white:#FFFFFF;--icon:#8AB8C8;--star:#8A8D91;
+  --on-dark:#D3DAE0;--on-dark-line:rgba(211,218,224,.18);--field-line:#878D93;--focus-on-dark:#F2C6D0;--on-navy-hover:#F3E3E7;
+  /* Type. --font-serif: H1/H2 (Gambetta 400). --font-ui: navigation, buttons, form labels, H3 (Montserrat). --font-wordmark: logo only. --font-text: everything else. */
   --font-serif:"Gambetta",Georgia,"Times New Roman",serif;
   --font-wordmark:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
-  --font-text:"Switzer",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --font-text:"Open Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --font-ui:"Montserrat","Open Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
   --t-small:.875rem;--t-body:1.0625rem;--t-lede:1.1875rem;--t-h3:1.1875rem;
   --t-h2:clamp(1.75rem,1.2rem + 1.6vw,2.5rem);--t-h1:clamp(2.5rem,1.5rem + 3.2vw,4.25rem);
   /* Space. Sections do not all take the same padding: --sec for image-led sections, --sec-tight for dense text. */
@@ -610,3 +610,114 @@ p.home-credit{text-align:center;font-size:.8125rem;margin:14px 0 0}
 html{scroll-behavior:auto}
 }
 main:focus{outline:none}
+
+/* ---------- 11. Harmonized chrome and home (2026-11-21, owner direction) ----------
+   White header with the navy wordmark, blue-grey headings and navigation, grey body text, wine pill buttons and
+   links, desaturated blue icons, white / #F7F7F7 surfaces, dark slate footer. Gambetta 400 for H1/H2, Open Sans
+   for text, Montserrat for navigation, buttons, labels and H3. Placed last so it wins over earlier rules. */
+h1,h2{font-family:var(--font-serif);font-weight:400;font-synthesis:none;letter-spacing:-.01em}
+h2{line-height:1.12}
+h3{font-family:var(--font-ui);font-weight:600;letter-spacing:-.005em}
+.btn{font-family:var(--font-ui);font-weight:600;border-radius:999px;padding-inline:28px;letter-spacing:.005em}
+.btn--primary:active{background:var(--royal-hover)}
+.btn--outline{color:var(--navy);border-color:var(--navy)}
+.btn--outline:hover{background:var(--soft);border-color:var(--navy2);color:var(--navy2)}
+a:focus-visible,button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline-color:var(--royal)}
+main p a:not([class]),.text-link,.range-table td a,.form-back,.form-consent a{color:var(--royal)}
+::selection{background:var(--navy)}
+/* Header */
+.site-header{background:#fff;border-bottom:1px solid var(--line)}
+.brand-copy,.brand-copy small{color:var(--brand-navy)}
+.nav-links>a,.nav-dropdown>button{font-family:var(--font-ui);font-size:.9rem;font-weight:600;color:var(--navy)}
+.nav-links>a:hover,.nav-dropdown>button:hover{color:var(--royal)}
+.nav-links>a.active,.nav-dropdown>button.active{box-shadow:inset 0 -2px 0 var(--royal)}
+.dropdown-panel{box-shadow:0 14px 32px rgba(46,59,70,.12)}
+.dropdown-panel a{font-family:var(--font-ui);font-size:.9rem;color:var(--navy)}
+.dropdown-panel a:hover{background:var(--soft);color:var(--royal)}
+.site-header .btn--primary{background:var(--action);color:#fff}
+.site-header .btn--primary:hover{background:var(--action-hover)}
+.header-phone{color:var(--navy)}
+.menu-toggle{border-color:var(--line-strong);color:var(--navy);font-family:var(--font-ui)}
+/* Footer: dark slate, white wordmark */
+.footer{background:var(--navy2)}
+.footer .brand-copy,.footer .brand-copy small{color:#fff}
+.footer-h{font-family:var(--font-ui)}
+/* Forms */
+.field label{font-family:var(--font-ui);font-size:.875rem;color:var(--navy)}
+.field input,.field select,.field textarea{border-radius:4px}
+.form-head h3{font-size:1rem}
+.form-progress-track i{background:var(--royal)}
+.form-consent input{accent-color:var(--royal)}
+/* Generic accents */
+.faq-item summary{font-family:var(--font-ui);font-size:1rem;color:var(--navy)}
+.faq-item summary:hover,.link-index a:hover,.notfound-links a:hover{color:var(--royal)}
+.filter-btn{border-radius:999px;font-family:var(--font-ui)}
+.filter-btn.active,.filter-btn:hover{background:var(--navy);border-color:var(--navy)}
+@media(max-width:1060px){
+.nav-links{background:#fff;border-bottom:1px solid var(--line);box-shadow:0 18px 30px rgba(46,59,70,.12)}
+.nav-links>a,.nav-dropdown>button{font-size:1rem;border-bottom:1px solid var(--line);color:var(--navy)}
+.nav-links>a.active,.nav-dropdown>button.active{box-shadow:none;color:var(--royal)}
+.dropdown-panel{background:transparent;box-shadow:none}
+.dropdown-panel a{color:var(--ink);font-size:.95rem}
+.dropdown-panel a:hover{background:var(--soft);color:var(--royal)}
+.dropdown-panel a:focus-visible{outline:2px solid var(--royal)}
+.nav-links>a.nav-cta-mobile{background:var(--action);color:#fff;border-radius:999px;font-family:var(--font-ui)}
+.nav-links>a.nav-cta-mobile:hover{background:var(--action-hover);color:#fff}
+}
+/* Home (2026-11-21): compact hero, slate scrim, calmer rhythm, stars, local section with the Maryland map. */
+body:has(.home-hero){--sec:clamp(52px,6vw,84px)}
+.home-hero-stage{min-height:clamp(520px,40vw,580px);background:var(--navy2)}
+.home-hero-shade{background:linear-gradient(180deg,rgba(46,59,70,.5) 0%,rgba(46,59,70,.55) 55%,rgba(46,59,70,.72) 100%)}
+.home-hero-content{padding:40px 0 96px}
+.home-hero h1{font-size:clamp(2.5rem,1.2rem + 3.6vw,4.375rem);line-height:1.02}
+.home-hero-content p{font-size:1.125rem;margin-bottom:28px}
+.hero-ctl{background:rgba(46,59,70,.55)}
+.hero-ctl:hover{background:rgba(46,59,70,.85)}
+.home-hero-panel{background:#fff;border-left:1px solid var(--line);padding:26px clamp(22px,2.2vw,34px) 28px}
+.home-hero-panel h2{font-family:var(--font-serif);font-weight:400;font-size:1.75rem;line-height:1.1;letter-spacing:-.01em;margin-bottom:8px}
+.home-hero-panel .consult-lede{font-size:.9375rem;margin-bottom:16px}
+.home-hero-panel .form-head{margin-bottom:10px}
+.home-hero-panel .form-progress-track{margin-bottom:16px}
+.home-hero-panel .field{margin-bottom:12px}
+.home-hero-panel .field input,.home-hero-panel .field select{min-height:46px}
+.home-hero-panel .form-foot{margin-top:12px}
+.home-facts{background:#fff}
+.home-facts svg{color:var(--icon)}
+.home-services h2,.home-process h2,.home-areas h2,.home-faq h2,.home-trust h2,.home-local h2{font-size:clamp(2rem,1.1rem + 2.4vw,3.125rem);line-height:1.08}
+.home-services{background:#fff}
+.home-svc{background:var(--soft)}
+.home-process .steps li:before{border-color:var(--icon);background:#fff;color:var(--navy)}
+.home-trust-stars{display:flex;justify-content:center;gap:6px;margin:0 auto 22px;color:var(--star)}
+.home-trust-stars svg{display:block}
+.home-local{position:relative;overflow:hidden;background:var(--soft);padding:var(--sec) 0;text-align:center;min-height:380px;display:grid;align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.home-local-map{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.home-local .container{position:relative}
+.home-local h2{margin:0 auto 16px}
+.home-local p{max-width:46rem;margin:0 auto;font-size:1.0625rem;color:var(--ink)}
+.area-picker{margin:28px auto 0;max-width:480px;text-align:left}
+.area-picker label{display:block;font-family:var(--font-ui);font-size:.875rem;font-weight:600;color:var(--navy);margin-bottom:8px}
+.area-picker-row{display:flex;gap:10px}
+.area-picker select{flex:1;min-width:0;min-height:50px;border:1px solid var(--field-line);border-radius:999px;background:#fff;color:var(--ink);padding:0 18px;font-size:1rem}
+.area-picker select:focus-visible{outline:2px solid var(--royal);outline-offset:2px}
+.area-picker .btn{flex:none;background:#fff}
+.home-local-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:24px}
+@media(max-width:700px){
+.home-hero h1{font-size:clamp(2.5rem,11vw,3rem)}
+.home-local{min-height:0}
+.area-picker-row{flex-direction:column}
+.area-picker .btn,.home-local-actions .btn{width:100%}
+.home-trust-stars svg{width:22px;height:22px}
+}
+/* Owner review 2026-11-21: header is white now, so its focus ring is wine; the dark footer keeps the light ring.
+   The map stays a near-white outline behind the text; the panel title is Montserrat 600 like the reference. */
+.site-header :focus-visible,.site-header .dropdown-panel a:focus-visible{outline:3px solid var(--royal);outline-offset:3px}
+.footer :focus-visible{outline:3px solid var(--focus-on-dark)}
+.home-local-map{opacity:.4}
+.home-local{min-height:0;padding:56px 0}
+.home-local h2{margin-bottom:12px}
+.area-picker{margin-top:22px}
+.home-local-actions{margin-top:18px}
+.home-hero-panel h2{font-family:var(--font-ui);font-weight:600;font-size:1.3125rem;line-height:1.25;letter-spacing:-.005em}
+@media(max-width:1060px){.site-header .nav-links :focus-visible{outline-offset:-3px}}
+@media(max-width:700px){.home-local{padding:48px 0}
+.home-hero-content{padding:36px 0 150px}}

@@ -296,5 +296,15 @@
     },{rootMargin:'0px 0px -8% 0px',threshold:0.08});
     items.forEach(el=>{if(!el.classList.contains('is-in'))io.observe(el)});
   }
-  setContact();nav();initForms();initGallery();initTracking();initBadgeSafeArea();initMobileBar();initHeroCarousel();initReveal();
+  // Homepage area picker: the select lists only existing town pages; "View area" opens the chosen page.
+  // Without JS the form falls back to a GET on /service-areas, which lists every area.
+  function initAreaPicker(){
+    document.querySelectorAll('[data-area-picker]').forEach(form=>{
+      form.addEventListener('submit',e=>{
+        const v=form.querySelector('select').value;
+        if(/^\/[a-z-]+$/.test(v)){e.preventDefault();window.location.href=v}
+      });
+    });
+  }
+  setContact();nav();initForms();initGallery();initTracking();initBadgeSafeArea();initMobileBar();initHeroCarousel();initReveal();initAreaPicker();
 })();

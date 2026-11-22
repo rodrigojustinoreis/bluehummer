@@ -162,3 +162,13 @@ composition, hierarchy, image presentation and motion, in Blue Hammer's colors a
 
 Not taken: their typefaces (commercial), colors, photos, copy, reviews and review-site logos, stats, offers and
 "Free" wording, phone number.
+
+## 2026-11-21 direction: harmonized with the Re-Bath reference (owner)
+Supersedes the blue buttons / navy header of 2026-11-20. Logo (hammer mark, Barlow wordmark, orange hairlines), photos, Remotion carousel and the "Where we work" house photo are unchanged.
+- Color tokens: headings/nav `--navy #465B6B` (blue-grey); wordmark `--brand-navy #142131`; body `--ink #51565B` / `--muted #666A6F`; surfaces white and `--soft #F7F7F7`; lines `#E4E6E8` / `#CDD1D4`; icons `--icon #8AB8C8`; decorative stars `--star #8A8D91`; buttons and links wine `--action/--royal #A51F3D`, hover `#871831`; footer dark slate `--navy2 #2E3B46`.
+- Header white with navy wordmark; focus ring wine 3px in the header, light ring in the dark footer.
+- Type: Gambetta 400 for all H1/H2 (stands in for the reference's commercial Freight Display, not copied); Open Sans for text; Montserrat 600 for navigation, buttons, labels, H3 and the hero panel title. All self-hosted (OFL / ITF FFL).
+- Buttons: pill (999px), wine fill or blue-grey outline.
+- Home: hero ~72/28 photo/form, slate scrim, H1 ~70px desktop / 40-43px mobile, section rhythm clamp(52px, 6vw, 84px).
+- Trust band: five grey decorative stars (aria-hidden, no rating, count or schema), four platform logos as unlinked images with a neutral caption.
+- New "Remodeling near you" section: light grey band, real Maryland outline map at 40% opacity, an area select listing only the eight existing town pages (navigates on "View area"; no-JS fallback is /service-areas), wine "Explore service areas" and outline "Schedule a Consultation".
