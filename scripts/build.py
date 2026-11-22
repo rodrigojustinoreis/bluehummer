@@ -42,8 +42,8 @@ SITE = "https://bluehammermd.com"
 BRAND = "Blue Hammer Remodeling"
 OG_IMAGE = "assets/og-blue-hammer.jpg"          # 1200x630
 LOGO = "assets/bh-logo-v2.png"                  # schema logo (owner package 2026-11-18 22:30)
-MARK = "assets/bh-hammer-v2.png"                # 62x68 header/footer hammer mark (owner package)
-FAVICON = "assets/bh-hammer-v2.png"             # owner package; served with a content-hash ?v= query
+MARK = "assets/bh-hammer-v2-160.webp"          # header/footer hammer mark: the owner package PNG resized to 160px WebP (2026-11-22, 73 KB -> 3 KB)
+FAVICON = "assets/bh-hammer-v2-64.png"          # owner package PNG resized to 64px (2026-11-22); served with a content-hash ?v= query
 THEME_COLOR = "#142131"                         # owner package
 TODAY = "2026-11-19"
 
@@ -469,7 +469,7 @@ def preload_fonts(slug: str):
     """Only the faces visible above the fold (Gambetta: Fontshare, ITF Free Font License; Open Sans, Montserrat and
     Barlow Condensed: SIL OFL 1.1). 2026-11-21: Gambetta 400 for every H1/H2, Open Sans text, Montserrat for the
     navigation and buttons (both variable woff2 files, latin subset from Google Fonts), Barlow for the wordmark."""
-    return ["gambetta-400", "open-sans-var-latin", "montserrat-var-latin", "barlow-condensed-800"]
+    return ["gambetta-400", "open-sans-var-latin", "montserrat-var-latin", "barlow-condensed-800-ascii"]
 
 def head(meta: dict, slug: str, body: str, crumb_items) -> str:
     url = page_url(slug)

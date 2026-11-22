@@ -176,7 +176,7 @@
     },{rootMargin:'-68px 0px 0px 0px'});
     targets.forEach(t=>io.observe(t));
   }
-  // Home hero carousel (2026-11-20). The <img> poster is slide 1 and is the no-JS / reduced-motion / Save-Data view.
+  // Home hero carousel (2026-11-20). The <img> poster is slide 1 and is the no-JS / reduced-motion / Save-Data / <768px view.
   // With motion allowed, a pre-rendered Remotion video (all slides, 0.6 s crossfades, seamless loop) is attached
   // after load, only near the viewport. Controls seek the video to the start of a slide (index * slide duration),
   // a frame that is never inside a crossfade; the counter follows timeupdate. Without the video the controls swap
@@ -194,7 +194,10 @@
     const phone=window.matchMedia('(max-width: 700px)');
     const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const saveData=!!(navigator.connection&&navigator.connection.saveData);
-    const motion=!!video&&!reduce&&!saveData&&typeof video.canPlayType==='function'&&(video.canPlayType('video/webm')||video.canPlayType('video/mp4'));
+    // 2026-11-22: the video is for >=768px only. Below that the carousel is manual (poster + WebP stills loaded
+    // on demand by showStill), no autoplay, no Pause button and no video request.
+    const wide=window.matchMedia('(min-width: 768px)').matches;
+    const motion=wide&&!!video&&!reduce&&!saveData&&typeof video.canPlayType==='function'&&(video.canPlayType('video/webm')||video.canPlayType('video/mp4'));
     // stillMode: the video is paused and hidden and the WebP still of the current slide is shown. Entered when a
     // seek is not possible (server without HTTP Range, video.seekable empty) or does not take effect; left on Play.
     let index=0,userPaused=false,ready=false,attached=false,stillMode=false,quietUntil=0;const holds=new Set();

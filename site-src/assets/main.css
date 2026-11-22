@@ -5,7 +5,7 @@
    2026-11-21 (owner: harmonize with the Re-Bath reference, keep the Blue Hammer logo): see section 11 at the end.
    Type: Gambetta 400 for H1/H2, Open Sans for text, Montserrat for navigation/buttons/labels/H3, Barlow
    Condensed 800 for the wordmark only. Color: white header and surfaces, #F7F7F7 bands, blue-grey headings,
-   grey text, wine pill buttons and links, desaturated blue icons, dark slate footer; orange only in the logo.
+   grey text, hammer-orange pill buttons with navy text, dark-orange links, desaturated blue icons, dark slate footer.
    THIS IS THE SOURCE. `python3 scripts/build.py` minifies it into blue_hammer_remodeling_site/assets/main.css
    (generated, never edited). url() paths are relative to that published assets folder.
    Order: 1 fonts and tokens, 2 base, 3 buttons and links, 4 header, 5 page components (interior pages),
@@ -17,15 +17,17 @@
 @font-face{font-family:"Gambetta";src:url("fonts/gambetta-500.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:"Open Sans";src:url("fonts/open-sans-var-latin.woff2") format("woff2");font-weight:400 700;font-style:normal;font-display:swap}
 @font-face{font-family:"Montserrat";src:url("fonts/montserrat-var-latin.woff2") format("woff2");font-weight:500 700;font-style:normal;font-display:swap}
-@font-face{font-family:"Barlow Condensed";src:url("fonts/barlow-condensed-800.woff2") format("woff2");font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:"Barlow Condensed";src:url("fonts/barlow-condensed-800-ascii.woff2") format("woff2");font-weight:800;font-style:normal;font-display:swap}
 :root{
   /* Color (2026-11-21 owner direction: harmonized with the Re-Bath reference, Blue Hammer logo intact).
      --navy is now the blue-grey for headings and navigation; --brand-navy is the logo wordmark only.
-     --action / --royal are the wine used for every button and link; --icon is the desaturated blue for icons.
-     Surfaces: white and --soft #F7F7F7 with light grey lines. --orange stays the logo accent only. */
-  --navy:#465B6B;--navy2:#2E3B46;--brand-navy:#142131;--royal:#A51F3D;--royal-hover:#871831;--action:#A51F3D;--action-hover:#871831;--orange:#FF7A24;
+     2026-11-22: buttons use the hammer orange (--action #FF7A24) with navy text (--on-action, 6.2:1); text links
+     and focus rings on light surfaces use the dark accessible orange --royal #A64000 (6.3:1 on white). The blue of
+     the hammer, the grey stars and the slate headings/body are unchanged. --icon is the desaturated blue for icons.
+     Surfaces: white and --soft #F7F7F7 with light grey lines. */
+  --navy:#465B6B;--navy2:#2E3B46;--brand-navy:#142131;--royal:#A64000;--royal-hover:#853300;--action:#FF7A24;--action-hover:#F06A10;--action-active:#E35F0A;--on-action:#142131;--orange:#FF7A24;
   --ink:#51565B;--muted:#666A6F;--line:#E4E6E8;--line-strong:#CDD1D4;--paper:#FFFFFF;--soft:#F7F7F7;--white:#FFFFFF;--icon:#8AB8C8;--star:#8A8D91;
-  --on-dark:#D3DAE0;--on-dark-line:rgba(211,218,224,.18);--field-line:#878D93;--focus-on-dark:#F2C6D0;--on-navy-hover:#F3E3E7;
+  --on-dark:#D3DAE0;--on-dark-line:rgba(211,218,224,.18);--field-line:#878D93;--focus-on-dark:#FFC59E;--on-navy-hover:#FFEADB;
   /* Type. --font-serif: H1/H2 (Gambetta 400). --font-ui: navigation, buttons, form labels, H3 (Montserrat). --font-wordmark: logo only. --font-text: everything else. */
   --font-serif:"Gambetta",Georgia,"Times New Roman",serif;
   --font-wordmark:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
@@ -69,7 +71,7 @@ main p a:not([class]):hover,.detail-list li a:not([class]):hover,.content-prose 
 /* ---------- 3. Buttons and links ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:var(--radius);border:1px solid transparent;min-height:50px;padding:13px 22px;font-family:var(--font-text);font-size:1rem;font-weight:600;line-height:1.25;text-align:center;transition:background var(--dur),border-color var(--dur),color var(--dur)}
 /* Primary action: blue fill, white text. On the navy header and in the open menu it is white with navy text. */
-.btn--primary{background:var(--action);color:#fff}
+.btn--primary{background:var(--action);color:var(--on-action)}
 .btn--primary:hover{background:var(--action-hover)}
 .btn--primary:active{background:var(--navy)}
 .site-header .btn--primary{background:#fff;color:var(--navy)}
@@ -505,7 +507,7 @@ body:has(.nav-links.open) .mobile-cta{display:none}
 .home-hero-content p{color:#fff;font-size:1.25rem;line-height:1.55;max-width:36rem;margin:0 auto 32px;text-shadow:0 1px 14px rgba(10,20,32,.3)}
 body:has(.home-hero) main .btn{border-radius:999px;padding-inline:30px}
 .home-hero-content .btn{min-height:52px;font-size:1.0625rem}
-.home-hero-content .btn--primary:active{background:var(--navy2)}
+.home-hero-content .btn--primary:active{background:var(--action-active)}
 .home-hero-content .btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .home-hero-controls{position:absolute;right:20px;bottom:20px;z-index:2;display:flex;align-items:center;gap:6px}
 .home-hero-controls[hidden]{display:none}
@@ -612,14 +614,15 @@ html{scroll-behavior:auto}
 main:focus{outline:none}
 
 /* ---------- 11. Harmonized chrome and home (2026-11-21, owner direction) ----------
-   White header with the navy wordmark, blue-grey headings and navigation, grey body text, wine pill buttons and
+   White header with the navy wordmark, blue-grey headings and navigation, grey body text, orange pill buttons (2026-11-22; wine before) and
    links, desaturated blue icons, white / #F7F7F7 surfaces, dark slate footer. Gambetta 400 for H1/H2, Open Sans
    for text, Montserrat for navigation, buttons, labels and H3. Placed last so it wins over earlier rules. */
 h1,h2{font-family:var(--font-serif);font-weight:400;font-synthesis:none;letter-spacing:-.01em}
 h2{line-height:1.12}
 h3{font-family:var(--font-ui);font-weight:600;letter-spacing:-.005em}
 .btn{font-family:var(--font-ui);font-weight:600;border-radius:999px;padding-inline:28px;letter-spacing:.005em}
-.btn--primary:active{background:var(--royal-hover)}
+.btn--primary:hover{color:var(--on-action)}
+.btn--primary:active{background:var(--action-active);color:var(--on-action)}
 .btn--outline{color:var(--navy);border-color:var(--navy)}
 .btn--outline:hover{background:var(--soft);border-color:var(--navy2);color:var(--navy2)}
 a:focus-visible,button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline-color:var(--royal)}
@@ -634,8 +637,8 @@ main p a:not([class]),.text-link,.range-table td a,.form-back,.form-consent a{co
 .dropdown-panel{box-shadow:0 14px 32px rgba(46,59,70,.12)}
 .dropdown-panel a{font-family:var(--font-ui);font-size:.9rem;color:var(--navy)}
 .dropdown-panel a:hover{background:var(--soft);color:var(--royal)}
-.site-header .btn--primary{background:var(--action);color:#fff}
-.site-header .btn--primary:hover{background:var(--action-hover)}
+.site-header .btn--primary{background:var(--action);color:var(--on-action)}
+.site-header .btn--primary:hover{background:var(--action-hover);color:var(--on-action)}
 .header-phone{color:var(--navy)}
 .menu-toggle{border-color:var(--line-strong);color:var(--navy);font-family:var(--font-ui)}
 /* Footer: dark slate, white wordmark */
@@ -661,8 +664,8 @@ main p a:not([class]),.text-link,.range-table td a,.form-back,.form-consent a{co
 .dropdown-panel a{color:var(--ink);font-size:.95rem}
 .dropdown-panel a:hover{background:var(--soft);color:var(--royal)}
 .dropdown-panel a:focus-visible{outline:2px solid var(--royal)}
-.nav-links>a.nav-cta-mobile{background:var(--action);color:#fff;border-radius:999px;font-family:var(--font-ui)}
-.nav-links>a.nav-cta-mobile:hover{background:var(--action-hover);color:#fff}
+.nav-links>a.nav-cta-mobile{background:var(--action);color:var(--on-action);border-radius:999px;font-family:var(--font-ui)}
+.nav-links>a.nav-cta-mobile:hover{background:var(--action-hover);color:var(--on-action)}
 }
 /* Home (2026-11-21): compact hero, slate scrim, calmer rhythm, stars, local section with the Maryland map. */
 body:has(.home-hero){--sec:clamp(52px,6vw,84px)}
@@ -708,7 +711,7 @@ body:has(.home-hero){--sec:clamp(52px,6vw,84px)}
 .area-picker .btn,.home-local-actions .btn{width:100%}
 .home-trust-stars svg{width:22px;height:22px}
 }
-/* Owner review 2026-11-21: header is white now, so its focus ring is wine; the dark footer keeps the light ring.
+/* Owner review 2026-11-21: header is white now, so its focus ring is the dark orange --royal (wine until 2026-11-22); the dark footer keeps the light ring.
    The map stays a near-white outline behind the text; the panel title is Montserrat 600 like the reference. */
 .site-header :focus-visible,.site-header .dropdown-panel a:focus-visible{outline:3px solid var(--royal);outline-offset:3px}
 .footer :focus-visible{outline:3px solid var(--focus-on-dark)}
@@ -721,3 +724,16 @@ body:has(.home-hero){--sec:clamp(52px,6vw,84px)}
 @media(max-width:1060px){.site-header .nav-links :focus-visible{outline-offset:-3px}}
 @media(max-width:700px){.home-local{padding:48px 0}
 .home-hero-content{padding:36px 0 150px}}
+/* Mobile pass (2026-11-22). Tablet 701-900px (where the grid is one column): service cards turn horizontal (photo left, same 4:3 crop) instead of
+   three 600px-tall stacked cards. Phones: the area select keeps "View area" on the same row, so the local section
+   stacks three controls instead of four. */
+@media(min-width:701px) and (max-width:900px){
+.home-svc-grid{max-width:760px}
+.home-svc{display:grid;grid-template-columns:minmax(0,46%) minmax(0,1fr);align-items:center}
+.home-svc-text{text-align:left;padding:20px 28px}
+.home-svc-text p{margin:0}
+}
+@media(max-width:700px){
+.area-picker-row{flex-direction:row}
+.area-picker .btn{width:auto;padding-inline:20px}
+}

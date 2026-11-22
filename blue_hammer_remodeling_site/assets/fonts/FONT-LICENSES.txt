@@ -24,6 +24,9 @@ Switzer (switzer-*.woff2; body, navigation, forms, H2 and H3)
 
 Barlow Condensed (barlow-condensed-800.woff2; logo wordmark only)
   License:  SIL Open Font License 1.1, see barlow-condensed-OFL.txt in this folder.
+  2026-11-22: barlow-condensed-800-ascii.woff2 is a subset of that file (U+0020-007E, kern/liga kept) made
+  with fontTools pyftsubset, 39,376 -> 12,220 bytes. Same family name; the font has no Reserved Font Name.
+  The CSS now loads the subset; the full file stays in place unused.
 
 Open Sans (open-sans-var-latin.woff2; body text, from 2026-11-21)
   License:  SIL Open Font License 1.1, see open-sans-OFL.txt (from https://github.com/googlefonts/opensans).

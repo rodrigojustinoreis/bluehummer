@@ -172,3 +172,9 @@ Supersedes the blue buttons / navy header of 2026-11-20. Logo (hammer mark, Barl
 - Home: hero ~72/28 photo/form, slate scrim, H1 ~70px desktop / 40-43px mobile, section rhythm clamp(52px, 6vw, 84px).
 - Trust band: five grey decorative stars (aria-hidden, no rating, count or schema), four platform logos as unlinked images with a neutral caption.
 - New "Remodeling near you" section: light grey band, real Maryland outline map at 40% opacity, an area select listing only the eight existing town pages (navigates on "View area"; no-JS fallback is /service-areas), wine "Explore service areas" and outline "Schedule a Consultation".
+
+## 2026-11-22: hammer orange replaces wine; mobile-first pass (owner)
+- Buttons: hammer orange `--action #FF7A24` with navy text `#142131` (AA 6.2:1); hover #F06A10, active #E35F0A. Never white text on orange.
+- Links and focus on light surfaces: dark orange `--royal #A64000` (6.3:1). Footer focus: light orange #FFC59E. Hammer blue, grey stars, slate type unchanged.
+- Hero: Remotion video at >=768px only; phones get the poster plus a manual still carousel (no autoplay, no Pause, no video download).
+- Tablet 701-900px: horizontal service cards. Phones: area select and "View area" on one row.
