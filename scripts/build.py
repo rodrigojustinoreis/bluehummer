@@ -53,6 +53,12 @@ TODAY = "2026-11-19"
 # ---------------------------------------------------------------------------
 MONTGOMERY = "Montgomery County, Maryland"
 HOWARD = "Howard County, Maryland"
+FREDERICK_CO = "Frederick County, Maryland"
+PRINCE_GEORGES = "Prince George's County, Maryland"
+BALTIMORE_CO = "Baltimore County, Maryland"
+DC = "District of Columbia"
+FAIRFAX_CO = "Fairfax County, Virginia"
+ARLINGTON_CO = "Arlington County, Virginia"
 AREAS = [
     ("Olney", MONTGOMERY), ("Brookeville", MONTGOMERY), ("Brinklow", MONTGOMERY), ("Ashton", MONTGOMERY),
     ("Sandy Spring", MONTGOMERY), ("Laytonsville", MONTGOMERY),
@@ -62,6 +68,14 @@ AREAS = [
     ("Rockville", MONTGOMERY), ("Silver Spring", MONTGOMERY), ("Boyds", MONTGOMERY), ("Clarksburg", MONTGOMERY), ("Poolesville", MONTGOMERY),
     ("Clarksville", HOWARD), ("Highland", HOWARD), ("Dayton", HOWARD), ("Glenelg", HOWARD), ("Glenwood", HOWARD),
     ("Fulton", HOWARD), ("West Friendship", HOWARD), ("Ellicott City", HOWARD),
+    # 2026-11-22 owner expansion: one page each (see AREA_GROUPS). Eligibility of the farther addresses is
+    # confirmed address by address; these names do not promise a whole county.
+    ("Gaithersburg", MONTGOMERY), ("Germantown", MONTGOMERY), ("Columbia", HOWARD),
+    ("Frederick", FREDERICK_CO), ("Laurel", PRINCE_GEORGES), ("Owings Mills", BALTIMORE_CO),
+    ("Washington", DC), ("McLean", FAIRFAX_CO), ("Great Falls", FAIRFAX_CO), ("Vienna", FAIRFAX_CO),
+    ("Fairfax", "City of Fairfax, Virginia"), ("Arlington", ARLINGTON_CO),
+    ("Alexandria", "City of Alexandria, Virginia"), ("Falls Church", "City of Falls Church, Virginia"),
+    ("Reston", FAIRFAX_CO), ("Herndon", FAIRFAX_CO), ("Ashburn", "Loudoun County, Virginia"), ("Leesburg", "Loudoun County, Virginia"),
 ]
 # Sitewide footer sentence. Also used verbatim as the business description in JSON-LD, so the
 # structured data says exactly what every page shows.
@@ -97,7 +111,8 @@ def pretty_links(out_html: str) -> str:
 
 # Text that must never appear in public pages (off-strategy places, other states, dev notes).
 FORBIDDEN = [
-    "Gaithersburg", "Germantown", "Aspen Hill", "Wheaton", "DMV", "Washington area",  # vague regional phrasing; name real places
+    # Gaithersburg and Germantown left this list on 2026-11-22: the owner added them as area pages.
+    "Aspen Hill", "Wheaton", "DMV", "Washington area",  # vague regional phrasing; name real places
     "starter website", "Unsplash", "before public launch", "Available when contact details are added",
     "Replace with approved", "pre-launch", "PRE-LAUNCH", "lorem",
     # Unproven price wording removed in the 2026-11-19 content pass (budget factors only, no ranges).
@@ -276,16 +291,35 @@ def consultation_section() -> str:
         f'<div class="consult-form">{lead_form("consult-form-consultation")}</div></div></section>')
 
 # Navigation ---------------------------------------------------------------
+# Area pages by region (2026-11-22, 27 pages). The hub lists all of them; the header and footer only link the
+# regions so they stay compact (owner: no 27-name mega menu). Order here is the order in llms.txt.
+AREA_GROUPS = [
+    ("montgomery", "Montgomery County", [
+        ("olney-md.html", "Olney"), ("bethesda-md.html", "Bethesda"), ("chevy-chase-md.html", "Chevy Chase"),
+        ("kensington-garrett-park-md.html", "Kensington &amp; Garrett Park"), ("potomac-md.html", "Potomac"),
+        ("north-potomac-md.html", "North Potomac"), ("darnestown-md.html", "Darnestown"), ("rockville-md.html", "Rockville"),
+        ("north-bethesda-md.html", "North Bethesda"), ("gaithersburg-md.html", "Gaithersburg"), ("germantown-md.html", "Germantown"),
+        ("clarksburg-md.html", "Clarksburg"), ("silver-spring-md.html", "Silver Spring")]),
+    ("howard", "Howard County", [
+        ("howard-county-md.html", "Howard County"), ("columbia-md.html", "Columbia"), ("ellicott-city-md.html", "Ellicott City"),
+        ("clarksville-md.html", "Clarksville"), ("fulton-md.html", "Fulton")]),
+    ("maryland-nearby", "Nearby Maryland", [
+        ("frederick-md.html", "Frederick"), ("laurel-md.html", "Laurel"), ("owings-mills-md.html", "Owings Mills")]),
+    ("dc", "Washington, DC", [("washington-dc.html", "Washington, DC")]),
+    ("virginia", "Northern Virginia", [
+        ("mclean-va.html", "McLean"), ("great-falls-va.html", "Great Falls"), ("vienna-va.html", "Vienna"),
+        ("arlington-va.html", "Arlington"), ("falls-church-va.html", "Falls Church"), ("alexandria-va.html", "Alexandria"),
+        ("fairfax-va.html", "Fairfax"), ("reston-va.html", "Reston"), ("herndon-va.html", "Herndon"),
+        ("ashburn-va.html", "Ashburn"), ("leesburg-va.html", "Leesburg")]),
+]
 NAV_AREAS = [
     ("service-areas.html", "All Service Areas"),
     ("olney-md.html", "Olney (home base)"),
-    ("potomac-md.html", "Potomac"),
-    ("bethesda-md.html", "Bethesda"),
-    ("chevy-chase-md.html", "Chevy Chase"),
-    ("kensington-garrett-park-md.html", "Kensington &amp; Garrett Park"),
-    ("rockville-md.html", "Rockville"),
-    ("silver-spring-md.html", "Silver Spring"),
-    ("howard-county-md.html", "Howard County (Clarksville)"),
+    ("service-areas.html#montgomery", "Montgomery County"),
+    ("howard-county-md.html", "Howard County"),
+    ("service-areas.html#maryland-nearby", "Nearby Maryland"),
+    ("washington-dc.html", "Washington, DC"),
+    ("service-areas.html#virginia", "Northern Virginia"),
 ]
 NAV_SERVICES = [
     ("services.html", "All Remodeling Services"),
@@ -295,7 +329,7 @@ NAV_SERVICES = [
 ]
 
 def existing(href: str) -> bool:
-    return (SRC / href).exists()
+    return (SRC / href.split("#")[0]).exists()
 
 def nav_dropdown(label: str, items, panel_id: str, active: bool) -> str:
     links = "".join(f'<a href="{h}">{t}</a>' for h, t in items if existing(h))
@@ -332,7 +366,7 @@ def header(active: str, cta: str = "index.html#consultation") -> str:
 def footer(cta: str = "index.html#consultation") -> str:
     def links(items):
         return '<ul class="footer-links">' + "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in items) + '</ul>'
-    areas = [(h, t.replace(" (home base)", "").replace(" (Clarksville)", "")) for h, t in NAV_AREAS[1:] if existing(h)]
+    areas = [(h, t.replace(" (home base)", "")) for h, t in NAV_AREAS[1:] if existing(h)]
     areas.append(("service-areas.html", "All service areas"))
     remodeling = [("kitchen-remodeling.html", "Kitchen remodeling"), ("bathroom-remodeling.html", "Bathroom remodeling"),
                   ("basements-interiors.html", "Basements &amp; interiors"), ("services.html", "All services"),
@@ -558,15 +592,17 @@ def llms_txt(pages) -> str:
         first = [s for s in wanted if s in pool]
         return first + sorted(s for s in pool if s not in first)
     services = ordered([h for h, _ in NAV_SERVICES], [s for s in public if pages[s][0].get("nav") == "services"])
-    areas = ordered([h for h, _ in NAV_AREAS], [s for s in public if pages[s][0].get("nav") == "areas"])
+    group_order = ["service-areas.html"] + [h for _, _, items in AREA_GROUPS for h, _ in items]
+    areas = ordered(group_order, [s for s in public if pages[s][0].get("nav") == "areas"])
     company = ordered(LLMS_COMPANY_ORDER, [s for s in public if s not in services and s not in areas])
     def line(slug):
         meta = pages[slug][0]
         return f"- [{meta['title'].split(' | ')[0]}]({page_url(slug)}): {meta['description']}"
-    towns = [html.unescape(re.sub(r"\s*\(.*?\)", "", t)) for h, t in NAV_AREAS[1:] if h in areas]
+    towns = [html.unescape(t) for _, _, items in AREA_GROUPS for h, t in items if h in areas]
     summary = (f"{BRAND} is a remodeling company based in Olney, Maryland 20832. It remodels kitchens, bathrooms, "
-               f"basements and interior rooms. The site has service-area pages for {', '.join(towns[:-1])} and {towns[-1]}, "
-               "all in Maryland. A consultation is requested through the form on the site.")
+               f"basements and interior rooms within about 40 miles of Olney. The site has service-area pages for "
+               f"{', '.join(towns[:-1])} and {towns[-1]}, in Maryland, Washington, DC and Northern Virginia; "
+               "eligibility is confirmed for each address. A consultation is requested through the form on the site.")
     out = [f"# {BRAND}", "", f"> {summary}", ""]
     for title, slugs in (("Services", services), ("Service areas", areas), ("Company", company)):
         out += [f"## {title}", ""] + [line(s) for s in slugs] + [""]

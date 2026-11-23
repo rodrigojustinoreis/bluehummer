@@ -737,3 +737,10 @@ body:has(.home-hero){--sec:clamp(52px,6vw,84px)}
 .area-picker-row{flex-direction:row}
 .area-picker .btn{width:auto;padding-inline:20px}
 }
+/* Service-area hub (2026-11-22): region jump links under the head, grouped city links. */
+.area-jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.area-jump a{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line-strong);border-radius:999px;font-family:var(--font-ui);font-size:.9rem;font-weight:600;color:var(--navy);background:#fff}
+.area-jump a:hover{border-color:var(--navy);color:var(--royal)}
+.area-groups>li{scroll-margin-top:calc(var(--header-h,72px) + 16px)}
+.area-groups .town-links{margin:12px 0}
+@media(max-width:700px){.area-jump a{flex:1 1 calc(50% - 8px);justify-content:center;text-align:center;line-height:1.2;padding:6px 12px}}
